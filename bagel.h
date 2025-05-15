@@ -10,6 +10,8 @@ namespace bagel
 {
 	struct Bagel
 	{
+		bool	AggregateUpdates = true;
+		bool	CallbackOnDestroy = true;
 		bool	DynamicResize = false;
 		int		IdBagSize = 5;
 		int		InitialEntities = 10;
@@ -102,6 +104,13 @@ namespace bagel
 	template <class T, int N>
 	using Bag = std::conditional_t<Params.DynamicResize, DynamicBag<T, N>, StaticBag<T,N>>;
 
+	struct StorageCallbacks
+	{
+		using Destroy = void (*)(ent_type);
+		Destroy destroy = nullptr;
+	};
+	template <class> class StorageRegister;
+
 	template <class T>
 	class SparseStorage final : NoInstance
 	{
@@ -147,6 +156,11 @@ namespace bagel
 		static inline Bag<T,Params.InitialPackedSize>			_comps;
 		static inline Bag<index_type,Params.InitialEntities>	_entToComp;
 		static inline Bag<ent_type,Params.InitialPackedSize>	_compToEnt;
+
+		static inline StorageCallbacks callbacks{del};
+
+		__attribute__((used))
+		static inline StorageRegister<T> reg{callbacks};
 	};
 	template <class T>
 	class TaggedStorage final : NoInstance
@@ -175,6 +189,8 @@ namespace bagel
 
 		bool test(const bit_type b) const { return _mask & b; }
 		bool test(const SingleMask m) const { return (_mask & m._mask) == m._mask; }
+
+		index_type ctz() const { return _mask ? __builtin_ctz(_mask) : -1; }
 	private:
 		mask_type	_mask{0};
 	};
@@ -201,6 +217,16 @@ namespace bagel
 					return false;
 			return true;
 		}
+
+		index_type ctz() const {
+			for (index_type i = 0; i < Size; ++i) {
+				if (_masks[i]) {
+					int c = __builtin_ctz(_masks[i]);
+					return c + i*BitsetWidth;
+				}
+			}
+			return -1;
+		}
 	private:
 		static constexpr size_type	Size = (Params.MaxComponents-1)/BitsetWidth + 1;
 		mask_type					_masks[Size] ={};
@@ -215,6 +241,12 @@ namespace bagel
 		static inline const Mask::bit_type	Bit = Mask::bit(Index);
 	};
 
+	struct AddedMask {
+		Mask prev;
+		Mask next;
+		ent_type e;
+	};
+
 	class World final : NoInstance
 	{
 	public:
@@ -225,6 +257,16 @@ namespace bagel
 			return {++_maxId.id};
 		}
 		static void destroyEntity(ent_type ent) {
+			if constexpr (Params.CallbackOnDestroy) {
+				Mask m = _masks[ent.id];
+				int ctz = m.ctz(); // count-trailing-zeros
+				while (ctz >= 0) {
+					if (_callbacks[ctz].destroy != nullptr)
+						_callbacks->destroy(ent);
+					m.clear(Mask::bit(ctz));
+					ctz = m.ctz();
+				}
+			}
 			_masks[ent.id].clear();
 			_ids.push(ent);
 		}
@@ -240,8 +282,15 @@ namespace bagel
 
 		template <class T>
 		static void addComponent(ent_type e, const T& t) {
+			Mask prev = _masks[e.id];
+
 			_masks[e.id].set(Component<T>::Bit);
 			Storage<T>::type::add(e,t);
+
+			if constexpr (Params.AggregateUpdates) {
+				Mask next = _masks[e.id];
+				_added.push({prev,next,e});
+			}
 		}
 		template <class T, class...Ts>
 		static void addComponents(ent_type e, const T& t, const Ts&... ts) {
@@ -262,10 +311,31 @@ namespace bagel
 				delComponents<Ts...>(e);
 		}
 
+		template <class T>
+		static void registerStorage(StorageCallbacks& cb) {
+			_callbacks[Component<T>::Index] = cb;
+		}
+
+		static size_type sizeAdded() { return _added.size(); }
+		static const AddedMask& getAdded(int i) { return _added[i]; }
+
+		static void step() { _added.clear(); }
 	private:
+		static inline StorageCallbacks _callbacks[Params.MaxComponents] = {nullptr};
+		static inline Bag<AddedMask,Params.IdBagSize>		_added;
+
 		static inline ent_type								_maxId{-1};
 		static inline Bag<Mask,		Params.InitialEntities> _masks;
 		static inline Bag<ent_type,	Params.IdBagSize>		_ids;
+	};
+
+	template <class T>
+	class StorageRegister
+	{
+	public:
+		StorageRegister(StorageCallbacks& cb) {
+			World::registerStorage<T>(cb);
+		}
 	};
 
 	class Entity

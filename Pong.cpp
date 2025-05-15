@@ -141,6 +141,47 @@ namespace pong
 		);
 	}
 
+	class InputSystem
+	{
+	public:
+		void update() {
+			for (int i = 0; i < _entities.size(); ++i) {
+				ent_type e = _entities[i];
+				if (!World::mask(e).test(mask)) {
+					_entities[i] = _entities[_entities.size()-1];
+					_entities.pop();
+					--i;
+					continue;
+				}
+			}
+		}
+		void updateEntities() {
+			for (int i = 0; i < World::sizeAdded(); ++i) {
+				const AddedMask& am = World::getAdded(i);
+
+				if ((!am.prev.test(mask)) && (am.next.test(mask))) {
+					_entities.push(am.e);
+				}
+			}
+		}
+
+		InputSystem()
+		{
+			for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+				if (World::mask(e).test(mask)) {
+					_entities.push(e);
+				}
+			}
+		}
+	private:
+		Bag<ent_type,100> _entities;
+
+		static const inline Mask mask = MaskBuilder()
+				.set<Keys>()
+				.set<Intent>()
+				.build();
+	};
+
 	void Pong::input_system() const
 	{
 		static const Mask mask = MaskBuilder()
@@ -273,8 +314,18 @@ namespace pong
 		auto start = SDL_GetTicks();
 		bool quit = false;
 
+		InputSystem is;
 		while (!quit) {
-			input_system();
+			is.updateEntities();
+			//first updateEntities() for all systems
+
+			is.update();
+			//then update() for all systems
+
+			World::step();
+			//finally World::step() to clear added() array
+
+			//input_system();
 			move_system();
 			box_system();
 			score_system();
