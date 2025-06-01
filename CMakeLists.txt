@@ -12,6 +12,8 @@ add_executable(BAGEL main.cpp
         bagel_cfg.h
         Pong.cpp
         Pong.h
+        Football.h
+        football.cpp
 )
 
 set(SDL_STATIC ON)
