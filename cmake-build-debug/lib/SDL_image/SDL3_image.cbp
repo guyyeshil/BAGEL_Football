@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="SDL3_image"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\lib\;CMake Files\lib\SDL\;CMake Files\lib\SDL\cmake\;CMake Files\lib\SDL\include\;CMake Files\lib\SDL\include\build_config\;CMake Files\lib\SDL_image\;CMake Files\lib\SDL_image\cmake\;CMake Files\lib\box2d\;CMake Files\lib\box2d\src\;CMake Files\.git\;CMake Files\.git\modules\;CMake Files\.git\modules\lib\;CMake Files\.git\modules\lib\SDL\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\opt\;CMake Files\..\..\..\..\..\..\..\opt\homebrew\;CMake Files\..\..\..\..\..\..\..\opt\homebrew\share\;CMake Files\..\..\..\..\..\..\..\opt\homebrew\share\WebP\;CMake Files\..\..\..\..\..\..\..\opt\homebrew\share\WebP\cmake\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL_image"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL_image/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL_image/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL_image/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL_image/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="SDL3_image-static">
+				<Option output="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL_image/libSDL3_image.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL_image"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBUILD_SDL"/>
+					<Add option="-DSDL_BUILD_MAJOR_VERSION=3"/>
+					<Add option="-DSDL_BUILD_MINOR_VERSION=3"/>
+					<Add option="-DSDL_BUILD_MICRO_VERSION=0"/>
+					<Add option="-DUSE_STBIMAGE"/>
+					<Add option="-DLOAD_BMP"/>
+					<Add option="-DLOAD_GIF"/>
+					<Add option="-DLOAD_JPG"/>
+					<Add option="-DSDL_IMAGE_SAVE_JPG=1"/>
+					<Add option="-DLOAD_LBM"/>
+					<Add option="-DLOAD_PCX"/>
+					<Add option="-DLOAD_PNG"/>
+					<Add option="-DSDL_IMAGE_SAVE_PNG=1"/>
+					<Add option="-DLOAD_PNM"/>
+					<Add option="-DLOAD_QOI"/>
+					<Add option="-DLOAD_SVG"/>
+					<Add option="-DLOAD_TGA"/>
+					<Add option="-DLOAD_WEBP"/>
+					<Add option="-DLOAD_WEBPDEMUX_DYNAMIC=&quot;libwebpdemux.2.dylib&quot;"/>
+					<Add option="-DLOAD_WEBP_DYNAMIC=&quot;libwebp.7.dylib&quot;"/>
+					<Add option="-DLOAD_XCF"/>
+					<Add option="-DLOAD_XPM"/>
+					<Add option="-DLOAD_XV"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/include"/>
+					<Add directory="/opt/homebrew/include"/>
+					<Add directory="/opt/homebrew/include/webp"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/include-revision"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL_image/Makefile&quot;  VERBOSE=1 SDL3_image-static"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL_image/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL_image/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL_image/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="SDL3_image-static/fast">
+				<Option output="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL_image/libSDL3_image.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL_image"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBUILD_SDL"/>
+					<Add option="-DSDL_BUILD_MAJOR_VERSION=3"/>
+					<Add option="-DSDL_BUILD_MINOR_VERSION=3"/>
+					<Add option="-DSDL_BUILD_MICRO_VERSION=0"/>
+					<Add option="-DUSE_STBIMAGE"/>
+					<Add option="-DLOAD_BMP"/>
+					<Add option="-DLOAD_GIF"/>
+					<Add option="-DLOAD_JPG"/>
+					<Add option="-DSDL_IMAGE_SAVE_JPG=1"/>
+					<Add option="-DLOAD_LBM"/>
+					<Add option="-DLOAD_PCX"/>
+					<Add option="-DLOAD_PNG"/>
+					<Add option="-DSDL_IMAGE_SAVE_PNG=1"/>
+					<Add option="-DLOAD_PNM"/>
+					<Add option="-DLOAD_QOI"/>
+					<Add option="-DLOAD_SVG"/>
+					<Add option="-DLOAD_TGA"/>
+					<Add option="-DLOAD_WEBP"/>
+					<Add option="-DLOAD_WEBPDEMUX_DYNAMIC=&quot;libwebpdemux.2.dylib&quot;"/>
+					<Add option="-DLOAD_WEBP_DYNAMIC=&quot;libwebp.7.dylib&quot;"/>
+					<Add option="-DLOAD_XCF"/>
+					<Add option="-DLOAD_XPM"/>
+					<Add option="-DLOAD_XV"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/include"/>
+					<Add directory="/opt/homebrew/include"/>
+					<Add directory="/opt/homebrew/include/webp"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/include-revision"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL_image/Makefile&quot;  VERBOSE=1 SDL3_image-static/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL_image/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL_image/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL_image/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_ImageIO.m">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_WIC.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_avif.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_bmp.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_gif.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_jpg.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_jxl.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_lbm.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_pcx.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_png.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_pnm.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_qoi.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_stb.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_svg.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_tga.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_tif.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_webp.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_xcf.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_xpm.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/src/IMG_xv.c">
+			<Option target="SDL3_image-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\SDL\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/3rdparty.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/FindLibUSB.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/GetGitRevisionDescription.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/GetGitRevisionDescription.cmake.in">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/PreseedEmscriptenCache.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/PreseedMSVCCache.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/SDL3Config.cmake.in">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/macros.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/sdlchecks.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/sdlcommands.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/sdlcompilers.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/sdlcpu.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/sdlmanpages.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/sdlplatform.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/include/build_config/SDL_build_config.h.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\include\build_config\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/include/build_config/SDL_revision.h.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\include\build_config\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\SDL_image\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/cmake/GetGitRevisionDescription.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL_image\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/cmake/PrivateSdlFunctions.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL_image\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/cmake/sdlcpu.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL_image\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/cmake/sdlmanpages.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL_image\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/cmake/sdlplatform.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL_image\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/box2d/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\box2d\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/box2d/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\box2d\src\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/.git/modules/lib/SDL/HEAD">
+			<Option virtualFolder="CMake Files\.git\modules\lib\SDL\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/../../../../../../../opt/homebrew/share/WebP/cmake/WebPTargets-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\opt\homebrew\share\WebP\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/../../../../../../../opt/homebrew/share/WebP/cmake/WebPTargets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\opt\homebrew\share\WebP\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/../../../../../../../opt/homebrew/share/WebP/cmake/webpConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\opt\homebrew\share\WebP\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/../../../../../../../opt/homebrew/share/WebP/cmake/webpConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\opt\homebrew\share\WebP\cmake\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

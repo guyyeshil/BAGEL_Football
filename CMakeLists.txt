@@ -34,10 +34,20 @@ set(BOX2D_UNIT_TESTS OFF)
 add_subdirectory(lib/box2d)
 target_link_libraries(${PROJECT_NAME} PUBLIC box2d)
 
-add_custom_command(
-        TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E
-        copy_directory_if_different
+if(WIN32)
+    add_custom_command(
+            TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E
+            copy_directory_if_different
             "${PROJECT_SOURCE_DIR}/res"
             "$<TARGET_FILE_DIR:${PROJECT_NAME}>/res"
-)
+    )
+elseif(APPLE)
+    add_custom_command(
+            TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E
+            copy_directory
+            "${PROJECT_SOURCE_DIR}/res"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>/res"
+    )
+endif()

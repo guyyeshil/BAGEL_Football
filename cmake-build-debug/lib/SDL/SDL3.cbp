@@ -1,0 +1,1243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="SDL3"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\lib\;CMake Files\lib\SDL\;CMake Files\lib\SDL\cmake\;CMake Files\lib\SDL\include\;CMake Files\lib\SDL\include\build_config\;CMake Files\lib\SDL_image\;CMake Files\lib\SDL_image\cmake\;CMake Files\lib\box2d\;CMake Files\lib\box2d\src\;CMake Files\.git\;CMake Files\.git\modules\;CMake Files\.git\modules\lib\;CMake Files\.git\modules\lib\SDL\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\opt\;CMake Files\..\..\..\..\..\..\..\opt\homebrew\;CMake Files\..\..\..\..\..\..\..\opt\homebrew\share\;CMake Files\..\..\..\..\..\..\..\opt\homebrew\share\WebP\;CMake Files\..\..\..\..\..\..\..\opt\homebrew\share\WebP\cmake\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="SDL3-static">
+				<Option output="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/libSDL3.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DUSING_GENERATED_CONFIG_H"/>
+					<Add option="-DSDL_STATIC_LIB"/>
+					<Add option="-DSDL_BUILD_MAJOR_VERSION=3"/>
+					<Add option="-DSDL_BUILD_MINOR_VERSION=3"/>
+					<Add option="-DSDL_BUILD_MICRO_VERSION=0"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/include-config-debug/build_config"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/include-revision"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/include"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 SDL3-static"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="SDL3-static/fast">
+				<Option output="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/libSDL3.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DUSING_GENERATED_CONFIG_H"/>
+					<Add option="-DSDL_STATIC_LIB"/>
+					<Add option="-DSDL_BUILD_MAJOR_VERSION=3"/>
+					<Add option="-DSDL_BUILD_MINOR_VERSION=3"/>
+					<Add option="-DSDL_BUILD_MICRO_VERSION=0"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/include-config-debug/build_config"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/include-revision"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/include"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 SDL3-static/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="SDL3_test">
+				<Option output="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/libSDL3_test.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/include-revision"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 SDL3_test"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="SDL3_test/fast">
+				<Option output="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/libSDL3_test.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/include-revision"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 SDL3_test/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="SDL_uclibc">
+				<Option output="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/libSDL_uclibc.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DUSING_GENERATED_CONFIG_H"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/include-config-debug/build_config"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 SDL_uclibc"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="SDL_uclibc/fast">
+				<Option output="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/libSDL_uclibc.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DUSING_GENERATED_CONFIG_H"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/include-config-debug/build_config"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src"/>
+					<Add directory="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 SDL_uclibc/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/jonathanporan/Documents/GitHub/MTA/Third\ Year/BAGEL_Football/cmake-build-debug/lib/SDL/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL3-static.dir/cmake_pch_arm64.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL3-static.dir/cmake_pch_arm64.h.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/e_atan2.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/e_exp.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/e_fmod.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/e_log.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/e_log10.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/e_pow.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/e_rem_pio2.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/e_sqrt.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/k_cos.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/k_rem_pio2.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/k_sin.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/k_tan.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/s_atan.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/s_copysign.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/s_cos.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/s_fabs.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/s_floor.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/s_isinf.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/s_isinff.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/s_isnan.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/s_isnanf.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/s_modf.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/s_scalbn.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/s_sin.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/cmake-build-debug/lib/SDL/CMakeFiles/SDL_uclibc.dir/src/libm/s_tan.c.o">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/SDL.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/SDL_assert.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/SDL_error.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/SDL_guid.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/SDL_hashtable.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/SDL_hashtable.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/SDL_hints.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/SDL_list.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/SDL_list.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/SDL_log.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/SDL_properties.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/SDL_utils.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/atomic/SDL_atomic.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/atomic/SDL_spinlock.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/SDL_audio.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/SDL_audiocvt.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/SDL_audiodev.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/SDL_audioqueue.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/SDL_audioqueue.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/SDL_audioresample.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/SDL_audioresample.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/SDL_audiotypecvt.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/SDL_mixer.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/SDL_wave.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/SDL_wave.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/coreaudio/SDL_coreaudio.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/disk/SDL_diskaudio.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/disk/SDL_diskaudio.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/dummy/SDL_dummyaudio.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/audio/dummy/SDL_dummyaudio.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/camera/SDL_camera.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/camera/coremedia/SDL_camera_coremedia.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/camera/dummy/SDL_camera_dummy.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/core/SDL_core_unsupported.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/cpuinfo/SDL_cpuinfo.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/dialog/SDL_dialog.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/dialog/SDL_dialog.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/dialog/SDL_dialog_utils.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/dialog/SDL_dialog_utils.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/dialog/cocoa/SDL_cocoadialog.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/dynapi/SDL_dynapi.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/dynapi/SDL_dynapi.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_categories.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_clipboardevents.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_displayevents.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_dropevents.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_events.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_eventwatch.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_keyboard.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_keymap.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_keysym_to_keycode.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_keysym_to_scancode.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_mouse.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_pen.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_quit.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_scancode_tables.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_touch.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/SDL_windowevents.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/imKStoUCS.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/events/imKStoUCS.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/filesystem/SDL_filesystem.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/filesystem/cocoa/SDL_sysfilesystem.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/filesystem/posix/SDL_sysfsops.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/gpu/SDL_gpu.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/gpu/metal/SDL_gpu_metal.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/gpu/vulkan/SDL_gpu_vulkan.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/haptic/SDL_haptic.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/haptic/darwin/SDL_syshaptic.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/haptic/hidapi/SDL_hidapihaptic.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/haptic/hidapi/SDL_hidapihaptic.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/haptic/hidapi/SDL_hidapihaptic_lg4ff.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/hidapi/SDL_hidapi.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/io/SDL_asyncio.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/io/SDL_iostream.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/io/generic/SDL_asyncio_generic.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/SDL_gamepad.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/SDL_joystick.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/SDL_steam_virtual_gamepad.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/SDL_steam_virtual_gamepad.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/apple/SDL_mfijoystick.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/controller_type.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/controller_type.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/darwin/SDL_iokitjoystick.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_8bitdo.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_combined.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_gamecube.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_lg4ff.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_luna.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_ps3.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_ps4.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_ps5.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_rumble.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_rumble.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_shield.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_stadia.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_steam.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_steam_hori.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_steamdeck.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_switch.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_wii.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_xbox360.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_xbox360w.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapi_xboxone.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/hidapi/SDL_hidapijoystick.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/joystick/virtual/SDL_virtualjoystick.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/e_atan2.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/e_exp.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/e_fmod.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/e_log.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/e_log10.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/e_pow.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/e_rem_pio2.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/e_sqrt.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/k_cos.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/k_rem_pio2.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/k_sin.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/k_tan.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/s_atan.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/s_copysign.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/s_cos.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/s_fabs.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/s_floor.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/s_isinf.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/s_isinff.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/s_isnan.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/s_isnanf.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/s_modf.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/s_scalbn.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/s_sin.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/libm/s_tan.c">
+			<Option target="SDL_uclibc"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/loadso/dlopen/SDL_sysloadso.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/locale/SDL_locale.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/locale/macos/SDL_syslocale.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/main/SDL_main_callbacks.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/main/SDL_main_callbacks.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/main/SDL_runapp.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/main/generic/SDL_sysmain_callbacks.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/misc/SDL_url.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/misc/macos/SDL_sysurl.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/power/SDL_power.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/power/macos/SDL_syspower.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/process/SDL_process.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/process/posix/SDL_posixprocess.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/SDL_d3dmath.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/SDL_d3dmath.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/SDL_render.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/SDL_render_unsupported.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/SDL_yuv_sw.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/direct3d/SDL_render_d3d.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/direct3d/SDL_shaders_d3d.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/direct3d/SDL_shaders_d3d.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/direct3d11/SDL_render_d3d11.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/direct3d11/SDL_shaders_d3d11.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/direct3d11/SDL_shaders_d3d11.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/direct3d12/SDL_render_d3d12.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/direct3d12/SDL_shaders_d3d12.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/direct3d12/SDL_shaders_d3d12.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/gpu/SDL_pipeline_gpu.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/gpu/SDL_pipeline_gpu.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/gpu/SDL_render_gpu.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/gpu/SDL_shaders_gpu.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/gpu/SDL_shaders_gpu.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/metal/SDL_render_metal.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/opengl/SDL_render_gl.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/opengl/SDL_shaders_gl.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/opengl/SDL_shaders_gl.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/opengles2/SDL_render_gles2.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/opengles2/SDL_shaders_gles2.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/opengles2/SDL_shaders_gles2.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/ps2/SDL_render_ps2.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/psp/SDL_render_psp.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/software/SDL_blendfillrect.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/software/SDL_blendfillrect.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/software/SDL_blendline.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/software/SDL_blendline.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/software/SDL_blendpoint.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/software/SDL_blendpoint.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/software/SDL_drawline.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/software/SDL_drawline.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/software/SDL_drawpoint.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/software/SDL_drawpoint.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/software/SDL_render_sw.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/software/SDL_rotate.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/software/SDL_rotate.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/software/SDL_triangle.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/software/SDL_triangle.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/vitagxm/SDL_render_vita_gxm.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/vitagxm/SDL_render_vita_gxm_memory.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/vitagxm/SDL_render_vita_gxm_memory.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/vitagxm/SDL_render_vita_gxm_tools.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/vitagxm/SDL_render_vita_gxm_tools.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/vulkan/SDL_render_vulkan.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/vulkan/SDL_shaders_vulkan.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/render/vulkan/SDL_shaders_vulkan.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/sensor/SDL_sensor.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/sensor/dummy/SDL_dummysensor.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/sensor/dummy/SDL_dummysensor.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/stdlib/SDL_crc16.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/stdlib/SDL_crc32.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/stdlib/SDL_getenv.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/stdlib/SDL_iconv.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/stdlib/SDL_malloc.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/stdlib/SDL_memcpy.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/stdlib/SDL_memmove.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/stdlib/SDL_memset.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/stdlib/SDL_mslibc.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/stdlib/SDL_murmur3.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/stdlib/SDL_qsort.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/stdlib/SDL_random.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/stdlib/SDL_stdlib.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/stdlib/SDL_string.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/stdlib/SDL_strtokr.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/storage/SDL_storage.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/storage/generic/SDL_genericstorage.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/storage/steam/SDL_steamstorage.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/test/SDL_test_assert.c">
+			<Option target="SDL3_test"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/test/SDL_test_common.c">
+			<Option target="SDL3_test"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/test/SDL_test_compare.c">
+			<Option target="SDL3_test"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/test/SDL_test_crc32.c">
+			<Option target="SDL3_test"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/test/SDL_test_font.c">
+			<Option target="SDL3_test"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/test/SDL_test_fuzzer.c">
+			<Option target="SDL3_test"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/test/SDL_test_harness.c">
+			<Option target="SDL3_test"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/test/SDL_test_log.c">
+			<Option target="SDL3_test"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/test/SDL_test_md5.c">
+			<Option target="SDL3_test"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/test/SDL_test_memory.c">
+			<Option target="SDL3_test"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/thread/SDL_thread.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/thread/pthread/SDL_syscond.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/thread/pthread/SDL_sysmutex.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/thread/pthread/SDL_sysrwlock.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/thread/pthread/SDL_syssem.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/thread/pthread/SDL_systhread.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/thread/pthread/SDL_systls.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/time/SDL_time.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/time/unix/SDL_systime.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/timer/SDL_timer.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/timer/unix/SDL_systimer.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/tray/SDL_tray_utils.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/tray/SDL_tray_utils.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/tray/cocoa/SDL_tray.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_RLEaccel.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_blit.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_blit.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_blit_0.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_blit_1.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_blit_A.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_blit_N.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_blit_auto.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_blit_auto.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_blit_copy.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_blit_copy.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_blit_slow.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_blit_slow.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_bmp.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_clipboard.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_egl.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_fillrect.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_pixels.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_rect.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_stb.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_stretch.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_surface.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_video.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_video_unsupported.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_vulkan_utils.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/SDL_yuv.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/cocoa/SDL_cocoaclipboard.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/cocoa/SDL_cocoaevents.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/cocoa/SDL_cocoakeyboard.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/cocoa/SDL_cocoamessagebox.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/cocoa/SDL_cocoametalview.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/cocoa/SDL_cocoamodes.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/cocoa/SDL_cocoamouse.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/cocoa/SDL_cocoaopengl.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/cocoa/SDL_cocoaopengles.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/cocoa/SDL_cocoapen.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/cocoa/SDL_cocoashape.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/cocoa/SDL_cocoavideo.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/cocoa/SDL_cocoavulkan.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/cocoa/SDL_cocoawindow.m">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/dummy/SDL_nullevents.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/dummy/SDL_nullframebuffer.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/dummy/SDL_nullvideo.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/dummy/SDL_nullvideo.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/offscreen/SDL_offscreenevents.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/offscreen/SDL_offscreenframebuffer.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/offscreen/SDL_offscreenopengles.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/offscreen/SDL_offscreenopengles.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/offscreen/SDL_offscreenvideo.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/offscreen/SDL_offscreenvideo.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/offscreen/SDL_offscreenvulkan.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/offscreen/SDL_offscreenvulkan.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/offscreen/SDL_offscreenwindow.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/offscreen/SDL_offscreenwindow.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/yuv2rgb/yuv_rgb_lsx.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/yuv2rgb/yuv_rgb_lsx.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/yuv2rgb/yuv_rgb_sse.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/yuv2rgb/yuv_rgb_sse.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/yuv2rgb/yuv_rgb_std.c">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/src/video/yuv2rgb/yuv_rgb_std.h">
+			<Option target="SDL3-static"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\SDL\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/3rdparty.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/FindLibUSB.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/GetGitRevisionDescription.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/GetGitRevisionDescription.cmake.in">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/PreseedEmscriptenCache.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/PreseedMSVCCache.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/SDL3Config.cmake.in">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/macros.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/sdlchecks.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/sdlcommands.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/sdlcompilers.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/sdlcpu.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/sdlmanpages.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/cmake/sdlplatform.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/include/build_config/SDL_build_config.h.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\include\build_config\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL/include/build_config/SDL_revision.h.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL\include\build_config\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\SDL_image\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/cmake/GetGitRevisionDescription.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL_image\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/cmake/PrivateSdlFunctions.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL_image\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/cmake/sdlcpu.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL_image\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/cmake/sdlmanpages.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL_image\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/SDL_image/cmake/sdlplatform.cmake">
+			<Option virtualFolder="CMake Files\lib\SDL_image\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/box2d/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\box2d\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/lib/box2d/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\box2d\src\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/.git/modules/lib/SDL/HEAD">
+			<Option virtualFolder="CMake Files\.git\modules\lib\SDL\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/../../../../../../../opt/homebrew/share/WebP/cmake/WebPTargets-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\opt\homebrew\share\WebP\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/../../../../../../../opt/homebrew/share/WebP/cmake/WebPTargets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\opt\homebrew\share\WebP\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/../../../../../../../opt/homebrew/share/WebP/cmake/webpConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\opt\homebrew\share\WebP\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/jonathanporan/Documents/GitHub/MTA/Third Year/BAGEL_Football/../../../../../../../opt/homebrew/share/WebP/cmake/webpConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\opt\homebrew\share\WebP\cmake\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
