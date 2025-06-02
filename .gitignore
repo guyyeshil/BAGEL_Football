@@ -1,0 +1,52 @@
+# Build directories
+cmake-build-*/
+build/
+out/
+bin/
+obj/
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Testing/
+Makefile
+cmake_install.cmake
+CTestTestfile.cmake
+install_manifest.txt
+
+# JetBrains CLion
+.idea/
+*.iml
+
+# Compiled object files and binaries
+*.o
+*.obj
+*.so
+*.dll
+*.exe
+*.out
+*.a
+*.lib
+
+# Backup and temporary files
+*.log
+*.tmp
+*.temp
+*~
+
+# OS-specific files
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Python virtualenvs (if using scripts)
+venv/
+__pycache__/
+*.pyc
