@@ -32,6 +32,7 @@ namespace football {
         b2Circle ballCircle = {0,0,BALL_TEX.w*BALL_TEX_SCALE/BOX_SCALE/2};
 
         b2BodyId ballBody = b2CreateBody(boxWorld, &ballBodyDef);
+        b2Body_SetLinearDamping(ballBody, 1.5f);//todo
         b2CreateCircleShape(ballBody, &ballShapeDef, &ballCircle);
 
         Entity ballEntity = Entity::create();
@@ -47,7 +48,7 @@ namespace football {
     void Football::createCar(const SDL_FPoint& position, const SDL_FRect& tex, const Keys& keys) const
     {
         b2BodyDef carBodyDef = b2DefaultBodyDef();
-        carBodyDef.type = b2_kinematicBody;
+        carBodyDef.type = b2_dynamicBody;
         carBodyDef.position = {position.x/BOX_SCALE, position.y/BOX_SCALE};
 
         b2ShapeDef carShapeDef = b2DefaultShapeDef();
@@ -58,13 +59,14 @@ namespace football {
 
 
         b2BodyId carBody = b2CreateBody(boxWorld, &carBodyDef);
+        b2Body_SetLinearDamping(carBody, 1.5f);//todo
         b2CreateCircleShape(carBody, &carShapeDef, &carCircle);
 
         Entity carEntity = Entity::create();
         carEntity.addAll(
             Transform{{position},0},
             Intent{},
-            keys,
+            Keys{keys},
             Drawable{{tex}, {tex.w*CAR_TEX_SCALE, tex.h*CAR_TEX_SCALE}, carsTex},
             Collider{carBody}
         );
@@ -157,7 +159,10 @@ namespace football {
         //prepareWalls();//todo
         createField();
         createBall();
-        createCar({400,300},BLUE_CAR_TEX,{SDL_SCANCODE_W, SDL_SCANCODE_S,SDL_SCANCODE_A, SDL_SCANCODE_D});
+        createCar({400,450},BLUE_CAR_TEX,{SDL_SCANCODE_W, SDL_SCANCODE_S,SDL_SCANCODE_A, SDL_SCANCODE_D});
+        createCar({900,450},ORANGE_CAR_TEX,{SDL_SCANCODE_UP, SDL_SCANCODE_DOWN,SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT});
+
+
     }
 
     Football::~Football()
@@ -206,51 +211,181 @@ namespace football {
         SDL_RenderPresent(ren);
     }
 
-    void Football::run() {
+    class InputSystem
+    {
+    public:
+        void update() {
+            for (int i = 0; i < _entities.size(); ++i) {
+                ent_type e = _entities[i];
+                if (!World::mask(e).test(mask)) {
+                    _entities[i] = _entities[_entities.size()-1];
+                    _entities.pop();
+                    --i;
+                    continue;
+                }
+            }
+        }
+        void updateEntities() {
+            for (int i = 0; i < World::sizeAdded(); ++i) {
+                const AddedMask& am = World::getAdded(i);
 
-        draw_system();
+                if ((!am.prev.test(mask)) && (am.next.test(mask))) {
+                    _entities.push(am.e);
+                }
+            }
+        }
 
-        SDL_Delay(5000);
+        InputSystem()
+        {
+            for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+                if (World::mask(e).test(mask)) {
+                    _entities.push(e);
+                }
+            }
+        }
+    private:
+        Bag<ent_type,100> _entities;
 
-        // SDL_SetRenderDrawColor(ren, 0,0,0,255);
-        // auto start = SDL_GetTicks();
-        // bool quit = false;
-        //
-        // //InputSystem is;
-        // //while (!quit) {
-        //     // is.updateEntities();
-        //     // //first updateEntities() for all systems
-        //     //
-        //     // is.update();
-        //     // //then update() for all systems
-        //
-        //     World::step();
-        //     //finally World::step() to clear added() array
-        //
-        //     //input_system();
-        //     // move_system();
-        //     // box_system();
-        //     // score_system();
-        //
-        //     draw_system();
-        //
-        //     auto end = SDL_GetTicks();
-        //     if (end-start < GAME_FRAME) {
-        //         SDL_Delay(GAME_FRAME - (end-start));
-        //     }
-        //     start += GAME_FRAME;
-        //
-        //     SDL_Event e;
-        //     while (SDL_PollEvent(&e)) {
-        //         if (e.type == SDL_EVENT_QUIT)
-        //             quit = true;
-        //         else if ((e.type == SDL_EVENT_KEY_DOWN) && (e.key.scancode == SDL_SCANCODE_ESCAPE))
-        //             quit = true;
-        //     }
-        // }
+        static const inline Mask mask = MaskBuilder()
+                .set<Keys>()
+                .set<Intent>()
+                .build();
+    };
+
+    void Football::input_system() const
+    {
+        static const Mask mask = MaskBuilder()
+            .set<Keys>()
+            .set<Intent>()
+            .build();
+
+        SDL_PumpEvents();
+        const bool* keys = SDL_GetKeyboardState(nullptr);
+
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(mask)) {
+                const auto& ent_keys = World::getComponent<Keys>(e);
+                auto& intent = World::getComponent<Intent>(e);
+
+                intent.up = keys[ent_keys.up];
+                intent.down = keys[ent_keys.down];
+                intent.left = keys[ent_keys.left];
+                intent.right = keys[ent_keys.right];
+            }
+        }
     }
 
+    void Football::move_system() const
+    {
+        static const Mask mask = MaskBuilder()
+            .set<Intent>()
+            .set<Collider>()
+            .build();
 
+        const float forceStrength = 5000000.0f; //todo
+        const float maxSpeed = 10.0f; // todo
+
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(mask)) {
+                const auto& intent = World::getComponent<Intent>(e);
+                const auto& collider = World::getComponent<Collider>(e);
+
+                b2Vec2 force = {0.0f, 0.0f};
+
+                if (intent.up)
+                    force.y -= forceStrength;
+                if (intent.down)
+                    force.y += forceStrength;
+                if (intent.left)
+                    force.x -= forceStrength;
+                if (intent.right)
+                    //b2Body_SetLinearVelocity(collider.body, {50,0});
+                    force.x += forceStrength;
+
+                b2Body_ApplyForceToCenter(collider.body, force, true);
+
+
+
+                // הגבלת מהירות
+                b2Vec2 velocity = b2Body_GetLinearVelocity(collider.body);
+                printf("Velocity: (%f, %f)\n", velocity.x, velocity.y);
+                float speed = b2Length(velocity);
+
+                // if (speed > maxSpeed) {
+                //     float scale = maxSpeed / speed;
+                //     velocity.x *= scale;
+                //     velocity.y *= scale;
+                //     b2Body_SetLinearVelocity(collider.body, velocity);
+                // }
+            }
+        }
+    }
+
+    void Football::physic_system() const
+    {
+        static const Mask mask = MaskBuilder()
+            .set<Collider>()
+            .set<Transform>()
+            .build();
+        static constexpr float	BOX2D_STEP = 1.f/FPS;
+
+        b2World_Step(boxWorld, BOX2D_STEP, 4);
+
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(mask)) {
+                b2Transform transform = b2Body_GetTransform(World::getComponent<Collider>(e).body);
+                World::getComponent<Transform>(e) = {
+                    {transform.p.x*BOX_SCALE, transform.p.y*BOX_SCALE},
+                    RAD_TO_DEG * b2Rot_GetAngle(transform.q)
+                };
+            }
+        }
+    }
+
+    void Football::run() {
+
+        // draw_system();
+        //
+        // SDL_Delay(5000);
+
+        SDL_SetRenderDrawColor(ren, 0,0,0,255);
+        auto start = SDL_GetTicks();
+        bool quit = false;
+
+        InputSystem is;
+
+        while (!quit) {
+            is.updateEntities();
+            //first updateEntities() for all systems
+
+            is.update();
+            //then update() for all systems
+
+            World::step();
+            //finally World::step() to clear added() array
+
+            input_system();
+            move_system();
+            physic_system();
+            //score_system();
+
+            draw_system();
+
+            auto end = SDL_GetTicks();
+            if (end-start < GAME_FRAME) {
+                SDL_Delay(GAME_FRAME - (end-start));
+            }
+            start += GAME_FRAME;
+
+            SDL_Event e;
+            while (SDL_PollEvent(&e)) {
+                if (e.type == SDL_EVENT_QUIT)
+                    quit = true;
+                else if ((e.type == SDL_EVENT_KEY_DOWN) && (e.key.scancode == SDL_SCANCODE_ESCAPE))
+                    quit = true;
+            }
+        }
+    }
 
 }
 

@@ -34,7 +34,7 @@ namespace football {
     private:
         void input_system() const;
         void move_system() const;
-        void box_system() const;
+        void physic_system() const;
         void score_system() const;
         void draw_system() const;
 
