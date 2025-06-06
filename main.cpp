@@ -1,10 +1,9 @@
 #include "Football.h"
-#include "Pong.h"
-using namespace pong;
+using namespace football;
 
 int main() {
 
-	football::Football game;
+	Football game;
 	game.run();
 	return 0;
 }

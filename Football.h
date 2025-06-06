@@ -41,8 +41,8 @@ namespace football {
 
 
         //systems:
-        void input_system() const;
-        void move_system() const;
+        static void input_system() ;
+        static void move_system() ;
         void physic_system() const;
         //void score_system() const;
         void draw_system() const;
@@ -57,7 +57,7 @@ namespace football {
         static constexpr float	BOX_SCALE = 16;
         b2WorldId boxWorld = b2_nullWorldId;
 
-        // PHYSICAL SYSTEM SIZES
+            //Physical System Sizes:
         static constexpr float	BALL_RADIUS = 0.75;
         static constexpr float	FIELD_WIDTH = 75;
         static constexpr float	FIELD_HEIGHT = 50;

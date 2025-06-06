@@ -3,12 +3,10 @@
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include <box2d/box2d.h>
-
 #include "lib/box2d/src/body.h"
-using namespace std;
-
 #include "bagel.h"
 using namespace bagel;
+using namespace std;
 
 
 namespace football {
@@ -368,7 +366,7 @@ namespace football {
                 .build();
     };
 
-    void Football::input_system() const
+    void Football::input_system()
     {
         static const Mask mask = MaskBuilder()
             .set<Keys>()
@@ -391,7 +389,7 @@ namespace football {
         }
     }
 
-    void Football::move_system() const
+    void Football::move_system()
     {
         static const Mask mask = MaskBuilder()
             .set<Intent>()
@@ -399,9 +397,9 @@ namespace football {
             .build();
 
         const float forward_Ride_Strength = 500.0f; //todo
-        const float backward_Ride_Strength = 200.0f; //todo
-        const float side_Ride_Strength = 350.0f;// todo
-        const float maxSpeed = 10.0f; // todo
+//        const float backward_Ride_Strength = 200.0f; //todo
+//        const float side_Ride_Strength = 350.0f;// todo
+//        const float maxSpeed = 10.0f; // todo
 
         for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
             if (World::mask(e).test(mask)) {
@@ -492,10 +490,8 @@ namespace football {
 
             SDL_Event e;
             while (SDL_PollEvent(&e)) {
-                if (e.type == SDL_EVENT_QUIT)
-                    quit = true;
-                else if ((e.type == SDL_EVENT_KEY_DOWN) && (e.key.scancode == SDL_SCANCODE_ESCAPE))
-                    quit = true;
+                quit = (e.type == SDL_EVENT_QUIT) ||
+                       (e.type == SDL_EVENT_KEY_DOWN && e.key.scancode == SDL_SCANCODE_ESCAPE);
             }
         }
     }
