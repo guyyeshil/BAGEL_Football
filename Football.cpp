@@ -1,7 +1,3 @@
-//
-// Created by guyye on 01/06/2025.
-//
-
 #include "Football.h"
 #include <iostream>
 #include <SDL3/SDL.h>
@@ -17,6 +13,113 @@ using namespace bagel;
 
 namespace football {
 
+    void Football::prepareBoxWorld()
+    {
+        b2WorldDef worldDef = b2DefaultWorldDef();
+        worldDef.gravity = {0,0};
+        boxWorld = b2CreateWorld(&worldDef);
+
+        createField();
+        createBall();
+        createCar({20,25},BLUE_CAR_TEX,{SDL_SCANCODE_W, SDL_SCANCODE_S,SDL_SCANCODE_A, SDL_SCANCODE_D});
+        createCar({60,25},ORANGE_CAR_TEX,{SDL_SCANCODE_UP, SDL_SCANCODE_DOWN,SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT});
+        createDataBar();
+    }
+
+    bool Football::prepareWindowAndTexture()
+    {
+        if (!SDL_Init(SDL_INIT_VIDEO)) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+
+        if (!SDL_CreateWindowAndRenderer(
+                "B.A.G.E.L FOOTBALL", WIN_WIDTH, WIN_HEIGHT, 0, &win, &ren)) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+
+        SDL_Surface *surf = IMG_Load("res/ball.png");
+        if (surf == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+
+        ballTex = SDL_CreateTextureFromSurface(ren, surf);
+        if (ballTex == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+
+        surf = IMG_Load("res/field.png");
+        if (surf == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+
+        fieldTex = SDL_CreateTextureFromSurface(ren, surf);
+        if (fieldTex == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+
+        surf = IMG_Load("res/cars.png");
+        if (surf == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+
+        carsTex = SDL_CreateTextureFromSurface(ren, surf);
+        if (carsTex == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+
+        surf = IMG_Load("res/scoreFrame.png");
+        if (surf == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+
+        scoreFrameTex = SDL_CreateTextureFromSurface(ren, surf);
+        if (scoreFrameTex == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+
+        SDL_DestroySurface(surf);
+        return true;
+    }
+
+    Football::Football()
+    {
+        if (!prepareWindowAndTexture())
+            return;
+        SDL_srand(time(nullptr));
+
+        prepareBoxWorld();
+    }
+
+    Football::~Football()
+    {
+        if (b2World_IsValid(boxWorld))
+            b2DestroyWorld(boxWorld);
+        if (ballTex != nullptr)
+            SDL_DestroyTexture(ballTex);
+        if (carsTex != nullptr)
+            SDL_DestroyTexture(carsTex);
+        if (fieldTex != nullptr)
+            SDL_DestroyTexture(fieldTex);
+        if (scoreFrameTex != nullptr)
+            SDL_DestroyTexture(scoreFrameTex);
+        if (ren != nullptr)
+            SDL_DestroyRenderer(ren);
+        if (win != nullptr)
+            SDL_DestroyWindow(win);
+
+        SDL_Quit();
+    }
+
     void Football::createBall() const
     {
         b2BodyDef ballBodyDef = b2DefaultBodyDef();
@@ -29,7 +132,7 @@ namespace football {
         ballShapeDef.density = 1;
         ballShapeDef.material.friction = 0.0;//todo
         ballShapeDef.material.restitution = 0.8f;
-        b2Circle ballCircle = {0,0,BALL_RADIUS};
+        b2Circle ballCircle = {{0,0},BALL_RADIUS};
 
         b2BodyId ballBody = b2CreateBody(boxWorld, &ballBodyDef);
         b2Body_SetLinearDamping(ballBody, 1.5f);//todo
@@ -55,7 +158,7 @@ namespace football {
         carShapeDef.density = 1;
         carShapeDef.material.friction = 0.5;//todo
         carShapeDef.material.restitution = 0.9f;
-        b2Circle carCircle = {0,0,1.5};
+        b2Circle carCircle = {{0,0},1.5};
 
 
         b2BodyId carBody = b2CreateBody(boxWorld, &carBodyDef);
@@ -72,17 +175,12 @@ namespace football {
         );
     }
 
-
     void Football::createField() const
     {
-        b2BodyDef bodyDef = b2DefaultBodyDef();
-        bodyDef.type = b2_staticBody;
-        bodyDef.position = {FIELD_WIDTH/2,FIELD_HEIGHT/2};
-
-        b2BodyId body = b2CreateBody(boxWorld, &bodyDef);
+        SDL_FRect FieldPosition = {FIELD_WIDTH/2,FIELD_HEIGHT/2,0,0};
 
         Entity::create().addAll(
-            Transform{{bodyDef.position.x,bodyDef.position.y},0},
+            Transform{{FieldPosition.x,FieldPosition.y},0},
             Drawable{FIELD_TEX, {FIELD_WIDTH, FIELD_HEIGHT}, fieldTex}
         );
 
@@ -186,99 +284,19 @@ namespace football {
         b2CreatePolygonShape(rightBarBody, &barShapeDef, &rightBar);
     }
 
-    bool Football::prepareWindowAndTexture()
+    void Football::createDataBar() const
     {
-        if (!SDL_Init(SDL_INIT_VIDEO)) {
-            cout << SDL_GetError() << endl;
-            return false;
-        }
-
-        if (!SDL_CreateWindowAndRenderer(
-            "B.A.G.E.L FOOTBALL", WIN_WIDTH, WIN_HEIGHT, 0, &win, &ren)) {
-            cout << SDL_GetError() << endl;
-            return false;
-        }
-
-        SDL_Surface *surf = IMG_Load("res/ball.png");
-        if (surf == nullptr) {
-            cout << SDL_GetError() << endl;
-            return false;
-        }
-
-        ballTex = SDL_CreateTextureFromSurface(ren, surf);
-        if (ballTex == nullptr) {
-            cout << SDL_GetError() << endl;
-            return false;
-        }
-
-        surf = IMG_Load("res/field.png");
-        if (surf == nullptr) {
-            cout << SDL_GetError() << endl;
-            return false;
-        }
-
-        fieldTex = SDL_CreateTextureFromSurface(ren, surf);
-        if (fieldTex == nullptr) {
-            cout << SDL_GetError() << endl;
-            return false;
-        }
-
-        surf = IMG_Load("res/cars.png");
-        if (surf == nullptr) {
-            cout << SDL_GetError() << endl;
-            return false;
-        }
-
-        carsTex = SDL_CreateTextureFromSurface(ren, surf);
-        if (carsTex == nullptr) {
-            cout << SDL_GetError() << endl;
-            return false;
-        }
-
-        SDL_DestroySurface(surf);
-        return true;
+        createScoreFrame();
     }
 
-
-    void Football::prepareBoxWorld()
+    void Football::createScoreFrame() const
     {
-        b2WorldDef worldDef = b2DefaultWorldDef();
-        worldDef.gravity = {0,0};
-        boxWorld = b2CreateWorld(&worldDef);
-    }
+        SDL_FRect scoreFramePosition = {(WIN_WIDTH/BOX_SCALE)/2.0f,FIELD_HEIGHT + ((WIN_HEIGHT/BOX_SCALE)-FIELD_HEIGHT)/2.0f,0,0};
 
-    Football::Football()
-    {
-        if (!prepareWindowAndTexture())
-            return;
-        SDL_srand(time(nullptr));
-
-        prepareBoxWorld();
-        //prepareWalls();//todo
-        createField();
-        createBall();
-        createCar({20,25},BLUE_CAR_TEX,{SDL_SCANCODE_W, SDL_SCANCODE_S,SDL_SCANCODE_A, SDL_SCANCODE_D});
-        createCar({60,25},ORANGE_CAR_TEX,{SDL_SCANCODE_UP, SDL_SCANCODE_DOWN,SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT});
-
-
-    }
-
-    Football::~Football()
-    {
-        if (b2World_IsValid(boxWorld))
-            b2DestroyWorld(boxWorld);
-        if (ballTex != nullptr)
-            SDL_DestroyTexture(ballTex);
-        if (carsTex != nullptr)
-            SDL_DestroyTexture(carsTex);
-        if (fieldTex != nullptr)
-            SDL_DestroyTexture(fieldTex);
-        if (ren != nullptr)
-            SDL_DestroyRenderer(ren);
-        if (win != nullptr)
-            SDL_DestroyWindow(win);
-
-        SDL_Quit();
+        Entity::create().addAll(
+                Transform{{scoreFramePosition.x,scoreFramePosition.y},0},
+                Drawable{SCOUR_FRAME_TEX, {((WIN_HEIGHT/BOX_SCALE)-FIELD_HEIGHT-2)*(5/3.f), ((WIN_HEIGHT/BOX_SCALE)-FIELD_HEIGHT-2)}, scoreFrameTex}
+        );
     }
 
     void Football::draw_system() const
@@ -405,7 +423,7 @@ namespace football {
 
 
 
-                // הגבלת מהירות
+
                 // b2Vec2 velocity = b2Body_GetLinearVelocity(collider.body);
                 // printf("Velocity: (%f, %f)\n", velocity.x, velocity.y);
                 // float speed = b2Length(velocity);
@@ -441,12 +459,8 @@ namespace football {
         }
     }
 
-    void Football::run() {
-
-        // draw_system();
-        //
-        // SDL_Delay(5000);
-
+    void Football::run()
+    {
         SDL_SetRenderDrawColor(ren, 0,0,0,255);
         auto start = SDL_GetTicks();
         bool quit = false;
@@ -485,7 +499,6 @@ namespace football {
             }
         }
     }
-
 }
 
 
