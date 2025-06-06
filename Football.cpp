@@ -27,8 +27,8 @@ namespace football {
         b2ShapeDef ballShapeDef = b2DefaultShapeDef();
         ballShapeDef.enableSensorEvents = true;
         ballShapeDef.density = 1;
-        ballShapeDef.material.friction = 0.5;//todo
-        ballShapeDef.material.restitution = 1.5f;//todo
+        ballShapeDef.material.friction = 0.0;//todo
+        ballShapeDef.material.restitution = 0.8f;
         b2Circle ballCircle = {0,0,BALL_RADIUS};
 
         b2BodyId ballBody = b2CreateBody(boxWorld, &ballBodyDef);
@@ -54,7 +54,7 @@ namespace football {
         b2ShapeDef carShapeDef = b2DefaultShapeDef();
         carShapeDef.density = 1;
         carShapeDef.material.friction = 0.5;//todo
-        carShapeDef.material.restitution = 1.5f;//todo
+        carShapeDef.material.restitution = 0.9f;
         b2Circle carCircle = {0,0,1.5};
 
 
@@ -85,6 +85,105 @@ namespace football {
             Transform{{bodyDef.position.x,bodyDef.position.y},0},
             Drawable{FIELD_TEX, {FIELD_WIDTH, FIELD_HEIGHT}, fieldTex}
         );
+
+        createFieldBorders();
+        createLeftGoalBars();
+        createRightGoalBars();
+    }
+
+    void Football::createFieldBorders() const
+    {
+        b2ShapeDef borderShapeDef = b2DefaultShapeDef();
+        borderShapeDef.density = 1;
+        borderShapeDef.material.friction = 0.6f;
+        borderShapeDef.material.restitution = 0.1f;
+
+        b2Polygon widthBorder = b2MakeBox(FIELD_WIDTH, 0.2f);
+        b2Polygon HeightBorder = b2MakeBox(0.2f, FIELD_HEIGHT);
+
+        b2BodyDef upBorderBodyDef = b2DefaultBodyDef();
+        upBorderBodyDef.type = b2_staticBody;
+        upBorderBodyDef.position = {FIELD_WIDTH / 2, FIELD_HEIGHT + 0.1f};
+        b2BodyId upBorderBody = b2CreateBody(boxWorld, &upBorderBodyDef);
+        b2CreatePolygonShape(upBorderBody, &borderShapeDef, &widthBorder);
+
+        b2BodyDef downBorderBodyDef = b2DefaultBodyDef();
+        downBorderBodyDef.type = b2_staticBody;
+        downBorderBodyDef.position = {FIELD_WIDTH / 2, -0.1f};
+        b2BodyId downBorderBody = b2CreateBody(boxWorld, &downBorderBodyDef);
+        b2CreatePolygonShape(downBorderBody, &borderShapeDef, &widthBorder);
+
+        b2BodyDef rightBorderBodyDef = b2DefaultBodyDef();
+        rightBorderBodyDef.type = b2_staticBody;
+        rightBorderBodyDef.position = {FIELD_WIDTH + 0.1f, FIELD_HEIGHT / 2};
+        b2BodyId rightBorderBody = b2CreateBody(boxWorld, &rightBorderBodyDef);
+        b2CreatePolygonShape(rightBorderBody, &borderShapeDef, &HeightBorder);
+
+        b2BodyDef leftBorderBodyDef = b2DefaultBodyDef();
+        leftBorderBodyDef.type = b2_staticBody;
+        leftBorderBodyDef.position = {-0.1f, FIELD_HEIGHT / 2};
+        b2BodyId leftBorderBody = b2CreateBody(boxWorld, &leftBorderBodyDef);
+        b2CreatePolygonShape(leftBorderBody, &borderShapeDef, &HeightBorder);
+    }
+
+    void Football::createLeftGoalBars() const
+    {
+        b2ShapeDef barShapeDef = b2DefaultShapeDef();
+        barShapeDef.density = 1;
+        barShapeDef.material.friction = 0.6f;
+        barShapeDef.material.restitution = 0.1f;
+
+        b2Polygon leftBar = b2MakeBox(SIDE_BAR_WIDTH/2, 0.2f);
+        b2Polygon rightBar = b2MakeBox(SIDE_BAR_WIDTH/2, 0.2f);
+        b2Polygon backBar = b2MakeBox(0.2f, BACK_BAR_HEIGHT/2);
+
+        b2BodyDef backBarBodyDef = b2DefaultBodyDef();
+        backBarBodyDef.type = b2_staticBody;
+        backBarBodyDef.position = {5.625f - 0.2f, FIELD_HEIGHT/2};
+        b2BodyId backBarBody = b2CreateBody(boxWorld, &backBarBodyDef);
+        b2CreatePolygonShape(backBarBody, &barShapeDef, &backBar);
+
+        b2BodyDef leftBarBodyDef = b2DefaultBodyDef();
+        leftBarBodyDef.type = b2_staticBody;
+        leftBarBodyDef.position = {5.625f + 0.2f + (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 - 0.2f - BACK_BAR_HEIGHT/2 };
+        b2BodyId leftBarBody = b2CreateBody(boxWorld, &leftBarBodyDef);
+        b2CreatePolygonShape(leftBarBody, &barShapeDef, &leftBar);
+
+        b2BodyDef rightBarBodyDef = b2DefaultBodyDef();
+        rightBarBodyDef.type = b2_staticBody;
+        rightBarBodyDef.position = {5.625f + 0.2f + (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 + 0.2f + BACK_BAR_HEIGHT/2 };
+        b2BodyId rightBarBody = b2CreateBody(boxWorld, &rightBarBodyDef);
+        b2CreatePolygonShape(rightBarBody, &barShapeDef, &rightBar);
+    }
+
+    void Football::createRightGoalBars() const
+    {
+        b2ShapeDef barShapeDef = b2DefaultShapeDef();
+        barShapeDef.density = 1;
+        barShapeDef.material.friction = 0.6f;
+        barShapeDef.material.restitution = 0.1f;
+
+        b2Polygon leftBar = b2MakeBox(SIDE_BAR_WIDTH/2, 0.2f);
+        b2Polygon rightBar = b2MakeBox(SIDE_BAR_WIDTH/2, 0.2f);
+        b2Polygon backBar = b2MakeBox(0.2f, BACK_BAR_HEIGHT/2);
+
+        b2BodyDef backBarBodyDef = b2DefaultBodyDef();
+        backBarBodyDef.type = b2_staticBody;
+        backBarBodyDef.position = {FIELD_WIDTH-5.625f + 0.2f, FIELD_HEIGHT/2};
+        b2BodyId backBarBody = b2CreateBody(boxWorld, &backBarBodyDef);
+        b2CreatePolygonShape(backBarBody, &barShapeDef, &backBar);
+
+        b2BodyDef leftBarBodyDef = b2DefaultBodyDef();
+        leftBarBodyDef.type = b2_staticBody;
+        leftBarBodyDef.position = {FIELD_WIDTH-5.625f - 0.2f - (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 - 0.2f - BACK_BAR_HEIGHT/2 };
+        b2BodyId leftBarBody = b2CreateBody(boxWorld, &leftBarBodyDef);
+        b2CreatePolygonShape(leftBarBody, &barShapeDef, &leftBar);
+
+        b2BodyDef rightBarBodyDef = b2DefaultBodyDef();
+        rightBarBodyDef.type = b2_staticBody;
+        rightBarBodyDef.position = {FIELD_WIDTH-5.625f - 0.2f - (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 + 0.2f + BACK_BAR_HEIGHT/2 };
+        b2BodyId rightBarBody = b2CreateBody(boxWorld, &rightBarBodyDef);
+        b2CreatePolygonShape(rightBarBody, &barShapeDef, &rightBar);
     }
 
     bool Football::prepareWindowAndTexture()

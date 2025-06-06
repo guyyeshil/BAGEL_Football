@@ -41,6 +41,11 @@ namespace football {
         void createBall() const;
         void createCar(const SDL_FPoint& position, const SDL_FRect& tex, const Keys& keys) const;
         void createField() const;
+        void createFieldBorders() const;
+        void createLeftGoalBars() const;
+        void createRightGoalBars() const;
+
+
         void createPad(const SDL_FRect&, const SDL_FPoint&, const Keys&) const;
 
         bool prepareWindowAndTexture();
@@ -67,7 +72,9 @@ namespace football {
         static constexpr float	FIELD_HEIGHT = 50;
         static constexpr float	CAR_HEIGHT = 2.35;
         static constexpr float	CAR_WIDTH = 4.7;
-
+            //goals:
+        static constexpr float SIDE_BAR_WIDTH = 3.125;//FIELD_WIDTH * (1 / 24)
+        static constexpr float BACK_BAR_HEIGHT = 7.5;//FIELD_HEIGHT * (3 / 20)
 
         SDL_Texture* ballTex;
         SDL_Texture* fieldTex;
