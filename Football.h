@@ -41,6 +41,7 @@ namespace football {
 
         //debug:
         inline static bool DEBUG_MODE = true;
+        void applyDebugFunctions()const;
         void createDebugBox()const;
 
         //systems:

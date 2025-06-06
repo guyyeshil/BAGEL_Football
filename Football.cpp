@@ -25,7 +25,7 @@ namespace football {
 
         if(DEBUG_MODE)
         {
-            createDebugBox();
+            applyDebugFunctions();
         }
     }
 
@@ -287,6 +287,11 @@ namespace football {
         b2CreatePolygonShape(rightBarBody, &barShapeDef, &rightBar);
     }
 
+    void Football::applyDebugFunctions() const
+    {
+        createDebugBox();
+    }
+    
     void Football::createDebugBox() const
     {
         const float width = 2.0f;
