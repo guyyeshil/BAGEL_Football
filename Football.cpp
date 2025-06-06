@@ -22,14 +22,14 @@ namespace football {
         b2BodyDef ballBodyDef = b2DefaultBodyDef();
         ballBodyDef.type = b2_dynamicBody;
         ballBodyDef.fixedRotation = false;
-        ballBodyDef.position = {ball_start_position.x/BOX_SCALE, ball_start_position.y/BOX_SCALE};// todo
+        ballBodyDef.position = {ball_start_position.x, ball_start_position.y};
 
         b2ShapeDef ballShapeDef = b2DefaultShapeDef();
         ballShapeDef.enableSensorEvents = true;
         ballShapeDef.density = 1;
         ballShapeDef.material.friction = 0.5;//todo
         ballShapeDef.material.restitution = 1.5f;//todo
-        b2Circle ballCircle = {0,0,BALL_TEX.w*BALL_TEX_SCALE/BOX_SCALE/2};
+        b2Circle ballCircle = {0,0,BALL_RADIUS};
 
         b2BodyId ballBody = b2CreateBody(boxWorld, &ballBodyDef);
         b2Body_SetLinearDamping(ballBody, 1.5f);//todo
@@ -38,7 +38,7 @@ namespace football {
         Entity ballEntity = Entity::create();
         ballEntity.addAll(
             Transform{{ball_start_position},0},
-            Drawable{{BALL_TEX}, {BALL_TEX.w*BALL_TEX_SCALE, BALL_TEX.h*BALL_TEX_SCALE}, ballTex},
+            Drawable{{BALL_TEX}, {BALL_RADIUS * 2, BALL_RADIUS * 2}, ballTex},
             Collider{ballBody},
             Ball{}
         );
@@ -49,13 +49,13 @@ namespace football {
     {
         b2BodyDef carBodyDef = b2DefaultBodyDef();
         carBodyDef.type = b2_dynamicBody;
-        carBodyDef.position = {position.x/BOX_SCALE, position.y/BOX_SCALE};
+        carBodyDef.position = {position.x, position.y};
 
         b2ShapeDef carShapeDef = b2DefaultShapeDef();
         carShapeDef.density = 1;
         carShapeDef.material.friction = 0.5;//todo
         carShapeDef.material.restitution = 1.5f;//todo
-        b2Circle carCircle = {0,0,tex.w*CAR_TEX_SCALE/BOX_SCALE/2};
+        b2Circle carCircle = {0,0,1.5};
 
 
         b2BodyId carBody = b2CreateBody(boxWorld, &carBodyDef);
@@ -67,7 +67,7 @@ namespace football {
             Transform{{position},0},
             Intent{},
             Keys{keys},
-            Drawable{{tex}, {tex.w*CAR_TEX_SCALE, tex.h*CAR_TEX_SCALE}, carsTex},
+            Drawable{{tex}, {3, 3}, carsTex},
             Collider{carBody}
         );
     }
@@ -77,14 +77,13 @@ namespace football {
     {
         b2BodyDef bodyDef = b2DefaultBodyDef();
         bodyDef.type = b2_staticBody;
-       // bodyDef.position = {0/BOX_SCALE,(WIN_HEIGHT-WANTED_FIELD_PIXEL_HEIGHT)/BOX_SCALE};
-        bodyDef.position = {WIN_WIDTH/2/BOX_SCALE,WIN_HEIGHT/2/BOX_SCALE};
+        bodyDef.position = {FIELD_WIDTH/2,FIELD_HEIGHT/2};
 
         b2BodyId body = b2CreateBody(boxWorld, &bodyDef);
 
         Entity::create().addAll(
             Transform{{bodyDef.position.x,bodyDef.position.y},0},
-            Drawable{FIELD_TEX, {FIELD_TEX.w*FIELD_TEX_SCALE, FIELD_TEX.h*FIELD_TEX_SCALE}, fieldTex}
+            Drawable{FIELD_TEX, {FIELD_WIDTH, FIELD_HEIGHT}, fieldTex}
         );
     }
 
@@ -159,8 +158,8 @@ namespace football {
         //prepareWalls();//todo
         createField();
         createBall();
-        createCar({400,450},BLUE_CAR_TEX,{SDL_SCANCODE_W, SDL_SCANCODE_S,SDL_SCANCODE_A, SDL_SCANCODE_D});
-        createCar({900,450},ORANGE_CAR_TEX,{SDL_SCANCODE_UP, SDL_SCANCODE_DOWN,SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT});
+        createCar({20,25},BLUE_CAR_TEX,{SDL_SCANCODE_W, SDL_SCANCODE_S,SDL_SCANCODE_A, SDL_SCANCODE_D});
+        createCar({60,25},ORANGE_CAR_TEX,{SDL_SCANCODE_UP, SDL_SCANCODE_DOWN,SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT});
 
 
     }
@@ -198,9 +197,9 @@ namespace football {
                 const auto& transform = World::getComponent<Transform>(e);
 
                 const SDL_FRect dst = {
-                    transform.position.x - draw.size.x/2,
-                    transform.position.y - draw.size.y/2,
-                    draw.size.x, draw.size.y};
+                    (transform.position.x - draw.size.x/2) * BOX_SCALE,
+                    (transform.position.y - draw.size.y/2) * BOX_SCALE,
+                    draw.size.x * BOX_SCALE, draw.size.y * BOX_SCALE};
 
                 SDL_RenderTextureRotated(
                     ren, draw.tex, &draw.part, &dst, transform.angle,
@@ -282,7 +281,9 @@ namespace football {
             .set<Collider>()
             .build();
 
-        const float forceStrength = 5000000.0f; //todo
+        const float forward_Ride_Strength = 500.0f; //todo
+        const float backward_Ride_Strength = 200.0f; //todo
+        const float side_Ride_Strength = 350.0f;// todo
         const float maxSpeed = 10.0f; // todo
 
         for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
@@ -293,23 +294,22 @@ namespace football {
                 b2Vec2 force = {0.0f, 0.0f};
 
                 if (intent.up)
-                    force.y -= forceStrength;
+                    force.y -= forward_Ride_Strength;
                 if (intent.down)
-                    force.y += forceStrength;
+                    force.y += forward_Ride_Strength;
                 if (intent.left)
-                    force.x -= forceStrength;
+                    force.x -= forward_Ride_Strength;
                 if (intent.right)
-                    //b2Body_SetLinearVelocity(collider.body, {50,0});
-                    force.x += forceStrength;
+                    force.x += forward_Ride_Strength;
 
                 b2Body_ApplyForceToCenter(collider.body, force, true);
 
 
 
                 // הגבלת מהירות
-                b2Vec2 velocity = b2Body_GetLinearVelocity(collider.body);
-                printf("Velocity: (%f, %f)\n", velocity.x, velocity.y);
-                float speed = b2Length(velocity);
+                // b2Vec2 velocity = b2Body_GetLinearVelocity(collider.body);
+                // printf("Velocity: (%f, %f)\n", velocity.x, velocity.y);
+                // float speed = b2Length(velocity);
 
                 // if (speed > maxSpeed) {
                 //     float scale = maxSpeed / speed;
@@ -335,7 +335,7 @@ namespace football {
             if (World::mask(e).test(mask)) {
                 b2Transform transform = b2Body_GetTransform(World::getComponent<Collider>(e).body);
                 World::getComponent<Transform>(e) = {
-                    {transform.p.x*BOX_SCALE, transform.p.y*BOX_SCALE},
+                    {transform.p.x, transform.p.y},
                     RAD_TO_DEG * b2Rot_GetAngle(transform.q)
                 };
             }
