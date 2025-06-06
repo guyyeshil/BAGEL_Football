@@ -390,51 +390,98 @@ namespace football {
     }
 
     void Football::move_system()
-    {
-        static const Mask mask = MaskBuilder()
-            .set<Intent>()
-            .set<Collider>()
-            .build();
+{
+	static const Mask mask = MaskBuilder()
+		.set<Intent>()
+		.set<Collider>()
+		.set<Transform>()
+		.build();
 
-        const float forward_Ride_Strength = 500.0f; //todo
-//        const float backward_Ride_Strength = 200.0f; //todo
-//        const float side_Ride_Strength = 350.0f;// todo
-//        const float maxSpeed = 10.0f; // todo
+	const float forward_force = 800.0f;
+	const float backward_force = 400.0f;
+	const float turn_speed = 1.0f;
+	const float max_speed = 15.0f;
+	const float turn_damping = 0.95f;
+    b2Vec2 velocity;
+	float current_speed;
+    float steering_input;
+    float angle_change;
+    float angle_rad;
+    float effective_turn_speed;
 
-        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
-            if (World::mask(e).test(mask)) {
-                const auto& intent = World::getComponent<Intent>(e);
-                const auto& collider = World::getComponent<Collider>(e);
+    b2Vec2 force;
+    for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+		if (World::mask(e).test(mask)) {
+            const auto& intent = World::getComponent<Intent>(e);
+			const auto& collider = World::getComponent<Collider>(e);
+			auto& transform = World::getComponent<Transform>(e);
 
-                b2Vec2 force = {0.0f, 0.0f};
-
-                if (intent.up)
-                    force.y -= forward_Ride_Strength;
-                if (intent.down)
-                    force.y += forward_Ride_Strength;
-                if (intent.left)
-                    force.x -= forward_Ride_Strength;
-                if (intent.right)
-                    force.x += forward_Ride_Strength;
-
+            if (intent.up && intent.down || !intent.up && !intent.down) {
+                //no movement if both keys pressed
+                continue;
+            }
+            else {
+                //there is steerting only if left xor right
+                if (intent.left ^ intent.right) {
+                    velocity = b2Body_GetLinearVelocity(collider.body);
+				    current_speed = b2Length(velocity);
+                    effective_turn_speed = turn_speed;
+                    if (intent.right && intent.up || intent.left && intent.down) {
+                        steering_input = 1.0f;
+                    }
+                    else {
+                        steering_input = -1.0f;
+                    }
+                    angle_change = steering_input * effective_turn_speed;
+                    transform.angle += angle_change;
+                    if (transform.angle > 360.0f) transform.angle -= 360.0f;
+                    if (transform.angle < 0.0f) transform.angle += 360.0f;
+                    //update physics body rotation
+                    angle_rad = transform.angle / RAD_TO_DEG;
+                    b2Body_SetTransform(
+                        collider.body,
+                        b2Body_GetPosition(collider.body),
+                        b2MakeRot(angle_rad)
+                    );
+                }
+                force = {0.0f, 0.0f};
+                //get car current angle in radians
+				float angle_rad = transform.angle / RAD_TO_DEG;
+				// Calculate forward direction based on car's angle
+				float forward_x = std::cos(angle_rad);
+				float forward_y = std::sin(angle_rad);
+                if (intent.up) {
+                    force.x = forward_x * forward_force;
+                    force.y = forward_y * forward_force;
+                } else {
+                    force.x = forward_x * backward_force * -1.0f;
+                    force.y = forward_y * backward_force* -1.0f;
+                }
                 b2Body_ApplyForceToCenter(collider.body, force, true);
-
-
-
-
+                //todo
+                // // Speed limiting
                 // b2Vec2 velocity = b2Body_GetLinearVelocity(collider.body);
-                // printf("Velocity: (%f, %f)\n", velocity.x, velocity.y);
                 // float speed = b2Length(velocity);
-
-                // if (speed > maxSpeed) {
-                //     float scale = maxSpeed / speed;
+                //
+                // if (speed > max_speed) {
+                //     float scale = max_speed / speed;
                 //     velocity.x *= scale;
                 //     velocity.y *= scale;
                 //     b2Body_SetLinearVelocity(collider.body, velocity);
                 // }
+                //
+                // // Add some angular damping for more realistic feel
+                // float angular_velocity = b2Body_GetAngularVelocity(collider.body);
+                // b2Body_SetAngularVelocity(collider.body, angular_velocity * turn_damping);
+
+                }
+
             }
+
+
         }
     }
+
 
     void Football::physic_system() const
     {
