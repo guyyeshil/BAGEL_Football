@@ -194,8 +194,8 @@ namespace football {
         borderShapeDef.material.friction = 0.6f;
         borderShapeDef.material.restitution = 0.1f;
 
-        b2Polygon widthBorder = b2MakeBox(FIELD_WIDTH, 0.2f);
-        b2Polygon HeightBorder = b2MakeBox(0.2f, FIELD_HEIGHT);
+        b2Polygon widthBorder = b2MakeBox(FIELD_WIDTH, BAR_HALF_THICKNESS);
+        b2Polygon HeightBorder = b2MakeBox(BAR_HALF_THICKNESS, FIELD_HEIGHT);
 
         b2BodyDef upBorderBodyDef = b2DefaultBodyDef();
         upBorderBodyDef.type = b2_staticBody;
@@ -229,25 +229,25 @@ namespace football {
         barShapeDef.material.friction = 0.6f;
         barShapeDef.material.restitution = 0.1f;
 
-        b2Polygon leftBar = b2MakeBox(SIDE_BAR_WIDTH/2, 0.2f);
-        b2Polygon rightBar = b2MakeBox(SIDE_BAR_WIDTH/2, 0.2f);
-        b2Polygon backBar = b2MakeBox(0.2f, BACK_BAR_HEIGHT/2);
+        b2Polygon leftBar = b2MakeBox(SIDE_BAR_WIDTH/2, BAR_HALF_THICKNESS);
+        b2Polygon rightBar = b2MakeBox(SIDE_BAR_WIDTH/2, BAR_HALF_THICKNESS);
+        b2Polygon backBar = b2MakeBox(BAR_HALF_THICKNESS, BACK_BAR_HEIGHT/2);
 
         b2BodyDef backBarBodyDef = b2DefaultBodyDef();
         backBarBodyDef.type = b2_staticBody;
-        backBarBodyDef.position = {5.625f - 0.2f, FIELD_HEIGHT/2};
+        backBarBodyDef.position = {BACK_BAR_POS - BAR_HALF_THICKNESS, FIELD_HEIGHT/2};
         b2BodyId backBarBody = b2CreateBody(boxWorld, &backBarBodyDef);
         b2CreatePolygonShape(backBarBody, &barShapeDef, &backBar);
 
         b2BodyDef leftBarBodyDef = b2DefaultBodyDef();
         leftBarBodyDef.type = b2_staticBody;
-        leftBarBodyDef.position = {5.625f + 0.2f + (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 - 0.2f - BACK_BAR_HEIGHT/2 };
+        leftBarBodyDef.position = {BACK_BAR_POS + BAR_HALF_THICKNESS + (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 - BAR_HALF_THICKNESS - BACK_BAR_HEIGHT/2 };
         b2BodyId leftBarBody = b2CreateBody(boxWorld, &leftBarBodyDef);
         b2CreatePolygonShape(leftBarBody, &barShapeDef, &leftBar);
 
         b2BodyDef rightBarBodyDef = b2DefaultBodyDef();
         rightBarBodyDef.type = b2_staticBody;
-        rightBarBodyDef.position = {5.625f + 0.2f + (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 + 0.2f + BACK_BAR_HEIGHT/2 };
+        rightBarBodyDef.position = {BACK_BAR_POS + BAR_HALF_THICKNESS + (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 + BAR_HALF_THICKNESS + BACK_BAR_HEIGHT/2 };
         b2BodyId rightBarBody = b2CreateBody(boxWorld, &rightBarBodyDef);
         b2CreatePolygonShape(rightBarBody, &barShapeDef, &rightBar);
     }
@@ -259,25 +259,25 @@ namespace football {
         barShapeDef.material.friction = 0.6f;
         barShapeDef.material.restitution = 0.1f;
 
-        b2Polygon leftBar = b2MakeBox(SIDE_BAR_WIDTH/2, 0.2f);
-        b2Polygon rightBar = b2MakeBox(SIDE_BAR_WIDTH/2, 0.2f);
-        b2Polygon backBar = b2MakeBox(0.2f, BACK_BAR_HEIGHT/2);
+        b2Polygon leftBar = b2MakeBox(SIDE_BAR_WIDTH/2, BAR_HALF_THICKNESS);
+        b2Polygon rightBar = b2MakeBox(SIDE_BAR_WIDTH/2, BAR_HALF_THICKNESS);
+        b2Polygon backBar = b2MakeBox(BAR_HALF_THICKNESS, BACK_BAR_HEIGHT/2);
 
         b2BodyDef backBarBodyDef = b2DefaultBodyDef();
         backBarBodyDef.type = b2_staticBody;
-        backBarBodyDef.position = {FIELD_WIDTH-5.625f + 0.2f, FIELD_HEIGHT/2};
+        backBarBodyDef.position = {FIELD_WIDTH - BACK_BAR_POS + BAR_HALF_THICKNESS, FIELD_HEIGHT/2};
         b2BodyId backBarBody = b2CreateBody(boxWorld, &backBarBodyDef);
         b2CreatePolygonShape(backBarBody, &barShapeDef, &backBar);
 
         b2BodyDef leftBarBodyDef = b2DefaultBodyDef();
         leftBarBodyDef.type = b2_staticBody;
-        leftBarBodyDef.position = {FIELD_WIDTH-5.625f - 0.2f - (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 - 0.2f - BACK_BAR_HEIGHT/2 };
+        leftBarBodyDef.position = {FIELD_WIDTH - BACK_BAR_POS - BAR_HALF_THICKNESS - (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 - BAR_HALF_THICKNESS - BACK_BAR_HEIGHT/2 };
         b2BodyId leftBarBody = b2CreateBody(boxWorld, &leftBarBodyDef);
         b2CreatePolygonShape(leftBarBody, &barShapeDef, &leftBar);
 
         b2BodyDef rightBarBodyDef = b2DefaultBodyDef();
         rightBarBodyDef.type = b2_staticBody;
-        rightBarBodyDef.position = {FIELD_WIDTH-5.625f - 0.2f - (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 + 0.2f + BACK_BAR_HEIGHT/2 };
+        rightBarBodyDef.position = {FIELD_WIDTH - BACK_BAR_POS - BAR_HALF_THICKNESS - (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 + BAR_HALF_THICKNESS + BACK_BAR_HEIGHT/2 };
         b2BodyId rightBarBody = b2CreateBody(boxWorld, &rightBarBodyDef);
         b2CreatePolygonShape(rightBarBody, &barShapeDef, &rightBar);
     }
