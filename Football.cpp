@@ -22,6 +22,11 @@ namespace football {
         createCar({20,25},BLUE_CAR_TEX,{SDL_SCANCODE_W, SDL_SCANCODE_S,SDL_SCANCODE_A, SDL_SCANCODE_D});
         createCar({60,25},ORANGE_CAR_TEX,{SDL_SCANCODE_UP, SDL_SCANCODE_DOWN,SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT});
         createDataBar();
+
+        if(DEBUG_MODE)
+        {
+            createDebugBox();
+        }
     }
 
     bool Football::prepareWindowAndTexture()
@@ -241,13 +246,13 @@ namespace football {
 
         b2BodyDef leftBarBodyDef = b2DefaultBodyDef();
         leftBarBodyDef.type = b2_staticBody;
-        leftBarBodyDef.position = {BACK_BAR_POS + BAR_HALF_THICKNESS + (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 - BAR_HALF_THICKNESS - BACK_BAR_HEIGHT/2 };
+        leftBarBodyDef.position = {BACK_BAR_POS + (SIDE_BAR_WIDTH/2) +BAR_HALF_THICKNESS, FIELD_HEIGHT/2 - BACK_BAR_HEIGHT/2 - BAR_HALF_THICKNESS };
         b2BodyId leftBarBody = b2CreateBody(boxWorld, &leftBarBodyDef);
         b2CreatePolygonShape(leftBarBody, &barShapeDef, &leftBar);
 
         b2BodyDef rightBarBodyDef = b2DefaultBodyDef();
         rightBarBodyDef.type = b2_staticBody;
-        rightBarBodyDef.position = {BACK_BAR_POS + BAR_HALF_THICKNESS + (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 + BAR_HALF_THICKNESS + BACK_BAR_HEIGHT/2 };
+        rightBarBodyDef.position = {BACK_BAR_POS + (SIDE_BAR_WIDTH/2) + BAR_HALF_THICKNESS, FIELD_HEIGHT/2 + BACK_BAR_HEIGHT/2 + BAR_HALF_THICKNESS };
         b2BodyId rightBarBody = b2CreateBody(boxWorld, &rightBarBodyDef);
         b2CreatePolygonShape(rightBarBody, &barShapeDef, &rightBar);
     }
@@ -281,6 +286,54 @@ namespace football {
         b2BodyId rightBarBody = b2CreateBody(boxWorld, &rightBarBodyDef);
         b2CreatePolygonShape(rightBarBody, &barShapeDef, &rightBar);
     }
+
+    void Football::createDebugBox() const
+    {
+        const float width = 2.0f;
+        const float height = 2.0f;
+        const SDL_FPoint position = {0.0f, 0.0f};
+        const SDL_Color color = {255, 0, 0, 255};
+
+        b2BodyDef bodyDef = b2DefaultBodyDef();
+        bodyDef.type = b2_dynamicBody;
+        bodyDef.position = {position.x, position.y};
+        bodyDef.fixedRotation = true;
+
+        b2ShapeDef shapeDef = b2DefaultShapeDef();
+        shapeDef.density = 3.0f;
+        shapeDef.material.friction = 0.3f;
+        shapeDef.material.restitution = 0.1f;
+
+        b2Polygon boxShape = b2MakeBox(width / 2.0f, height / 2.0f);
+
+        b2BodyId body = b2CreateBody(boxWorld, &bodyDef);
+        b2CreatePolygonShape(body, &shapeDef, &boxShape);
+
+        const int pixelW = static_cast<int>(width * BOX_SCALE);
+        const int pixelH = static_cast<int>(height * BOX_SCALE);
+
+        SDL_Texture* colorTex = SDL_CreateTexture(ren, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, pixelW, pixelH);
+        SDL_SetTextureBlendMode(colorTex, SDL_BLENDMODE_BLEND);
+
+        SDL_SetRenderTarget(ren, colorTex);
+        SDL_SetRenderDrawColor(ren, color.r, color.g, color.b, color.a);
+        SDL_RenderClear(ren);
+        SDL_SetRenderTarget(ren, nullptr);
+
+        Entity debugBox = Entity::create();
+        debugBox.addAll(
+                Transform{position, 0.0f},
+                Drawable{
+                        {0, 0, static_cast<float>(pixelW), static_cast<float>(pixelH)},
+                        {width, height},
+                        colorTex
+                },
+                Collider{body},
+                Keys{SDL_SCANCODE_UP, SDL_SCANCODE_DOWN, SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT},
+                Intent{}
+        );
+    }
+
 
     void Football::createDataBar() const
     {
