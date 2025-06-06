@@ -27,7 +27,6 @@ install_manifest.txt
 *.exe
 *.out
 *.a
-*.lib
 
 # Backup and temporary files
 *.log
