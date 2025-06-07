@@ -488,7 +488,6 @@ namespace football {
             velocity = b2Body_GetLinearVelocity(collider.body);
 			current_speed = b2Length(velocity) / 10;
              if (is_steering && (is_accelerating || current_speed > min_steering_speed)) {
-                if (current_speed > 0.1f) { //cant steer too slow
                     car_angle = transform.angle;
                     velocity_angle = std::atan2(velocity.y, velocity.x) * RAD_TO_DEG;
                     if (velocity_angle < 0) velocity_angle += 360.0f;
@@ -496,7 +495,7 @@ namespace football {
                 if (angle_diff > 180.0f) angle_diff = 360.0f - angle_diff;
                 //if the difference between angle car pointing to velocity <= 90 -> moving forward
                 moving_forward = (angle_diff <= 90.0f);
-            }
+
             if ((moving_forward && intent.right) || (!moving_forward && intent.left)) {
                 steering_input = 1;
             }
