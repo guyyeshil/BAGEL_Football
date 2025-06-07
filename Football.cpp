@@ -397,8 +397,8 @@ namespace football {
 		.set<Transform>()
 		.build();
 
-	const float forward_force = 800.0f;
-	const float backward_force = 400.0f;
+	const float forward_force = 300.0f;
+	const float backward_force = 150.0f;
 	const float turn_speed = 1.0f;
 	const float max_speed = 15.0f;
 	const float turn_damping = 0.95f;
@@ -424,8 +424,9 @@ namespace football {
                 //there is steerting only if left xor right
                 if (intent.left ^ intent.right) {
                     velocity = b2Body_GetLinearVelocity(collider.body);
-				    current_speed = b2Length(velocity);
-                    effective_turn_speed = turn_speed;
+				    current_speed = b2Length(velocity) / 10;
+                    //current_speed = std::min(current_speed / 5.0f, 1.0f); //potentially limit turning speed in high speed
+                    effective_turn_speed = turn_speed * current_speed;
                     if (intent.right && intent.up || intent.left && intent.down) {
                         steering_input = 1.0f;
                     }
@@ -447,7 +448,6 @@ namespace football {
                 force = {0.0f, 0.0f};
                 //get car current angle in radians
 				float angle_rad = transform.angle / RAD_TO_DEG;
-				// Calculate forward direction based on car's angle
 				float forward_x = std::cos(angle_rad);
 				float forward_y = std::sin(angle_rad);
                 if (intent.up) {
@@ -458,7 +458,6 @@ namespace football {
                     force.y = forward_y * backward_force* -1.0f;
                 }
                 b2Body_ApplyForceToCenter(collider.body, force, true);
-                //todo
                 // // Speed limiting
                 // b2Vec2 velocity = b2Body_GetLinearVelocity(collider.body);
                 // float speed = b2Length(velocity);
