@@ -412,7 +412,6 @@ namespace football {
     bool is_accelerating;
     bool is_steering;
     const float min_steering_speed = 0.5f; //minimum speed needed for steering
-    float speed_factor;
     float forward_x;
     float forward_y;
     const float steering_while_dragging_force = 100.0f; //allow to move when dragging and steering
@@ -444,8 +443,8 @@ namespace football {
                         steering_input = -1.0f;
                     }
                 }
-                speed_factor = current_speed / 10.0f;
-                effective_turn_speed = turn_speed * speed_factor;
+                current_speed = current_speed / 10.0f;
+                effective_turn_speed = turn_speed * current_speed;
                 angle_change = steering_input * effective_turn_speed;
                 transform.angle += angle_change;
                 if (transform.angle > 360.0f) transform.angle -= 360.0f;
