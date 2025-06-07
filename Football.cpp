@@ -171,7 +171,7 @@ namespace football {
             Drawable{{tex}, {3, 3}, carsTex},
             Collider{carBody}
         );
-                b2Body_SetFixedRotation(carBody,true);
+        b2Body_SetFixedRotation(carBody,true);
     }
 
     void Football::createField() const
@@ -409,6 +409,13 @@ namespace football {
     float angle_change;
     float angle_rad;
     float effective_turn_speed;
+    bool is_accelerating;
+    bool is_steering;
+    const float min_steering_speed = 0.5f; //minimum speed needed for steering
+    float speed_factor;
+    float forward_x;
+    float forward_y;
+    const float steering_while_dragging_force = 100.0f; //allow to move when dragging and steering
 
     b2Vec2 force;
     for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
@@ -416,71 +423,62 @@ namespace football {
             const auto& intent = World::getComponent<Intent>(e);
 			const auto& collider = World::getComponent<Collider>(e);
 			auto& transform = World::getComponent<Transform>(e);
+            is_accelerating = (intent.up && !intent.down) || (intent.down && !intent.up);
+            is_steering = intent.left ^ intent.right;
 
-            if (intent.up && intent.down || !intent.up && !intent.down) {
-                //no movement if both keys pressed
-                continue;
-            }
-            else {
-                //there is steerting only if left xor right
-                if (intent.left ^ intent.right) {
-                    velocity = b2Body_GetLinearVelocity(collider.body);
-				    current_speed = b2Length(velocity) / 10;
-                    //current_speed = std::min(current_speed / 5.0f, 1.0f); //potentially limit turning speed in high speed
-                    effective_turn_speed = turn_speed * current_speed;
-                    if (intent.right && intent.up || intent.left && intent.down) {
+            velocity = b2Body_GetLinearVelocity(collider.body);
+			current_speed = b2Length(velocity);
+             if (is_steering && (is_accelerating || current_speed > min_steering_speed)) {
+                if (is_accelerating) {
+                    //difference between sterring when moving forward/backwards and when dragging
+                    if ((intent.right && intent.up) || (intent.left && intent.down)) {
                         steering_input = 1.0f;
-                    }
-                    else {
+                    } else {
                         steering_input = -1.0f;
                     }
-                    angle_change = steering_input * effective_turn_speed;
-                    transform.angle += angle_change;
-                    if (transform.angle > 360.0f) transform.angle -= 360.0f;
-                    if (transform.angle < 0.0f) transform.angle += 360.0f;
-                    //update physics body rotation
-                    angle_rad = transform.angle / RAD_TO_DEG;
-                    b2Body_SetTransform(
-                        collider.body,
-                        b2Body_GetPosition(collider.body),
-                        b2MakeRot(angle_rad)
-                    );
+                } else {
+                    //drag
+                    if (intent.right) {
+                        steering_input = 1.0f;
+                    } else {
+                        steering_input = -1.0f;
+                    }
                 }
+                speed_factor = current_speed / 10.0f;
+                effective_turn_speed = turn_speed * speed_factor;
+                angle_change = steering_input * effective_turn_speed;
+                transform.angle += angle_change;
+                if (transform.angle > 360.0f) transform.angle -= 360.0f;
+                if (transform.angle < 0.0f) transform.angle += 360.0f;
+                //update physics body rotation
+                angle_rad = transform.angle / RAD_TO_DEG;
+                b2Body_SetTransform(
+                    collider.body,
+                    b2Body_GetPosition(collider.body),
+                    b2MakeRot(angle_rad)
+                );
+            }
+            if (is_accelerating || (is_steering && current_speed > min_steering_speed)) {
                 force = {0.0f, 0.0f};
-                //get car current angle in radians
-				float angle_rad = transform.angle / RAD_TO_DEG;
-				float forward_x = std::cos(angle_rad);
-				float forward_y = std::sin(angle_rad);
+				angle_rad = transform.angle / RAD_TO_DEG;
+				forward_x = std::cos(angle_rad);
+				forward_y = std::sin(angle_rad);
                 if (intent.up) {
                     force.x = forward_x * forward_force;
                     force.y = forward_y * forward_force;
-                } else {
+                } else if (intent.down) {
                     force.x = forward_x * backward_force * -1.0f;
                     force.y = forward_y * backward_force* -1.0f;
+                } else if (is_steering && current_speed > min_steering_speed) {
+                    force.x = forward_x * steering_while_dragging_force;
+                    force.y = forward_y * steering_while_dragging_force;
                 }
                 b2Body_ApplyForceToCenter(collider.body, force, true);
-                // // Speed limiting
-                // b2Vec2 velocity = b2Body_GetLinearVelocity(collider.body);
-                // float speed = b2Length(velocity);
-                //
-                // if (speed > max_speed) {
-                //     float scale = max_speed / speed;
-                //     velocity.x *= scale;
-                //     velocity.y *= scale;
-                //     b2Body_SetLinearVelocity(collider.body, velocity);
-                // }
-                //
-                // // Add some angular damping for more realistic feel
-                // float angular_velocity = b2Body_GetAngularVelocity(collider.body);
-                // b2Body_SetAngularVelocity(collider.body, angular_velocity * turn_damping);
-
-                }
-
             }
-
 
         }
     }
+}
 
 
     void Football::physic_system() const
