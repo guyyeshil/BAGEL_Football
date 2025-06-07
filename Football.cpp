@@ -19,8 +19,8 @@ namespace football {
 
         createField();
         createBall();
-        createCar(left_team_car_upper_start_position,BLUE_CAR_TEX,{SDL_SCANCODE_W, SDL_SCANCODE_S,SDL_SCANCODE_A, SDL_SCANCODE_D},LEFT);
-        createCar(right_team_car_lower_start_position,ORANGE_CAR_TEX,{SDL_SCANCODE_UP, SDL_SCANCODE_DOWN,SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT},RIGHT);
+        createCar(left_team_car_middle_start_position,BLUE_CAR_TEX,{SDL_SCANCODE_W, SDL_SCANCODE_S,SDL_SCANCODE_A, SDL_SCANCODE_D},LEFT);
+        createCar(right_team_car_middle_start_position,ORANGE_CAR_TEX,{SDL_SCANCODE_UP, SDL_SCANCODE_DOWN,SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT},RIGHT);
         createDataBar();
 
         if(DEBUG_MODE)
@@ -164,7 +164,7 @@ namespace football {
         b2Body_SetLinearDamping(carBody, 1.5f);//todo
 
         b2ShapeDef carShapeDef = b2DefaultShapeDef();
-        carShapeDef.density = 2;
+        carShapeDef.density = 1;
         carShapeDef.material.friction = 0.5;//todo
         carShapeDef.material.restitution = 0.9f;
 
