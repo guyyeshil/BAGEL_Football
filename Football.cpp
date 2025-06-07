@@ -94,12 +94,18 @@ namespace football {
         return true;
     }
 
+    void Football::gameSetupPrams() {
+        LeftTeamScore = 0;
+        RightTeamScore = 0;
+    }
+
+
     Football::Football()
     {
         if (!prepareWindowAndTexture())
             return;
         SDL_srand(time(nullptr));
-
+        gameSetupPrams();
         prepareBoxWorld();
     }
 
@@ -476,93 +482,95 @@ namespace football {
     }
 
     void Football::move_system()
-{
-	static const Mask mask = MaskBuilder()
-		.set<Intent>()
-		.set<Collider>()
-		.set<Transform>()
-		.build();
+    {
+        static const Mask mask = MaskBuilder()
+            .set<Intent>()
+            .set<Collider>()
+            .set<Transform>()
+            .build();
 
-	const float forward_force = 300.0f;
-	const float backward_force = 150.0f;
-	const float turn_speed = 5.0f;
-	const float max_speed = 15.0f;
-	const float turn_damping = 0.95f;
-    b2Vec2 velocity;
-	float current_speed;
-    float steering_input;
-    float angle_change;
-    float angle_rad;
-    float effective_turn_speed;
-    bool is_accelerating;
-    bool is_steering;
-    const float min_steering_speed = 0.5f; //minimum speed needed for steering
-    float forward_x;
-    float forward_y;
-    bool moving_forward;
-    float car_angle;
-    float velocity_angle;
+        const float forward_force = 300.0f;
+        const float backward_force = 150.0f;
+        const float turn_speed = 5.0f;
+        const float max_speed = 15.0f;
+        const float turn_damping = 0.95f;
+        b2Vec2 velocity;
+        float current_speed;
+        float steering_input;
+        float angle_change;
+        float angle_rad;
+        float effective_turn_speed;
+        bool is_accelerating;
+        bool is_steering;
+        const float min_steering_speed = 0.5f; //minimum speed needed for steering
+        float forward_x;
+        float forward_y;
+        bool moving_forward;
+        float car_angle;
+        float velocity_angle;
 
-    b2Vec2 force;
-    for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
-		if (World::mask(e).test(mask)) {
-            const auto& intent = World::getComponent<Intent>(e);
-			const auto& collider = World::getComponent<Collider>(e);
-			auto& transform = World::getComponent<Transform>(e);
-            is_accelerating = (intent.up && !intent.down) || (intent.down && !intent.up);
-            is_steering = intent.left ^ intent.right;
+        b2Vec2 force;
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(mask)) {
+                const auto& intent = World::getComponent<Intent>(e);
+                const auto& collider = World::getComponent<Collider>(e);
+                auto& transform = World::getComponent<Transform>(e);
+                is_accelerating = (intent.up && !intent.down) || (intent.down && !intent.up);
+                is_steering = intent.left ^ intent.right;
 
-            velocity = b2Body_GetLinearVelocity(collider.body);
-			current_speed = b2Length(velocity) / 10;
-             if (is_steering && (is_accelerating || current_speed > min_steering_speed)) {
-                if (current_speed > 0.1f) { //cant steer too slow
-                    car_angle = transform.angle;
-                    velocity_angle = std::atan2(velocity.y, velocity.x) * RAD_TO_DEG;
-                    if (velocity_angle < 0) velocity_angle += 360.0f;
-                    float angle_diff = std::abs(velocity_angle - car_angle);
-                if (angle_diff > 180.0f) angle_diff = 360.0f - angle_diff;
-                //if the difference between angle car pointing to velocity <= 90 -> moving forward
-                moving_forward = (angle_diff <= 90.0f);
-            }
-            if ((moving_forward && intent.right) || (!moving_forward && intent.left)) {
-                steering_input = 1;
-            }
-             else {
-                 steering_input = -1;
-             }
-            current_speed = current_speed / 10.0f;
-            effective_turn_speed = turn_speed * current_speed;
-            angle_change = steering_input * effective_turn_speed;
-            transform.angle += angle_change;
-            if (transform.angle > 360.0f) transform.angle -= 360.0f;
-            if (transform.angle < 0.0f) transform.angle += 360.0f;
-            //update physics body rotation
-            angle_rad = transform.angle / RAD_TO_DEG;
-            b2Body_SetTransform(
-                collider.body,
-                b2Body_GetPosition(collider.body),
-                b2MakeRot(angle_rad)
-            );
-        }
-
-            if (is_accelerating) {
-                force = {0.0f, 0.0f};
-				angle_rad = transform.angle / RAD_TO_DEG;
-				forward_x = std::cos(angle_rad);
-				forward_y = std::sin(angle_rad);
-                if (intent.up) {
-                    force.x = forward_x * forward_force;
-                    force.y = forward_y * forward_force;
-                } else {
-                    force.x = forward_x * backward_force * -1.0f;
-                    force.y = forward_y * backward_force* -1.0f;
+                velocity = b2Body_GetLinearVelocity(collider.body);
+                current_speed = b2Length(velocity) / 10;
+                 if (is_steering && (is_accelerating || current_speed > min_steering_speed)) {
+                    if (current_speed > 0.1f) { //cant steer too slow
+                        car_angle = transform.angle;
+                        velocity_angle = std::atan2(velocity.y, velocity.x) * RAD_TO_DEG;
+                        if (velocity_angle < 0) velocity_angle += 360.0f;
+                        float angle_diff = std::abs(velocity_angle - car_angle);
+                    if (angle_diff > 180.0f) angle_diff = 360.0f - angle_diff;
+                    //if the difference between angle car pointing to velocity <= 90 -> moving forward
+                    moving_forward = (angle_diff <= 90.0f);
                 }
-                b2Body_ApplyForceToCenter(collider.body, force, true);
+                if ((moving_forward && intent.right) || (!moving_forward && intent.left)) {
+                    steering_input = 1;
+                }
+
+                else {
+                     steering_input = -1;
+                 }
+
+                current_speed = current_speed / 10.0f;
+                effective_turn_speed = turn_speed * current_speed;
+                angle_change = steering_input * effective_turn_speed;
+                transform.angle += angle_change;
+                if (transform.angle > 360.0f) transform.angle -= 360.0f;
+                if (transform.angle < 0.0f) transform.angle += 360.0f;
+                //update physics body rotation
+                angle_rad = transform.angle / RAD_TO_DEG;
+                b2Body_SetTransform(
+                    collider.body,
+                    b2Body_GetPosition(collider.body),
+                    b2MakeRot(angle_rad)
+                );
             }
 
+                if (is_accelerating) {
+                    force = {0.0f, 0.0f};
+                    angle_rad = transform.angle / RAD_TO_DEG;
+                    forward_x = std::cos(angle_rad);
+                    forward_y = std::sin(angle_rad);
+                    if (intent.up) {
+                        force.x = forward_x * forward_force;
+                        force.y = forward_y * forward_force;
+                    } else {
+                        force.x = forward_x * backward_force * -1.0f;
+                        force.y = forward_y * backward_force* -1.0f;
+                    }
+                    b2Body_ApplyForceToCenter(collider.body, force, true);
+                }
+
+            }
         }
     }
-}
 
 
     void Football::physic_system() const
@@ -640,12 +648,20 @@ namespace football {
             }
             start += GAME_FRAME;
 
+            if(DEBUG_MODE)
+            {
+                printDebugData();
+            }
             SDL_Event e;
             while (SDL_PollEvent(&e)) {
                 quit = (e.type == SDL_EVENT_QUIT) ||
                        (e.type == SDL_EVENT_KEY_DOWN && e.key.scancode == SDL_SCANCODE_ESCAPE);
             }
         }
+    }
+
+    void Football::printDebugData() const {
+        cout << LeftTeamScore << ":" << RightTeamScore << endl;
     }
 }
 

@@ -33,6 +33,7 @@ namespace football {
     private:
         void prepareBoxWorld();
         bool prepareWindowAndTexture();
+        void gameSetupPrams();
         void createBall() const;
         void createCar(const SDL_FPoint& position, const SDL_FRect& tex, const Keys& keys, bool side) const;
         void createField() const;
@@ -45,6 +46,7 @@ namespace football {
         //debug:
         inline static bool DEBUG_MODE = true;
         void applyDebugFunctions()const;
+        void printDebugData()const;
         void createDebugBox()const;
 
         //systems:
@@ -64,8 +66,11 @@ namespace football {
 
         static constexpr float	BOX_SCALE = 16;
         b2WorldId boxWorld = b2_nullWorldId;
+        int LeftTeamScore = 0;
+        int RightTeamScore = 0;
 
-            //Physical System Sizes:
+
+        //Physical System Sizes:
         static constexpr float	BALL_RADIUS = 0.75;
         static constexpr float	FIELD_WIDTH = 75;
         static constexpr float	FIELD_HEIGHT = 50;
