@@ -458,7 +458,7 @@ namespace football {
 
 	const float forward_force = 300.0f;
 	const float backward_force = 150.0f;
-	const float turn_speed = 1.0f;
+	const float turn_speed = 5.0f;
 	const float max_speed = 15.0f;
 	const float turn_damping = 0.95f;
     b2Vec2 velocity;
@@ -470,9 +470,12 @@ namespace football {
     bool is_accelerating;
     bool is_steering;
     const float min_steering_speed = 0.5f; //minimum speed needed for steering
+    float speed_factor;
     float forward_x;
     float forward_y;
-    const float steering_while_dragging_force = 100.0f; //allow to move when dragging and steering
+    bool moving_forward;
+    float car_angle;
+    float velocity_angle;
 
     b2Vec2 force;
     for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
@@ -484,38 +487,39 @@ namespace football {
             is_steering = intent.left ^ intent.right;
 
             velocity = b2Body_GetLinearVelocity(collider.body);
-			current_speed = b2Length(velocity);
+			current_speed = b2Length(velocity) / 10;
              if (is_steering && (is_accelerating || current_speed > min_steering_speed)) {
-                if (is_accelerating) {
-                    //difference between sterring when moving forward/backwards and when dragging
-                    if ((intent.right && intent.up) || (intent.left && intent.down)) {
-                        steering_input = 1.0f;
-                    } else {
-                        steering_input = -1.0f;
-                    }
-                } else {
-                    //drag
-                    if (intent.right) {
-                        steering_input = 1.0f;
-                    } else {
-                        steering_input = -1.0f;
-                    }
-                }
-                current_speed = current_speed / 10.0f;
-                effective_turn_speed = turn_speed * current_speed;
-                angle_change = steering_input * effective_turn_speed;
-                transform.angle += angle_change;
-                if (transform.angle > 360.0f) transform.angle -= 360.0f;
-                if (transform.angle < 0.0f) transform.angle += 360.0f;
-                //update physics body rotation
-                angle_rad = transform.angle / RAD_TO_DEG;
-                b2Body_SetTransform(
-                    collider.body,
-                    b2Body_GetPosition(collider.body),
-                    b2MakeRot(angle_rad)
-                );
+                if (current_speed > 0.1f) { //cant steer too slow
+                    car_angle = transform.angle;
+                    velocity_angle = std::atan2(velocity.y, velocity.x) * RAD_TO_DEG;
+                    if (velocity_angle < 0) velocity_angle += 360.0f;
+                    float angle_diff = std::abs(velocity_angle - car_angle);
+                if (angle_diff > 180.0f) angle_diff = 360.0f - angle_diff;
+                //if the difference between angle car pointing to velocity <= 90 -> moving forward
+                moving_forward = (angle_diff <= 90.0f);
             }
-            if (is_accelerating || (is_steering && current_speed > min_steering_speed)) {
+            if ((moving_forward && intent.right) || (!moving_forward && intent.left)) {
+                steering_input = 1;
+            }
+             else {
+                 steering_input = -1;
+             }
+            speed_factor = current_speed / 10.0f;
+            effective_turn_speed = turn_speed * speed_factor;
+            angle_change = steering_input * effective_turn_speed;
+            transform.angle += angle_change;
+            if (transform.angle > 360.0f) transform.angle -= 360.0f;
+            if (transform.angle < 0.0f) transform.angle += 360.0f;
+            //update physics body rotation
+            angle_rad = transform.angle / RAD_TO_DEG;
+            b2Body_SetTransform(
+                collider.body,
+                b2Body_GetPosition(collider.body),
+                b2MakeRot(angle_rad)
+            );
+        }
+
+            if (is_accelerating) {
                 force = {0.0f, 0.0f};
 				angle_rad = transform.angle / RAD_TO_DEG;
 				forward_x = std::cos(angle_rad);
@@ -523,12 +527,9 @@ namespace football {
                 if (intent.up) {
                     force.x = forward_x * forward_force;
                     force.y = forward_y * forward_force;
-                } else if (intent.down) {
+                } else {
                     force.x = forward_x * backward_force * -1.0f;
                     force.y = forward_y * backward_force* -1.0f;
-                } else if (is_steering && current_speed > min_steering_speed) {
-                    force.x = forward_x * steering_while_dragging_force;
-                    force.y = forward_y * steering_while_dragging_force;
                 }
                 b2Body_ApplyForceToCenter(collider.body, force, true);
             }
