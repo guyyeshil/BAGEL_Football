@@ -171,6 +171,7 @@ namespace football {
             Drawable{{tex}, {3, 3}, carsTex},
             Collider{carBody}
         );
+                b2Body_SetFixedRotation(carBody,true);
     }
 
     void Football::createField() const
