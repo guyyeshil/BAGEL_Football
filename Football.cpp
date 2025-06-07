@@ -19,8 +19,8 @@ namespace football {
 
         createField();
         createBall();
-        createCar({20,25},BLUE_CAR_TEX,{SDL_SCANCODE_W, SDL_SCANCODE_S,SDL_SCANCODE_A, SDL_SCANCODE_D});
-        createCar({60,25},ORANGE_CAR_TEX,{SDL_SCANCODE_UP, SDL_SCANCODE_DOWN,SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT});
+        createCar(left_team_car_upper_start_position,BLUE_CAR_TEX,{SDL_SCANCODE_W, SDL_SCANCODE_S,SDL_SCANCODE_A, SDL_SCANCODE_D},LEFT);
+        createCar(right_team_car_lower_start_position,ORANGE_CAR_TEX,{SDL_SCANCODE_UP, SDL_SCANCODE_DOWN,SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT},RIGHT);
         createDataBar();
     }
 
@@ -127,13 +127,14 @@ namespace football {
 
         b2ShapeDef ballShapeDef = b2DefaultShapeDef();
         ballShapeDef.enableSensorEvents = true;
-        ballShapeDef.density = 1;
-        ballShapeDef.material.friction = 0.0;//todo
+        ballShapeDef.density = 0.5;
+        ballShapeDef.material.friction = 0.5;//todo
         ballShapeDef.material.restitution = 0.8f;
         b2Circle ballCircle = {{0,0},BALL_RADIUS};
 
         b2BodyId ballBody = b2CreateBody(boxWorld, &ballBodyDef);
         b2Body_SetLinearDamping(ballBody, 1.5f);//todo
+        b2Body_SetAngularDamping(ballBody, 1.5f); // todo
         b2CreateCircleShape(ballBody, &ballShapeDef, &ballCircle);
 
         Entity ballEntity = Entity::create();
@@ -141,35 +142,61 @@ namespace football {
             Transform{{ball_start_position},0},
             Drawable{{BALL_TEX}, {BALL_RADIUS * 2, BALL_RADIUS * 2}, ballTex},
             Collider{ballBody},
-            Ball{}
+            Ball{},
+            StartingPosition{{ball_start_position},0}
         );
         b2Body_SetUserData(ballBody, new ent_type{ballEntity.entity()});
     }
 
-    void Football::createCar(const SDL_FPoint& position, const SDL_FRect& tex, const Keys& keys) const
+    void Football::createCar(const SDL_FPoint& position, const SDL_FRect& tex, const Keys& keys, bool side) const
     {
         b2BodyDef carBodyDef = b2DefaultBodyDef();
         carBodyDef.type = b2_dynamicBody;
+        carBodyDef.fixedRotation = true;
         carBodyDef.position = {position.x, position.y};
-
-        b2ShapeDef carShapeDef = b2DefaultShapeDef();
-        carShapeDef.density = 1;
-        carShapeDef.material.friction = 0.5;//todo
-        carShapeDef.material.restitution = 0.9f;
-        b2Circle carCircle = {{0,0},1.5};
-
 
         b2BodyId carBody = b2CreateBody(boxWorld, &carBodyDef);
         b2Body_SetLinearDamping(carBody, 1.5f);//todo
-        b2CreateCircleShape(carBody, &carShapeDef, &carCircle);
+
+        b2ShapeDef carShapeDef = b2DefaultShapeDef();
+        carShapeDef.density = 2;
+        carShapeDef.material.friction = 0.5;//todo
+        carShapeDef.material.restitution = 0.9f;
+
+        if (side == LEFT) {
+            b2Polygon carRectangle = b2MakeOffsetBox(
+                        CAR_RECTANGLE_WIDTH / 2.0f, // half-width
+                        CAR_HEIGHT / 2.0f,          // half-height
+                        (b2Vec2){-(CAR_WIDTH-CAR_RECTANGLE_WIDTH)/2, 0.0f},
+                        b2MakeRot(0.0f)
+                    );
+            b2CreatePolygonShape(carBody, &carShapeDef, &carRectangle);
+
+            b2Circle carCircle = {{CAR_RECTANGLE_WIDTH/2 - (CAR_WIDTH-CAR_RECTANGLE_WIDTH)/2,0},CAR_HEIGHT/2};
+            b2CreateCircleShape(carBody, &carShapeDef, &carCircle);
+        }
+        else {
+            b2Polygon carRectangle = b2MakeOffsetBox(
+                        CAR_RECTANGLE_WIDTH / 2.0f, // half-width
+                        CAR_HEIGHT / 2.0f,          // half-height
+                        (b2Vec2){(CAR_WIDTH-CAR_RECTANGLE_WIDTH)/2, 0.0f},
+                        b2MakeRot(0.0f)
+                    );
+            b2CreatePolygonShape(carBody, &carShapeDef, &carRectangle);
+
+            b2Circle carCircle = {{-CAR_RECTANGLE_WIDTH/2 + (CAR_WIDTH-CAR_RECTANGLE_WIDTH)/2,0},CAR_HEIGHT/2};
+            b2CreateCircleShape(carBody, &carShapeDef, &carCircle);
+        }
+
 
         Entity carEntity = Entity::create();
         carEntity.addAll(
             Transform{{position},0},
             Intent{},
             Keys{keys},
-            Drawable{{tex}, {3, 3}, carsTex},
-            Collider{carBody}
+            Drawable{{tex}, {CAR_WIDTH, CAR_HEIGHT}, carsTex},
+            Collider{carBody},
+            StartingPosition{{position},0}
         );
     }
 
@@ -456,6 +483,29 @@ namespace football {
             }
         }
     }
+
+    void Football::reset_location_system() const
+    {
+        static const Mask mask = MaskBuilder()
+            .set<StartingPosition>()
+            .set<Transform>()
+            .set<Collider>()
+            .build();
+
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(mask)) {
+
+                auto& transform = World::getComponent<Transform>(e);
+                const auto& startPos = World::getComponent<StartingPosition>(e);
+                auto& body = World::getComponent<Collider>(e).body;
+
+                transform.position = startPos.position;
+                transform.angle = startPos.angle;
+                b2Body_SetTransform(body,{startPos.position.x,startPos.position.y},b2Body_GetRotation(body));
+            }
+        }
+    }
+
 
     void Football::run()
     {
