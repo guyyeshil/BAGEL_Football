@@ -457,8 +457,8 @@ namespace football {
 		.build();
 
 	const float forward_force = 300.0f;
-	const float backward_force = 150.0f;
-	const float turn_speed = 5.0f;
+	const float backward_force = 200.0f;
+	const float turn_speed = 8.0f;
 	const float max_speed = 15.0f;
 	const float turn_damping = 0.95f;
     b2Vec2 velocity;
@@ -469,7 +469,7 @@ namespace football {
     float effective_turn_speed;
     bool is_accelerating;
     bool is_steering;
-    const float min_steering_speed = 0.5f; //minimum speed needed for steering
+    const float min_steering_speed = 0.2f; //minimum speed needed for steering
     float forward_x;
     float forward_y;
     bool moving_forward;
