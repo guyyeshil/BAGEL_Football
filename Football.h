@@ -39,6 +39,10 @@ namespace football {
         void createDataBar() const;
         void createScoreFrame() const;
 
+        //debug:
+        inline static bool DEBUG_MODE = true;
+        void applyDebugFunctions()const;
+        void createDebugBox()const;
 
         //systems:
         static void input_system() ;
@@ -64,8 +68,11 @@ namespace football {
         static constexpr float	CAR_HEIGHT = 2.35;
         static constexpr float	CAR_WIDTH = 4.7;
                 //goals:
-        static constexpr float SIDE_BAR_WIDTH = 3.125;//FIELD_WIDTH * (1 / 24)
-        static constexpr float BACK_BAR_HEIGHT = 7.5;//FIELD_HEIGHT * (3 / 20)
+        static constexpr float SIDE_BAR_WIDTH = FIELD_WIDTH * (1 / 24.f);
+        static constexpr float BACK_BAR_HEIGHT = FIELD_HEIGHT * (2.3 / 16.f);
+        static constexpr float BACK_BAR_POS = FIELD_WIDTH * (1.85 / 24.f);
+        static constexpr float BAR_HALF_THICKNESS = 0.1;
+
 
             //Positions:
         SDL_FPoint ball_start_position = {FIELD_WIDTH/2, FIELD_HEIGHT/2};
@@ -83,6 +90,7 @@ namespace football {
         SDL_Texture* fieldTex;
         SDL_Texture* carsTex;
         SDL_Texture* scoreFrameTex;
+
 
         SDL_Renderer* ren;
         SDL_Window* win;
