@@ -19,9 +19,12 @@ namespace football {
 
         createField();
         createBall();
-        createCar(left_team_car_middle_start_position,BLUE_CAR_TEX,{SDL_SCANCODE_W, SDL_SCANCODE_S,SDL_SCANCODE_A, SDL_SCANCODE_D},LEFT);
-        createCar(right_team_car_middle_start_position,ORANGE_CAR_TEX,{SDL_SCANCODE_UP, SDL_SCANCODE_DOWN,SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT},RIGHT);
+        createCar(left_team_car_middle_start_position,BLUE_CAR_TEX,{SDL_SCANCODE_W, SDL_SCANCODE_S,SDL_SCANCODE_A, SDL_SCANCODE_D},LEFT,REGULAR_SIZE);
+        createCar(right_team_car_middle_start_position,ORANGE_CAR_TEX,{SDL_SCANCODE_UP, SDL_SCANCODE_DOWN,SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT},RIGHT,REGULAR_SIZE);
         createDataBar();
+        createPowerUp(size_up_boost_position,SIZE_UP_TEX,{true,false,true,{SDL_GetTicks(),0,false}});
+        createPowerUp(speed_up_boost_position,SPEED_UP_TEX,{false,true,true,{SDL_GetTicks(),0,false}});
+
 
         if(DEBUG_MODE)
         {
@@ -90,6 +93,19 @@ namespace football {
             return false;
         }
 
+        surf = IMG_Load("res/powerUps.png");
+        if (surf == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+
+        powerUpsTex = SDL_CreateTextureFromSurface(ren, surf);
+        if (powerUpsTex == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+
+
         SDL_DestroySurface(surf);
         return true;
     }
@@ -115,6 +131,8 @@ namespace football {
             SDL_DestroyTexture(fieldTex);
         if (scoreFrameTex != nullptr)
             SDL_DestroyTexture(scoreFrameTex);
+        if (powerUpsTex != nullptr)
+            SDL_DestroyTexture(powerUpsTex);
         if (ren != nullptr)
             SDL_DestroyRenderer(ren);
         if (win != nullptr)
@@ -153,7 +171,7 @@ namespace football {
         b2Body_SetUserData(ballBody, new ent_type{ballEntity.entity()});
     }
 
-    void Football::createCar(const SDL_FPoint& position, const SDL_FRect& tex, const Keys& keys, bool side) const
+    ent_type Football::createCar(const SDL_FPoint& position, const SDL_FRect& tex, const Keys& keys, bool side, float size_scale) const
     {
         b2BodyDef carBodyDef = b2DefaultBodyDef();
         carBodyDef.type = b2_dynamicBody;
@@ -167,29 +185,30 @@ namespace football {
         carShapeDef.density = 1;
         carShapeDef.material.friction = 0.5;//todo
         carShapeDef.material.restitution = 0.9f;
+        carShapeDef.enableSensorEvents = true;
 
         if (side == LEFT) {
             b2Polygon carRectangle = b2MakeOffsetBox(
-                        CAR_RECTANGLE_WIDTH / 2.0f, // half-width
-                        CAR_HEIGHT / 2.0f,          // half-height
-                        (b2Vec2){-(CAR_WIDTH-CAR_RECTANGLE_WIDTH)/2, 0.0f},
+                        CAR_RECTANGLE_WIDTH * size_scale / 2.0f, // half-width
+                        CAR_HEIGHT * size_scale / 2.0f,          // half-height
+                        (b2Vec2){-(CAR_WIDTH-CAR_RECTANGLE_WIDTH) * size_scale / 2, 0.0f},
                         b2MakeRot(0.0f)
                     );
             b2CreatePolygonShape(carBody, &carShapeDef, &carRectangle);
 
-            b2Circle carCircle = {{CAR_RECTANGLE_WIDTH/2 - (CAR_WIDTH-CAR_RECTANGLE_WIDTH)/2,0},CAR_HEIGHT/2};
+            b2Circle carCircle = {{CAR_RECTANGLE_WIDTH * size_scale/2 - (CAR_WIDTH-CAR_RECTANGLE_WIDTH) * size_scale/2,0},CAR_HEIGHT * size_scale/2};
             b2CreateCircleShape(carBody, &carShapeDef, &carCircle);
         }
         else {
             b2Polygon carRectangle = b2MakeOffsetBox(
-                        CAR_RECTANGLE_WIDTH / 2.0f, // half-width
-                        CAR_HEIGHT / 2.0f,          // half-height
-                        (b2Vec2){(CAR_WIDTH-CAR_RECTANGLE_WIDTH)/2, 0.0f},
+                        CAR_RECTANGLE_WIDTH * size_scale / 2.0f, // half-width
+                        CAR_HEIGHT * size_scale / 2.0f,          // half-height
+                        (b2Vec2){(CAR_WIDTH-CAR_RECTANGLE_WIDTH) * size_scale/2, 0.0f},
                         b2MakeRot(0.0f)
                     );
             b2CreatePolygonShape(carBody, &carShapeDef, &carRectangle);
 
-            b2Circle carCircle = {{-CAR_RECTANGLE_WIDTH/2 + (CAR_WIDTH-CAR_RECTANGLE_WIDTH)/2,0},CAR_HEIGHT/2};
+            b2Circle carCircle = {{-CAR_RECTANGLE_WIDTH * size_scale/2 + (CAR_WIDTH-CAR_RECTANGLE_WIDTH) * size_scale/2,0},CAR_HEIGHT * size_scale/2};
             b2CreateCircleShape(carBody, &carShapeDef, &carCircle);
         }
 
@@ -199,12 +218,44 @@ namespace football {
             Transform{{position},0},
             Intent{},
             Keys{keys},
-            Drawable{{tex}, {CAR_WIDTH, CAR_HEIGHT}, carsTex},
+            Drawable{{tex}, {CAR_WIDTH * size_scale, CAR_HEIGHT * size_scale}, carsTex},
             Collider{carBody},
+            Car{side},
             StartingPosition{{position},0}
         );
-        b2Body_SetFixedRotation(carBody,true);
+
+        b2Body_SetUserData(carBody, new ent_type{carEntity.entity()});
+        return carEntity.entity();
     }
+
+    void Football::createPowerUp(const SDL_FPoint &position, const SDL_FRect &tex, const PowerUp powerUp) const
+    {
+
+        b2BodyDef powerUpBodyDef = b2DefaultBodyDef();
+        powerUpBodyDef.type = b2_staticBody;
+        powerUpBodyDef.position = {position.x, position.y};
+
+        b2BodyId powerUpBody = b2CreateBody(boxWorld, &powerUpBodyDef);
+
+        b2ShapeDef powerUpShapeDef = b2DefaultShapeDef();
+        powerUpShapeDef.isSensor = true;
+        powerUpShapeDef.enableSensorEvents = true;
+        powerUpShapeDef.userData = nullptr;
+
+        b2Circle powerUpCircle = {{0,0},POWER_UP_CIRCLE_RADIUS};
+        b2CreateCircleShape(powerUpBody, &powerUpShapeDef, &powerUpCircle);
+
+        Entity powerUpEntity = Entity::create();
+        powerUpEntity.addAll(
+            Transform{{position}, 0.0f},
+            Drawable{{tex}, {POWER_UP_CIRCLE_RADIUS * 2, POWER_UP_CIRCLE_RADIUS * 2}, powerUpsTex},
+            PowerUp{powerUp}
+        );
+
+        b2Body_SetUserData(powerUpBody, new ent_type{powerUpEntity.entity()});
+
+    }
+
 
     void Football::createField() const
     {
@@ -608,6 +659,157 @@ namespace football {
         }
     }
 
+    void Football::pick_power_up_system() const
+    {
+        const auto se = b2World_GetSensorEvents(boxWorld);
+        static const Mask powerUpMask = MaskBuilder().set<PowerUp>().build();
+        static const Mask carMask = MaskBuilder().set<Car>().build();
+
+        for (int i = 0; i < se.endCount; ++i) {
+            b2BodyId powerUpBodyId = b2Shape_GetBody(se.beginEvents[i].sensorShapeId);
+            b2BodyId carBodyId = b2Shape_GetBody(se.beginEvents[i].visitorShapeId);
+            auto *powerUpEntity = static_cast<ent_type*>(b2Body_GetUserData(powerUpBodyId));
+            auto *carEntity = static_cast<ent_type*>(b2Body_GetUserData(carBodyId));
+
+            if (World::mask(*powerUpEntity).test(powerUpMask) && World::mask(*carEntity).test(carMask)) {
+
+                auto& powerUp = World::getComponent<PowerUp>(*powerUpEntity);
+
+                if (powerUp.available) {
+                    give_power_up(carBodyId,*carEntity,powerUp);
+                    disablePowerUp(powerUp,*powerUpEntity);
+                }
+            }
+        }
+    }
+
+    void Football:: give_power_up(b2BodyId carBodyId, ent_type carEntity, PowerUp powerUp) const
+    {
+        if (powerUp.bigger)
+            change_car_size(carBodyId,carEntity,BIGGER_SIZE);
+        if (powerUp.faster)
+            give_faster_power_up(carBodyId,carEntity);
+
+        World::addComponent(carEntity,CarryPowerUp{powerUp.bigger, powerUp.faster,{SDL_GetTicks(),POWER_UP_TIMER,false}});
+    }
+
+    void Football:: change_car_size(b2BodyId oldBody, bagel::ent_type oldEntityId, float size_scale) const
+    {
+        b2Vec2 pos = b2Body_GetPosition(oldBody);
+        b2Vec2 vel = b2Body_GetLinearVelocity(oldBody);
+        b2Rot angle = b2Body_GetTransform(oldBody).q;
+
+        float angleRadians = atan2(angle.s, angle.c);
+        float angleDegrees = angleRadians * RAD_TO_DEG;
+
+
+        auto& oldBodyTransform = World::getComponent<Transform>(oldEntityId);
+        auto & oldBodyIntent = World::getComponent<Intent>(oldEntityId);
+        auto& oldBodyDrawable = World::getComponent<Drawable>(oldEntityId);
+        auto& oldBodyKeys = World::getComponent<Keys>(oldEntityId);
+        auto& oldBodySide = World::getComponent<Car>(oldEntityId).side;
+        auto& oldBodyStartPos = World::getComponent<StartingPosition>(oldEntityId);
+
+
+        World::destroyEntity(oldEntityId);
+        delete static_cast<ent_type*>(b2Body_GetUserData(oldBody));
+        b2DestroyBody(oldBody);
+
+        ent_type newEntityId = createCar({pos.x, pos.y}, oldBodyDrawable.part, oldBodyKeys, oldBodySide, size_scale);
+
+        auto& newBodyTransform = World::getComponent<Transform>(newEntityId);
+        newBodyTransform = oldBodyTransform;
+        newBodyTransform.angle = angleDegrees;
+
+
+        auto& newBodyIntent = World::getComponent<Intent>(newEntityId);
+        newBodyIntent = oldBodyIntent;
+
+        auto& newBodyStartPos = World::getComponent<StartingPosition>(newEntityId);
+        newBodyStartPos = oldBodyStartPos;
+
+        auto& newBody = World::getComponent<Collider>(newEntityId).body;
+
+        b2Body_SetLinearVelocity(newBody, vel);
+        b2Body_SetTransform(newBody, pos, angle);
+    }
+
+    void Football:: give_faster_power_up(b2BodyId carBodyId, bagel::ent_type carEntity) const
+    {
+
+    }
+
+    void Football:: remove_faster_power_up(b2BodyId carBodyId, bagel::ent_type carEntity) const
+    {
+
+    }
+
+    void Football::remove_power_up_system() const
+    {
+        static const Mask carryPowerUpMask = MaskBuilder().set<CarryPowerUp>().build();
+
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(carryPowerUpMask)) {
+
+                auto& carryPowerUp = World::getComponent<CarryPowerUp>(e);
+                auto& bodyId = World::getComponent<Collider>(e).body;
+                auto& timer = carryPowerUp.time_remaining_timer;
+
+                if (SDL_GetTicks() - timer.start_time >= timer.time_remaining){
+                    if (carryPowerUp.bigger)
+                        change_car_size(bodyId,e,REGULAR_SIZE);
+                    if (carryPowerUp.faster)
+                        remove_faster_power_up(bodyId,e);
+                    World::delComponent<CarryPowerUp>(e);
+                }
+            }
+        }
+    }
+
+    void Football::update_power_up_timer_system() const {
+
+        static const Mask powerUpMask = MaskBuilder().set<PowerUp>().build();
+
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(powerUpMask)) {
+
+                auto& powerUp = World::getComponent<PowerUp>(e);
+                auto& timer = powerUp.time_out_timer;
+
+                if (!powerUp.available && SDL_GetTicks() - timer.start_time >= timer.time_remaining){
+                    enablePowerUp(powerUp, e);
+                }
+            }
+        }
+    }
+
+    void Football::enablePowerUp(PowerUp& powerUp, ent_type powerUpEntity) const
+    {
+        powerUp.available = true;
+
+        if (powerUp.bigger)
+            World::addComponent(powerUpEntity, Drawable{SIZE_UP_TEX,{POWER_UP_CIRCLE_RADIUS * 2, POWER_UP_CIRCLE_RADIUS * 2},powerUpsTex});
+        if (powerUp.faster)
+            World::addComponent(powerUpEntity, Drawable{SPEED_UP_TEX,{POWER_UP_CIRCLE_RADIUS * 2, POWER_UP_CIRCLE_RADIUS * 2},powerUpsTex});
+
+        cout << "powerUp enabled" << endl;
+    }
+
+    void Football::disablePowerUp(PowerUp& powerUp, ent_type powerUpEntity) const
+    {
+        powerUp.available = false;
+        powerUp.time_out_timer.start_time = SDL_GetTicks();
+        powerUp.time_out_timer.time_remaining = POWER_UP_TIME_OUT_TIMER;
+
+        World::delComponent<Drawable>(powerUpEntity);
+
+        cout << "powerUp disabled" << endl;
+    }
+
+
+
+
+
 
     void Football::run()
     {
@@ -630,6 +832,9 @@ namespace football {
             input_system();
             move_system();
             physic_system();
+            pick_power_up_system();
+            remove_power_up_system();
+            update_power_up_timer_system();
             //score_system();
 
             draw_system();

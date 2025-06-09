@@ -37,7 +37,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d1f489d-b4e0-479e-8e6b-42b9ed6fae6a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Football.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Football.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Football.h" beforeDir="false" afterPath="$PROJECT_DIR$/Football.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bagel.h" beforeDir="false" afterPath="$PROJECT_DIR$/bagel.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

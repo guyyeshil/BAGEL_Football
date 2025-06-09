@@ -9,6 +9,14 @@
 
 #endif //FOOTBALL_H
 
+namespace bagel {
+    class Entity;
+}
+
+namespace bagel {
+    struct ent_type;
+}
+
 namespace football {
 
     using Transform = struct { SDL_FPoint position; float angle; };
@@ -17,7 +25,11 @@ namespace football {
     using Keys = struct { SDL_Scancode up, down, left, right; };
     using Collider = struct { b2BodyId body; };
     using Ball = struct{};
+    using Car = struct{ bool side; };
     using StartingPosition = struct { SDL_FPoint position; float angle; };
+    using Timer = struct {Uint64 start_time;  float time_remaining; bool paused;};
+    using PowerUp = struct { bool bigger, faster, available; Timer time_out_timer; };
+    using CarryPowerUp = struct { bool bigger, faster; Timer time_remaining_timer; };
 
     class Football
     {
@@ -34,7 +46,8 @@ namespace football {
         void prepareBoxWorld();
         bool prepareWindowAndTexture();
         void createBall() const;
-        void createCar(const SDL_FPoint& position, const SDL_FRect& tex, const Keys& keys, bool side) const;
+        bagel::ent_type createCar(const SDL_FPoint& position, const SDL_FRect& tex, const Keys& keys, bool side, float size_scale) const;
+        void createPowerUp(const SDL_FPoint& position, const SDL_FRect& tex, const PowerUp powerUp) const;
         void createField() const;
         void createFieldBorders() const;
         void createLeftGoalBars() const;
@@ -54,6 +67,19 @@ namespace football {
         //void score_system() const;
         void draw_system() const;
         void reset_location_system() const;
+        void pick_power_up_system() const;
+        void remove_power_up_system() const;
+        void update_power_up_timer_system() const;
+        void give_power_up(b2BodyId carBodyId, bagel::ent_type e, PowerUp powerUp) const;
+        void change_car_size(b2BodyId carBodyId, bagel::ent_type e, float size_scale) const;
+        void give_faster_power_up(b2BodyId carBodyId, bagel::ent_type e) const;
+        void remove_faster_power_up(b2BodyId carBodyId, bagel::ent_type e) const;
+        void enablePowerUp(PowerUp& powerUp, bagel::ent_type powerUpEntity)const;
+        void disablePowerUp(PowerUp& powerUp, bagel::ent_type powerUpEntity)const;
+
+
+
+
 
 
         //Game Data:
@@ -72,6 +98,11 @@ namespace football {
         static constexpr float	CAR_HEIGHT = 1.9;
         static constexpr float	CAR_RECTANGLE_WIDTH = 2.9;
         static constexpr float	CAR_WIDTH = CAR_RECTANGLE_WIDTH + CAR_HEIGHT/2;
+        static constexpr float	REGULAR_SIZE = 1.0;
+        static constexpr float	BIGGER_SIZE = 1.3;
+        static constexpr float	POWER_UP_CIRCLE_RADIUS = 1.0;
+
+
 
                 //goals:
         static constexpr float SIDE_BAR_WIDTH = FIELD_WIDTH * (1 / 24.f);
@@ -88,6 +119,8 @@ namespace football {
         SDL_FPoint right_team_car_middle_start_position = {FIELD_WIDTH * 3/4, FIELD_HEIGHT/2};
         SDL_FPoint right_team_car_upper_start_position = {FIELD_WIDTH * 3/4, FIELD_HEIGHT/4};
         SDL_FPoint right_team_car_lower_start_position = {FIELD_WIDTH * 3/4, FIELD_HEIGHT * 3/4};
+        SDL_FPoint speed_up_boost_position = {FIELD_WIDTH/2, FIELD_HEIGHT * 3/4};
+        SDL_FPoint size_up_boost_position = {FIELD_WIDTH/2, FIELD_HEIGHT/4};
 
 
 
@@ -100,11 +133,15 @@ namespace football {
         static constexpr SDL_FRect ORANGE_CAR_TEX = {0, 1240, 1054, 512};
         static constexpr SDL_FRect FIELD_TEX = {0, 0, 681, 454};
         static constexpr SDL_FRect SCOUR_FRAME_TEX = {0, 0, 660, 403};
+        static constexpr SDL_FRect SPEED_UP_TEX = {0, 0, 1020, 1020};
+        static constexpr SDL_FRect SIZE_UP_TEX = {1040, 0, 1020, 1020};
+
 
         SDL_Texture* ballTex;
         SDL_Texture* fieldTex;
         SDL_Texture* carsTex;
         SDL_Texture* scoreFrameTex;
+        SDL_Texture* powerUpsTex;
 
 
         SDL_Renderer* ren;
@@ -113,5 +150,8 @@ namespace football {
 
         //Tools:
         static constexpr float	RAD_TO_DEG = 57.2958f;
+        static constexpr float	POWER_UP_TIME_OUT_TIMER = 10000.0f;
+        static constexpr float	POWER_UP_TIMER = 5000.0f;
+
     };
 }
