@@ -24,7 +24,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC SDL3-static)
 set(BUILD_SHARED_LIBS OFF)
 add_subdirectory(lib/SDL_image)
 target_link_libraries(${PROJECT_NAME} PUBLIC SDL3_image-static)
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL3 SDL3_image box2d)
 
 set(BOX2D_SAMPLES OFF)
 set(BOX2D_BENCHMARKS OFF)

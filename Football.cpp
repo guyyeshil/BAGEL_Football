@@ -667,7 +667,7 @@ namespace football {
 
         const float forward_force = 300.0f;
         const float backward_force = 150.0f;
-        const float turn_speed = 5.0f;
+        const float turn_speed = 15.0f;
         const float max_speed = 15.0f;
         const float turn_damping = 0.95f;
         b2Vec2 velocity;
