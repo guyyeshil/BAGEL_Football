@@ -194,7 +194,7 @@ namespace football {
         carBodyDef.position = {position.x, position.y};
 
         b2BodyId carBody = b2CreateBody(boxWorld, &carBodyDef);
-        b2Body_SetLinearDamping(carBody, 1.5f);//todo
+        b2Body_SetLinearDamping(carBody, 0.5f);//todo
 
         b2ShapeDef carShapeDef = b2DefaultShapeDef();
         carShapeDef.density = 1;
@@ -716,8 +716,8 @@ namespace football {
             .set<Transform>()
             .build();
 
-        const float forward_force = 300.0f;
-        const float backward_force = 150.0f;
+        const float forward_force = 175.0f;
+        const float backward_force = 45.0f;
         const float turn_speed = 15.0f;
         const float max_speed = 15.0f;
         const float turn_damping = 0.95f;
@@ -747,7 +747,7 @@ namespace football {
 
                 velocity = b2Body_GetLinearVelocity(collider.body);
                 current_speed = b2Length(velocity) / 10;
-                 if (is_steering && (is_accelerating || current_speed > min_steering_speed)) {
+                 if (is_steering && (current_speed > min_steering_speed)) {
                     if (current_speed > 0.1f) { //cant steer too slow
                         car_angle = transform.angle;
                         velocity_angle = std::atan2(velocity.y, velocity.x) * RAD_TO_DEG;
