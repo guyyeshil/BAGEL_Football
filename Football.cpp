@@ -22,6 +22,7 @@ namespace football {
         createCar({20,25},BLUE_CAR_TEX,{SDL_SCANCODE_W, SDL_SCANCODE_S,SDL_SCANCODE_A, SDL_SCANCODE_D});
         createCar({60,25},ORANGE_CAR_TEX,{SDL_SCANCODE_UP, SDL_SCANCODE_DOWN,SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT});
         createDataBar();
+        createGameTimer(); // ADD THIS LINE - Initialize timer
 
         if(DEBUG_MODE)
         {
@@ -89,6 +90,17 @@ namespace football {
             cout << SDL_GetError() << endl;
             return false;
         }
+        //timer
+        surf = IMG_Load("res/timeSprite.png");
+        if (surf == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+        digitTex = SDL_CreateTextureFromSurface(ren, surf);
+        if (digitTex == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
 
         SDL_DestroySurface(surf);
         return true;
@@ -119,6 +131,8 @@ namespace football {
             SDL_DestroyRenderer(ren);
         if (win != nullptr)
             SDL_DestroyWindow(win);
+        if (digitTex != nullptr)
+            SDL_DestroyTexture(digitTex);
 
         SDL_Quit();
     }
@@ -292,7 +306,7 @@ namespace football {
     {
         createDebugBox();
     }
-    
+
     void Football::createDebugBox() const
     {
         const float width = 2.0f;
@@ -355,6 +369,136 @@ namespace football {
                 Drawable{SCOUR_FRAME_TEX, {((WIN_HEIGHT/BOX_SCALE)-FIELD_HEIGHT-2)*(5/3.f), ((WIN_HEIGHT/BOX_SCALE)-FIELD_HEIGHT-2)}, scoreFrameTex}
         );
     }
+
+
+    SDL_FRect Football::getDigitTexture(int digit) const
+    {
+        switch(digit) {
+            case 0: return DIGIT_TEX_0;
+            case 1: return DIGIT_TEX_1;
+            case 2: return DIGIT_TEX_2;
+            case 3: return DIGIT_TEX_3;
+            case 4: return DIGIT_TEX_4;
+            case 5: return DIGIT_TEX_5;
+            case 6: return DIGIT_TEX_6;
+            case 7: return DIGIT_TEX_7;
+            case 8: return DIGIT_TEX_8;
+            case 9: return DIGIT_TEX_9;
+            default: return DIGIT_TEX_0;
+        }
+    }
+    //todo
+    //---------------------------------------------
+    void Football::createGameTimer() const
+    {
+        // Create timer entity
+        Entity timerEntity = Entity::create();
+        timerEntity.add(GameTimer{SDL_GetTicks(), GAME_DURATION_MS, true});
+
+        // Position timer to the right of the scoreboard
+        float scoreboard_center_x = (WIN_WIDTH/BOX_SCALE)/2.0f;
+        float scoreboard_width = ((WIN_HEIGHT/BOX_SCALE)-FIELD_HEIGHT-2)*(5/3.f);
+        float timer_start_x = scoreboard_center_x + (scoreboard_width/2.0f) + 3.0f; // 3 units to the right
+        float timer_y = FIELD_HEIGHT + ((WIN_HEIGHT/BOX_SCALE)-FIELD_HEIGHT)/2.0f;
+        float digit_width = 4.5f;  // Smaller digits
+        float digit_height = 5.5f;
+
+        // Minutes digit
+        Entity minutesEntity = Entity::create();
+        minutesEntity.addAll(
+            Transform{{timer_start_x, timer_y}, 0},
+            Drawable{DIGIT_TEX_2, {digit_width, digit_height}, digitTex},
+            TimerDigit{}  // Tag this as a timer digit
+        );
+
+        // // Colon
+        // Entity colonEntity = Entity::create();
+        // colonEntity.addAll(
+        //     Transform{{timer_start_x + digit_width + 0.2f, timer_y}, 0},
+        //     Drawable{COLON_TEX, {digit_width * 0.5f, digit_height}, digitTex}
+        // );
+        //
+        // Seconds tens digit
+        Entity secondsTensEntity = Entity::create();
+        secondsTensEntity.addAll(
+            Transform{{timer_start_x + digit_width * 1.7f, timer_y}, 0},
+            Drawable{DIGIT_TEX_3, {digit_width, digit_height}, digitTex},
+            TimerDigit{}  // Tag this as a timer digit
+        );
+
+        // Seconds ones digit
+        Entity secondsOnesEntity = Entity::create();
+        secondsOnesEntity.addAll(
+            Transform{{timer_start_x + digit_width * 2.7f, timer_y}, 0},
+            Drawable{DIGIT_TEX_0, {digit_width, digit_height}, digitTex},
+            TimerDigit{}  // Tag this as a timer digit
+        );
+    }
+
+    void Football::timer_system()
+    {
+        static const Mask timer_mask = MaskBuilder()
+            .set<GameTimer>()
+            .build();
+
+        static const Mask digit_mask = MaskBuilder()
+            .set<Transform>()
+            .set<Drawable>()
+            .set<TimerDigit>()  // Only entities with TimerDigit tag
+            .build();
+
+        // Find timer entity
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(timer_mask)) {
+                auto& gameTimer = World::getComponent<GameTimer>(e);
+
+                if (gameTimer.is_running) {
+                    Uint64 current_time = SDL_GetTicks();
+                    Uint64 elapsed_time = current_time - gameTimer.start_time;
+                    Uint64 remaining_time = 0;
+
+                    if (elapsed_time < gameTimer.game_duration_ms) {
+                        remaining_time = gameTimer.game_duration_ms - elapsed_time;
+                    } else {
+                        // Game time is up
+                        remaining_time = 0;
+                        gameTimer.is_running = false;
+                        cout << "Game time finished!" << endl;
+                    }
+
+                    // Convert remaining time to minutes and seconds
+                    Uint64 total_seconds = remaining_time / 1000;
+                    int minutes = total_seconds / 60;
+                    int seconds = total_seconds % 60;
+                    int seconds_tens = seconds / 10;
+                    int seconds_ones = seconds % 10;
+
+                    // Update timer digit entities
+                    int digit_index = 0;
+                    for (ent_type digit_e{0}; digit_e.id <= World::maxId().id; ++digit_e.id) {
+                        if (World::mask(digit_e).test(digit_mask)) {
+                            auto& drawable = World::getComponent<Drawable>(digit_e);
+
+                            switch(digit_index) {
+                                case 0: // Minutes
+                                    drawable.part = getDigitTexture(minutes);
+                                    break;
+                                case 1: // Seconds tens
+                                    drawable.part = getDigitTexture(seconds_tens);
+                                    break;
+                                case 2: // Seconds ones
+                                    drawable.part = getDigitTexture(seconds_ones);
+                                    break;
+                            }
+                            digit_index++;
+                        }
+                    }
+                }
+                break; // Only one timer entity expected
+            }
+        }
+    }
+    //---------------------------------------------
 
     void Football::draw_system() const
     {
@@ -458,7 +602,7 @@ namespace football {
 
 	const float forward_force = 300.0f;
 	const float backward_force = 200.0f;
-	const float turn_speed = 8.0f;
+	const float turn_speed = 15.0f;
 	const float max_speed = 15.0f;
 	const float turn_damping = 0.95f;
     b2Vec2 velocity;
@@ -579,6 +723,7 @@ namespace football {
             input_system();
             move_system();
             physic_system();
+            timer_system(); // ADD THIS LINE - Call timer system every frame
             //score_system();
 
             draw_system();
@@ -597,5 +742,4 @@ namespace football {
         }
     }
 }
-
 

@@ -38,6 +38,7 @@
     <list default="true" id="2d1f489d-b4e0-479e-8e6b-42b9ed6fae6a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Football.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Football.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Football.h" beforeDir="false" afterPath="$PROJECT_DIR$/Football.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,6 +142,11 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="box2d" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BAGEL" TARGET_NAME="box2d" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -171,7 +177,13 @@
       <workItem from="1749243450922" duration="2269000" />
       <workItem from="1749245790027" duration="3163000" />
       <workItem from="1749283102777" duration="5666000" />
-      <workItem from="1749297320602" duration="828000" />
+      <workItem from="1749297320602" duration="983000" />
+      <workItem from="1749499304293" duration="4798000" />
+      <workItem from="1749540459357" duration="6165000" />
+      <workItem from="1749559604075" duration="3510000" />
+      <workItem from="1749574745681" duration="970000" />
+      <workItem from="1749575848727" duration="84000" />
+      <workItem from="1749576150228" duration="2000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
