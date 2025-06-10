@@ -9,15 +9,28 @@
 
 #endif //FOOTBALL_H
 
-namespace bagel {
-    class Entity;
-}
-
-namespace bagel {
-    struct ent_type;
-}
-
 namespace football {
+    using GameTimer = struct {
+        uint64_t start_time;
+        uint64_t game_duration_ms;
+        bool is_running;
+    };
+    //tag to identify if digit
+    using TimerDigit = struct {};
+
+    static constexpr uint64_t GAME_DURATION_MS = 2 * 60 * 1000 + 30 * 1000; //2:30 minutes
+    //textures of digits
+    static constexpr SDL_FRect DIGIT_TEX_0 = {0, 0, 229, 417};
+    static constexpr SDL_FRect DIGIT_TEX_1 = {229, 0, 229, 417};
+    static constexpr SDL_FRect DIGIT_TEX_2 = {458, 0, 229, 417};
+    static constexpr SDL_FRect DIGIT_TEX_3 = {687, 0, 229, 417};
+    static constexpr SDL_FRect DIGIT_TEX_4 = {916, 0, 229, 417};
+    static constexpr SDL_FRect DIGIT_TEX_5 = {0, 417, 229, 417};
+    static constexpr SDL_FRect DIGIT_TEX_6 = {229, 417, 229, 417};
+    static constexpr SDL_FRect DIGIT_TEX_7 = {458, 417, 229, 417};
+    static constexpr SDL_FRect DIGIT_TEX_8 = {686, 417, 229, 417};
+    static constexpr SDL_FRect DIGIT_TEX_9 = {916, 417, 229, 417};
+    // static constexpr SDL_FRect COLON_TEX = {320, 0, 16, 417};
 
     using Transform = struct { SDL_FPoint position; float angle; };
     using Drawable = struct { SDL_FRect part; SDL_FPoint size; SDL_Texture* tex; };
@@ -45,6 +58,7 @@ namespace football {
     private:
         void prepareBoxWorld();
         bool prepareWindowAndTexture();
+        void gameSetupPrams();
         void createBall() const;
         bagel::ent_type createCar(const SDL_FPoint& position, const SDL_FRect& tex, const Keys& keys, bool side, float size_scale) const;
         void createPowerUp(const SDL_FPoint& position, const SDL_FRect& tex, const PowerUp powerUp) const;
@@ -52,12 +66,16 @@ namespace football {
         void createFieldBorders() const;
         void createLeftGoalBars() const;
         void createRightGoalBars() const;
+        void createGoalSensor(bool isLeftGoal) const;
         void createDataBar() const;
         void createScoreFrame() const;
 
         //debug:
-        inline static bool DEBUG_MODE = true;
+        inline static bool DEBUG_MODE = false;
         void applyDebugFunctions()const;
+        void consolePrintDebugData()const;
+        void renderDebugFunctions() const;
+        void drawSensorDebug(const float xPos, const float yPos, const float width, const float height) const;
         void createDebugBox()const;
 
         //systems:
@@ -67,6 +85,10 @@ namespace football {
         //void score_system() const;
         void draw_system() const;
         void reset_location_system() const;
+        //timer
+        void createGameTimer() const;
+        void timer_system();
+        SDL_FRect getDigitTexture(int digit) const;
         void pick_power_up_system() const;
         void remove_power_up_system() const;
         void update_power_up_timer_system() const;
@@ -90,6 +112,9 @@ namespace football {
 
         static constexpr float	BOX_SCALE = 16;
         b2WorldId boxWorld = b2_nullWorldId;
+        int LeftTeamScore = 0;
+        int RightTeamScore = 0;
+
 
             //Physical System Sizes:
         static constexpr float	BALL_RADIUS = 0.75;
@@ -141,8 +166,8 @@ namespace football {
         SDL_Texture* fieldTex;
         SDL_Texture* carsTex;
         SDL_Texture* scoreFrameTex;
-        SDL_Texture* powerUpsTex;
-
+        //with digit to draw
+        SDL_Texture* digitTex;
 
         SDL_Renderer* ren;
         SDL_Window* win;
@@ -150,6 +175,10 @@ namespace football {
 
         //Tools:
         static constexpr float	RAD_TO_DEG = 57.2958f;
+        static constexpr const char* senGoalLeftText = "BallEnterToLeftGoal";
+        static constexpr const char* senGoalRightText = "BallEnterToLeftGoal";
+
+
         static constexpr float	POWER_UP_TIME_OUT_TIMER = 10000.0f;
         static constexpr float	POWER_UP_TIMER = 5000.0f;
 

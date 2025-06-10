@@ -25,9 +25,9 @@ namespace football {
         createPowerUp(size_up_boost_position,SIZE_UP_TEX,{true,false,true,{SDL_GetTicks(),0,false}});
         createPowerUp(speed_up_boost_position,SPEED_UP_TEX,{false,true,true,{SDL_GetTicks(),0,false}});
 
+        createGameTimer(); // ADD THIS LINE - Initialize timer
 
-        if(DEBUG_MODE)
-        {
+        if (DEBUG_MODE) {
             applyDebugFunctions();
         }
     }
@@ -92,6 +92,17 @@ namespace football {
             cout << SDL_GetError() << endl;
             return false;
         }
+        //timer
+        surf = IMG_Load("res/timeSprite.png");
+        if (surf == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+        digitTex = SDL_CreateTextureFromSurface(ren, surf);
+        if (digitTex == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
 
         surf = IMG_Load("res/powerUps.png");
         if (surf == nullptr) {
@@ -110,17 +121,20 @@ namespace football {
         return true;
     }
 
-    Football::Football()
-    {
+    void Football::gameSetupPrams() {
+        LeftTeamScore = 0;
+        RightTeamScore = 0;
+    }
+
+    Football::Football() {
         if (!prepareWindowAndTexture())
             return;
         SDL_srand(time(nullptr));
-
+        gameSetupPrams();
         prepareBoxWorld();
     }
 
-    Football::~Football()
-    {
+    Football::~Football() {
         if (b2World_IsValid(boxWorld))
             b2DestroyWorld(boxWorld);
         if (ballTex != nullptr)
@@ -137,12 +151,13 @@ namespace football {
             SDL_DestroyRenderer(ren);
         if (win != nullptr)
             SDL_DestroyWindow(win);
+        if (digitTex != nullptr)
+            SDL_DestroyTexture(digitTex);
 
         SDL_Quit();
     }
 
-    void Football::createBall() const
-    {
+    void Football::createBall() const {
         b2BodyDef ballBodyDef = b2DefaultBodyDef();
         ballBodyDef.type = b2_dynamicBody;
         ballBodyDef.fixedRotation = false;
@@ -153,7 +168,7 @@ namespace football {
         ballShapeDef.density = 0.5;
         ballShapeDef.material.friction = 0.5;//todo
         ballShapeDef.material.restitution = 0.8f;
-        b2Circle ballCircle = {{0,0},BALL_RADIUS};
+        b2Circle ballCircle = {{0, 0}, BALL_RADIUS};
 
         b2BodyId ballBody = b2CreateBody(boxWorld, &ballBodyDef);
         b2Body_SetLinearDamping(ballBody, 1.5f);//todo
@@ -198,8 +213,7 @@ namespace football {
 
             b2Circle carCircle = {{CAR_RECTANGLE_WIDTH * size_scale/2 - (CAR_WIDTH-CAR_RECTANGLE_WIDTH) * size_scale/2,0},CAR_HEIGHT * size_scale/2};
             b2CreateCircleShape(carBody, &carShapeDef, &carCircle);
-        }
-        else {
+        } else {
             b2Polygon carRectangle = b2MakeOffsetBox(
                         CAR_RECTANGLE_WIDTH * size_scale / 2.0f, // half-width
                         CAR_HEIGHT * size_scale / 2.0f,          // half-height
@@ -257,13 +271,12 @@ namespace football {
     }
 
 
-    void Football::createField() const
-    {
-        SDL_FRect FieldPosition = {FIELD_WIDTH/2,FIELD_HEIGHT/2,0,0};
+    void Football::createField() const {
+        SDL_FRect FieldPosition = {FIELD_WIDTH / 2, FIELD_HEIGHT / 2, 0, 0};
 
         Entity::create().addAll(
-            Transform{{FieldPosition.x,FieldPosition.y},0},
-            Drawable{FIELD_TEX, {FIELD_WIDTH, FIELD_HEIGHT}, fieldTex}
+                Transform{{FieldPosition.x, FieldPosition.y}, 0},
+                Drawable{FIELD_TEX, {FIELD_WIDTH, FIELD_HEIGHT}, fieldTex}
         );
 
         createFieldBorders();
@@ -271,8 +284,7 @@ namespace football {
         createRightGoalBars();
     }
 
-    void Football::createFieldBorders() const
-    {
+    void Football::createFieldBorders() const {
         b2ShapeDef borderShapeDef = b2DefaultShapeDef();
         borderShapeDef.density = 1;
         borderShapeDef.material.friction = 0.6f;
@@ -306,71 +318,120 @@ namespace football {
         b2CreatePolygonShape(leftBorderBody, &borderShapeDef, &HeightBorder);
     }
 
-    void Football::createLeftGoalBars() const
-    {
+    void Football::createLeftGoalBars() const {
         b2ShapeDef barShapeDef = b2DefaultShapeDef();
         barShapeDef.density = 1;
         barShapeDef.material.friction = 0.6f;
         barShapeDef.material.restitution = 0.1f;
 
-        b2Polygon leftBar = b2MakeBox(SIDE_BAR_WIDTH/2, BAR_HALF_THICKNESS);
-        b2Polygon rightBar = b2MakeBox(SIDE_BAR_WIDTH/2, BAR_HALF_THICKNESS);
-        b2Polygon backBar = b2MakeBox(BAR_HALF_THICKNESS, BACK_BAR_HEIGHT/2);
+        b2Polygon leftBar = b2MakeBox(SIDE_BAR_WIDTH / 2, BAR_HALF_THICKNESS);
+        b2Polygon rightBar = b2MakeBox(SIDE_BAR_WIDTH / 2, BAR_HALF_THICKNESS);
+        b2Polygon backBar = b2MakeBox(BAR_HALF_THICKNESS, BACK_BAR_HEIGHT / 2);
 
         b2BodyDef backBarBodyDef = b2DefaultBodyDef();
         backBarBodyDef.type = b2_staticBody;
-        backBarBodyDef.position = {BACK_BAR_POS - BAR_HALF_THICKNESS, FIELD_HEIGHT/2};
+        backBarBodyDef.position = {BACK_BAR_POS - BAR_HALF_THICKNESS, FIELD_HEIGHT / 2};
         b2BodyId backBarBody = b2CreateBody(boxWorld, &backBarBodyDef);
         b2CreatePolygonShape(backBarBody, &barShapeDef, &backBar);
 
         b2BodyDef leftBarBodyDef = b2DefaultBodyDef();
         leftBarBodyDef.type = b2_staticBody;
-        leftBarBodyDef.position = {BACK_BAR_POS + (SIDE_BAR_WIDTH/2) +BAR_HALF_THICKNESS, FIELD_HEIGHT/2 - BACK_BAR_HEIGHT/2 - BAR_HALF_THICKNESS };
+        leftBarBodyDef.position = {BACK_BAR_POS + (SIDE_BAR_WIDTH / 2) + BAR_HALF_THICKNESS,
+                                   FIELD_HEIGHT / 2 - BACK_BAR_HEIGHT / 2 - BAR_HALF_THICKNESS};
         b2BodyId leftBarBody = b2CreateBody(boxWorld, &leftBarBodyDef);
         b2CreatePolygonShape(leftBarBody, &barShapeDef, &leftBar);
 
         b2BodyDef rightBarBodyDef = b2DefaultBodyDef();
         rightBarBodyDef.type = b2_staticBody;
-        rightBarBodyDef.position = {BACK_BAR_POS + (SIDE_BAR_WIDTH/2) + BAR_HALF_THICKNESS, FIELD_HEIGHT/2 + BACK_BAR_HEIGHT/2 + BAR_HALF_THICKNESS };
+        rightBarBodyDef.position = {BACK_BAR_POS + (SIDE_BAR_WIDTH / 2) + BAR_HALF_THICKNESS,
+                                    FIELD_HEIGHT / 2 + BACK_BAR_HEIGHT / 2 + BAR_HALF_THICKNESS};
         b2BodyId rightBarBody = b2CreateBody(boxWorld, &rightBarBodyDef);
         b2CreatePolygonShape(rightBarBody, &barShapeDef, &rightBar);
+
+        createGoalSensor(true);
     }
 
-    void Football::createRightGoalBars() const
-    {
+    void Football::createRightGoalBars() const {
         b2ShapeDef barShapeDef = b2DefaultShapeDef();
         barShapeDef.density = 1;
         barShapeDef.material.friction = 0.6f;
         barShapeDef.material.restitution = 0.1f;
 
-        b2Polygon leftBar = b2MakeBox(SIDE_BAR_WIDTH/2, BAR_HALF_THICKNESS);
-        b2Polygon rightBar = b2MakeBox(SIDE_BAR_WIDTH/2, BAR_HALF_THICKNESS);
-        b2Polygon backBar = b2MakeBox(BAR_HALF_THICKNESS, BACK_BAR_HEIGHT/2);
+        b2Polygon leftBar = b2MakeBox(SIDE_BAR_WIDTH / 2, BAR_HALF_THICKNESS);
+        b2Polygon rightBar = b2MakeBox(SIDE_BAR_WIDTH / 2, BAR_HALF_THICKNESS);
+        b2Polygon backBar = b2MakeBox(BAR_HALF_THICKNESS, BACK_BAR_HEIGHT / 2);
 
         b2BodyDef backBarBodyDef = b2DefaultBodyDef();
         backBarBodyDef.type = b2_staticBody;
-        backBarBodyDef.position = {FIELD_WIDTH - BACK_BAR_POS + BAR_HALF_THICKNESS, FIELD_HEIGHT/2};
+        backBarBodyDef.position = {FIELD_WIDTH - BACK_BAR_POS + BAR_HALF_THICKNESS, FIELD_HEIGHT / 2};
         b2BodyId backBarBody = b2CreateBody(boxWorld, &backBarBodyDef);
         b2CreatePolygonShape(backBarBody, &barShapeDef, &backBar);
 
         b2BodyDef leftBarBodyDef = b2DefaultBodyDef();
         leftBarBodyDef.type = b2_staticBody;
-        leftBarBodyDef.position = {FIELD_WIDTH - BACK_BAR_POS - BAR_HALF_THICKNESS - (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 - BAR_HALF_THICKNESS - BACK_BAR_HEIGHT/2 };
+        leftBarBodyDef.position = {FIELD_WIDTH - BACK_BAR_POS - BAR_HALF_THICKNESS - (SIDE_BAR_WIDTH / 2),
+                                   FIELD_HEIGHT / 2 - BAR_HALF_THICKNESS - BACK_BAR_HEIGHT / 2};
         b2BodyId leftBarBody = b2CreateBody(boxWorld, &leftBarBodyDef);
         b2CreatePolygonShape(leftBarBody, &barShapeDef, &leftBar);
 
         b2BodyDef rightBarBodyDef = b2DefaultBodyDef();
         rightBarBodyDef.type = b2_staticBody;
-        rightBarBodyDef.position = {FIELD_WIDTH - BACK_BAR_POS - BAR_HALF_THICKNESS - (SIDE_BAR_WIDTH/2), FIELD_HEIGHT/2 + BAR_HALF_THICKNESS + BACK_BAR_HEIGHT/2 };
+        rightBarBodyDef.position = {FIELD_WIDTH - BACK_BAR_POS - BAR_HALF_THICKNESS - (SIDE_BAR_WIDTH / 2),
+                                    FIELD_HEIGHT / 2 + BAR_HALF_THICKNESS + BACK_BAR_HEIGHT / 2};
         b2BodyId rightBarBody = b2CreateBody(boxWorld, &rightBarBodyDef);
         b2CreatePolygonShape(rightBarBody, &barShapeDef, &rightBar);
+
+        createGoalSensor(false);
     }
 
-    void Football::applyDebugFunctions() const
-    {
+    void Football::createGoalSensor(const bool isLeftGoal) const {
+        b2BodyDef sensorDef = b2DefaultBodyDef();
+        sensorDef.type = b2_staticBody;
+
+        const float xPos = isLeftGoal ?
+                           (BACK_BAR_POS + BAR_HALF_THICKNESS * 2) :
+                           (FIELD_WIDTH - BACK_BAR_POS - BAR_HALF_THICKNESS * 2);
+
+        const float yPos = FIELD_HEIGHT / 2;
+        sensorDef.position = {xPos, yPos};
+
+        b2BodyId sensorBody = b2CreateBody(boxWorld, &sensorDef);
+
+        b2Polygon sensorShape = b2MakeBox(
+                0.05f,
+                (BACK_BAR_HEIGHT / 2)
+        );
+
+        b2ShapeDef sensorShapeDef = b2DefaultShapeDef();
+        sensorShapeDef.isSensor = true;
+        sensorShapeDef.enableSensorEvents = true;
+
+        b2Filter filter;
+        filter.categoryBits = 0x0002;
+        filter.maskBits = 0x0001;
+        sensorShapeDef.filter = filter;
+
+        b2ShapeId sensorShapeId = b2CreatePolygonShape(
+                sensorBody,
+                &sensorShapeDef,
+                &sensorShape
+        );
+
+        if (isLeftGoal)
+            b2Shape_SetUserData(sensorShapeId, (void *) senGoalLeftText);
+        else
+            b2Shape_SetUserData(sensorShapeId, (void *) senGoalRightText);
+    }
+
+    void Football::applyDebugFunctions() const {
         createDebugBox();
     }
-    
+
+    void Football::renderDebugFunctions() const
+    {
+        drawSensorDebug((BACK_BAR_POS + BAR_HALF_THICKNESS * 2), FIELD_HEIGHT / 2, 0.05f, (BACK_BAR_HEIGHT / 2));
+    }
+
     void Football::createDebugBox() const
     {
         const float width = 2.0f;
@@ -418,6 +479,25 @@ namespace football {
         );
     }
 
+    void Football::drawSensorDebug(const float xPos, const float yPos, const float width, const float height) const
+    {
+        SDL_SetRenderDrawBlendMode(ren, SDL_BLENDMODE_BLEND);
+        SDL_SetRenderDrawColor(ren, 255, 0, 0, 100); // אדום שקוף
+
+        SDL_FRect sensorRect = {
+                xPos * BOX_SCALE - width * BOX_SCALE / 2,
+                yPos * BOX_SCALE - height * BOX_SCALE / 2,
+                width * BOX_SCALE,
+                height * BOX_SCALE
+        };
+        cout << "pixel loc (" << sensorRect.x <<"," << sensorRect.y <<")" << endl;
+        SDL_RenderFillRect(ren, &sensorRect);
+    }
+
+
+    void Football::consolePrintDebugData() const {
+        cout << "Score Game " << LeftTeamScore << ":" << RightTeamScore << endl;
+    }
 
     void Football::createDataBar() const
     {
@@ -434,28 +514,130 @@ namespace football {
         );
     }
 
-    void Football::draw_system() const
+    SDL_FRect Football::getDigitTexture(int digit) const
     {
-        static const Mask mask = MaskBuilder()
-            .set<Transform>()
-            .set<Drawable>()
-            .build();
+        switch(digit) {
+            case 0: return DIGIT_TEX_0;
+            case 1: return DIGIT_TEX_1;
+            case 2: return DIGIT_TEX_2;
+            case 3: return DIGIT_TEX_3;
+            case 4: return DIGIT_TEX_4;
+            case 5: return DIGIT_TEX_5;
+            case 6: return DIGIT_TEX_6;
+            case 7: return DIGIT_TEX_7;
+            case 8: return DIGIT_TEX_8;
+            case 9: return DIGIT_TEX_9;
+            default: return DIGIT_TEX_0;
+        }
+    }
+    //todo
+    //---------------------------------------------
+    void Football::createGameTimer() const
+    {
+        // Create timer entity
+        Entity timerEntity = Entity::create();
+        timerEntity.add(GameTimer{SDL_GetTicks(), GAME_DURATION_MS, true});
 
-        SDL_RenderClear(ren);
+        // Position timer to the right of the scoreboard
+        float scoreboard_center_x = (WIN_WIDTH/BOX_SCALE)/2.0f;
+        float scoreboard_width = ((WIN_HEIGHT/BOX_SCALE)-FIELD_HEIGHT-2)*(5/3.f);
+        float timer_start_x = scoreboard_center_x + (scoreboard_width/2.0f) + 3.0f; // 3 units to the right
+        float timer_y = FIELD_HEIGHT + ((WIN_HEIGHT/BOX_SCALE)-FIELD_HEIGHT)/2.0f;
+        float digit_width = 4.5f;  // Smaller digits
+        float digit_height = 5.5f;
 
+        // Minutes digit
+        Entity minutesEntity = Entity::create();
+        minutesEntity.addAll(
+                Transform{{timer_start_x, timer_y}, 0},
+                Drawable{DIGIT_TEX_2, {digit_width, digit_height}, digitTex},
+                TimerDigit{}  // Tag this as a timer digit
+        );
+
+        // // Colon
+        // Entity colonEntity = Entity::create();
+        // colonEntity.addAll(
+        //     Transform{{timer_start_x + digit_width + 0.2f, timer_y}, 0},
+        //     Drawable{COLON_TEX, {digit_width * 0.5f, digit_height}, digitTex}
+        // );
+        //
+        // Seconds tens digit
+        Entity secondsTensEntity = Entity::create();
+        secondsTensEntity.addAll(
+                Transform{{timer_start_x + digit_width * 1.7f, timer_y}, 0},
+                Drawable{DIGIT_TEX_3, {digit_width, digit_height}, digitTex},
+                TimerDigit{}  // Tag this as a timer digit
+        );
+
+        // Seconds ones digit
+        Entity secondsOnesEntity = Entity::create();
+        secondsOnesEntity.addAll(
+                Transform{{timer_start_x + digit_width * 2.7f, timer_y}, 0},
+                Drawable{DIGIT_TEX_0, {digit_width, digit_height}, digitTex},
+                TimerDigit{}  // Tag this as a timer digit
+        );
+    }
+
+    void Football::timer_system()
+    {
+        static const Mask timer_mask = MaskBuilder()
+                .set<GameTimer>()
+                .build();
+
+        static const Mask digit_mask = MaskBuilder()
+                .set<Transform>()
+                .set<Drawable>()
+                .set<TimerDigit>()  // Only entities with TimerDigit tag
+                .build();
+
+        // Find timer entity
         for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
-            if (World::mask(e).test(mask)) {
-                const auto& draw = World::getComponent<Drawable>(e);
-                const auto& transform = World::getComponent<Transform>(e);
+            if (World::mask(e).test(timer_mask)) {
+                auto& gameTimer = World::getComponent<GameTimer>(e);
 
-                const SDL_FRect dst = {
-                    (transform.position.x - draw.size.x/2) * BOX_SCALE,
-                    (transform.position.y - draw.size.y/2) * BOX_SCALE,
-                    draw.size.x * BOX_SCALE, draw.size.y * BOX_SCALE};
+                if (gameTimer.is_running) {
+                    Uint64 current_time = SDL_GetTicks();
+                    Uint64 elapsed_time = current_time - gameTimer.start_time;
+                    Uint64 remaining_time = 0;
 
-                SDL_RenderTextureRotated(
-                    ren, draw.tex, &draw.part, &dst, transform.angle,
-                    nullptr, SDL_FLIP_NONE);
+                    if (elapsed_time < gameTimer.game_duration_ms) {
+                        remaining_time = gameTimer.game_duration_ms - elapsed_time;
+                    } else {
+                        // Game time is up
+                        remaining_time = 0;
+                        gameTimer.is_running = false;
+                        cout << "Game time finished!" << endl;
+                    }
+
+                    // Convert remaining time to minutes and seconds
+                    Uint64 total_seconds = remaining_time / 1000;
+                    int minutes = total_seconds / 60;
+                    int seconds = total_seconds % 60;
+                    int seconds_tens = seconds / 10;
+                    int seconds_ones = seconds % 10;
+
+                    // Update timer digit entities
+                    int digit_index = 0;
+                    for (ent_type digit_e{0}; digit_e.id <= World::maxId().id; ++digit_e.id) {
+                        if (World::mask(digit_e).test(digit_mask)) {
+                            auto& drawable = World::getComponent<Drawable>(digit_e);
+
+                            switch(digit_index) {
+                                case 0: // Minutes
+                                    drawable.part = getDigitTexture(minutes);
+                                    break;
+                                case 1: // Seconds tens
+                                    drawable.part = getDigitTexture(seconds_tens);
+                                    break;
+                                case 2: // Seconds ones
+                                    drawable.part = getDigitTexture(seconds_ones);
+                                    break;
+                            }
+                            digit_index++;
+                        }
+                    }
+                }
+                break; // Only one timer entity expected
             }
         }
 
@@ -527,93 +709,95 @@ namespace football {
     }
 
     void Football::move_system()
-{
-	static const Mask mask = MaskBuilder()
-		.set<Intent>()
-		.set<Collider>()
-		.set<Transform>()
-		.build();
+    {
+        static const Mask mask = MaskBuilder()
+            .set<Intent>()
+            .set<Collider>()
+            .set<Transform>()
+            .build();
 
-	const float forward_force = 300.0f;
-	const float backward_force = 150.0f;
-	const float turn_speed = 5.0f;
-	const float max_speed = 15.0f;
-	const float turn_damping = 0.95f;
-    b2Vec2 velocity;
-	float current_speed;
-    float steering_input;
-    float angle_change;
-    float angle_rad;
-    float effective_turn_speed;
-    bool is_accelerating;
-    bool is_steering;
-    const float min_steering_speed = 0.5f; //minimum speed needed for steering
-    float forward_x;
-    float forward_y;
-    bool moving_forward;
-    float car_angle;
-    float velocity_angle;
+        const float forward_force = 300.0f;
+        const float backward_force = 150.0f;
+        const float turn_speed = 15.0f;
+        const float max_speed = 15.0f;
+        const float turn_damping = 0.95f;
+        b2Vec2 velocity;
+        float current_speed;
+        float steering_input;
+        float angle_change;
+        float angle_rad;
+        float effective_turn_speed;
+        bool is_accelerating;
+        bool is_steering;
+        const float min_steering_speed = 0.5f; //minimum speed needed for steering
+        float forward_x;
+        float forward_y;
+        bool moving_forward;
+        float car_angle;
+        float velocity_angle;
 
-    b2Vec2 force;
-    for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
-		if (World::mask(e).test(mask)) {
-            const auto& intent = World::getComponent<Intent>(e);
-			const auto& collider = World::getComponent<Collider>(e);
-			auto& transform = World::getComponent<Transform>(e);
-            is_accelerating = (intent.up && !intent.down) || (intent.down && !intent.up);
-            is_steering = intent.left ^ intent.right;
+        b2Vec2 force;
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(mask)) {
+                const auto& intent = World::getComponent<Intent>(e);
+                const auto& collider = World::getComponent<Collider>(e);
+                auto& transform = World::getComponent<Transform>(e);
+                is_accelerating = (intent.up && !intent.down) || (intent.down && !intent.up);
+                is_steering = intent.left ^ intent.right;
 
-            velocity = b2Body_GetLinearVelocity(collider.body);
-			current_speed = b2Length(velocity) / 10;
-             if (is_steering && (is_accelerating || current_speed > min_steering_speed)) {
-                if (current_speed > 0.1f) { //cant steer too slow
-                    car_angle = transform.angle;
-                    velocity_angle = std::atan2(velocity.y, velocity.x) * RAD_TO_DEG;
-                    if (velocity_angle < 0) velocity_angle += 360.0f;
-                    float angle_diff = std::abs(velocity_angle - car_angle);
-                if (angle_diff > 180.0f) angle_diff = 360.0f - angle_diff;
-                //if the difference between angle car pointing to velocity <= 90 -> moving forward
-                moving_forward = (angle_diff <= 90.0f);
-            }
-            if ((moving_forward && intent.right) || (!moving_forward && intent.left)) {
-                steering_input = 1;
-            }
-             else {
-                 steering_input = -1;
-             }
-            current_speed = current_speed / 10.0f;
-            effective_turn_speed = turn_speed * current_speed;
-            angle_change = steering_input * effective_turn_speed;
-            transform.angle += angle_change;
-            if (transform.angle > 360.0f) transform.angle -= 360.0f;
-            if (transform.angle < 0.0f) transform.angle += 360.0f;
-            //update physics body rotation
-            angle_rad = transform.angle / RAD_TO_DEG;
-            b2Body_SetTransform(
-                collider.body,
-                b2Body_GetPosition(collider.body),
-                b2MakeRot(angle_rad)
-            );
-        }
-
-            if (is_accelerating) {
-                force = {0.0f, 0.0f};
-				angle_rad = transform.angle / RAD_TO_DEG;
-				forward_x = std::cos(angle_rad);
-				forward_y = std::sin(angle_rad);
-                if (intent.up) {
-                    force.x = forward_x * forward_force;
-                    force.y = forward_y * forward_force;
-                } else {
-                    force.x = forward_x * backward_force * -1.0f;
-                    force.y = forward_y * backward_force* -1.0f;
+                velocity = b2Body_GetLinearVelocity(collider.body);
+                current_speed = b2Length(velocity) / 10;
+                 if (is_steering && (is_accelerating || current_speed > min_steering_speed)) {
+                    if (current_speed > 0.1f) { //cant steer too slow
+                        car_angle = transform.angle;
+                        velocity_angle = std::atan2(velocity.y, velocity.x) * RAD_TO_DEG;
+                        if (velocity_angle < 0) velocity_angle += 360.0f;
+                        float angle_diff = std::abs(velocity_angle - car_angle);
+                    if (angle_diff > 180.0f) angle_diff = 360.0f - angle_diff;
+                    //if the difference between angle car pointing to velocity <= 90 -> moving forward
+                    moving_forward = (angle_diff <= 90.0f);
                 }
-                b2Body_ApplyForceToCenter(collider.body, force, true);
+                if ((moving_forward && intent.right) || (!moving_forward && intent.left)) {
+                    steering_input = 1;
+                }
+
+                else {
+                     steering_input = -1;
+                 }
+
+                current_speed = current_speed / 10.0f;
+                effective_turn_speed = turn_speed * current_speed;
+                angle_change = steering_input * effective_turn_speed;
+                transform.angle += angle_change;
+                if (transform.angle > 360.0f) transform.angle -= 360.0f;
+                if (transform.angle < 0.0f) transform.angle += 360.0f;
+                //update physics body rotation
+                angle_rad = transform.angle / RAD_TO_DEG;
+                b2Body_SetTransform(
+                    collider.body,
+                    b2Body_GetPosition(collider.body),
+                    b2MakeRot(angle_rad)
+                );
             }
 
+                if (is_accelerating) {
+                    force = {0.0f, 0.0f};
+                    angle_rad = transform.angle / RAD_TO_DEG;
+                    forward_x = std::cos(angle_rad);
+                    forward_y = std::sin(angle_rad);
+                    if (intent.up) {
+                        force.x = forward_x * forward_force;
+                        force.y = forward_y * forward_force;
+                    } else {
+                        force.x = forward_x * backward_force * -1.0f;
+                        force.y = forward_y * backward_force* -1.0f;
+                    }
+                    b2Body_ApplyForceToCenter(collider.body, force, true);
+                }
+
+            }
         }
     }
-}
 
 
     void Football::physic_system() const
@@ -635,6 +819,58 @@ namespace football {
                 };
             }
         }
+    }
+
+    void Football::score_system()
+    {
+        const auto sensorE = b2World_GetSensorEvents(boxWorld);
+        for (int i = 0; i < sensorE.endCount; ++i) {
+            b2ShapeId sensorShape = sensorE.endEvents[i].visitorShapeId;
+            b2BodyId sensorBody = b2Shape_GetBody(sensorShape);
+            const char* goalType = static_cast<const char*>(b2Body_GetUserData(sensorBody));
+            if (goalType)
+            {
+                if (strcmp(goalType, senGoalLeftText) == 0)
+                    RightTeamScore++;
+
+                else if (strcmp(goalType, senGoalRightText) == 0)
+                    LeftTeamScore++;
+            }
+            //reset_location_system();
+        }
+    }
+
+    void Football::draw_system() const
+    {
+        static const Mask mask = MaskBuilder()
+                .set<Transform>()
+                .set<Drawable>()
+                .build();
+
+        SDL_RenderClear(ren);
+
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(mask)) {
+                const auto& draw = World::getComponent<Drawable>(e);
+                const auto& transform = World::getComponent<Transform>(e);
+
+                const SDL_FRect dst = {
+                        (transform.position.x - draw.size.x/2) * BOX_SCALE,
+                        (transform.position.y - draw.size.y/2) * BOX_SCALE,
+                        draw.size.x * BOX_SCALE, draw.size.y * BOX_SCALE};
+
+                SDL_RenderTextureRotated(
+                        ren, draw.tex, &draw.part, &dst, transform.angle,
+                        nullptr, SDL_FLIP_NONE);
+            }
+        }
+
+        if(DEBUG_MODE)
+        {
+            renderDebugFunctions();
+            consolePrintDebugData();
+        }
+        SDL_RenderPresent(ren);
     }
 
     void Football::reset_location_system() const
@@ -832,11 +1068,11 @@ namespace football {
             input_system();
             move_system();
             physic_system();
+            score_system();
+            timer_system(); // ADD THIS LINE - Call timer system every frame
             pick_power_up_system();
             remove_power_up_system();
             update_power_up_timer_system();
-            //score_system();
-
             draw_system();
 
             auto end = SDL_GetTicks();

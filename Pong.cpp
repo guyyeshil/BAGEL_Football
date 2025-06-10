@@ -241,10 +241,9 @@ namespace pong
 	}
 	void Pong::score_system() const
 	{
-		const auto se = b2World_GetSensorEvents(boxWorld);
-		for (int i = 0; i < se.endCount; ++i) {
-			// score, recreate ball
-			b2BodyId b = b2Shape_GetBody(se.endEvents[i].visitorShapeId);
+		const auto sensorEvents = b2World_GetSensorEvents(boxWorld);
+		for (int i = 0; i < sensorEvents.endCount; ++i) {
+			b2BodyId b = b2Shape_GetBody(sensorEvents.endEvents[i].visitorShapeId);
 			auto *e = static_cast<ent_type*>(b2Body_GetUserData(b));
 			World::destroyEntity(*e);
 			b2DestroyBody(b);
