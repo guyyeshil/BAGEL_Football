@@ -147,12 +147,12 @@ namespace football {
             SDL_DestroyTexture(scoreFrameTex);
         if (powerUpsTex != nullptr)
             SDL_DestroyTexture(powerUpsTex);
+        if (digitTex != nullptr)
+            SDL_DestroyTexture(digitTex);
         if (ren != nullptr)
             SDL_DestroyRenderer(ren);
         if (win != nullptr)
             SDL_DestroyWindow(win);
-        if (digitTex != nullptr)
-            SDL_DestroyTexture(digitTex);
 
         SDL_Quit();
     }
@@ -901,6 +901,8 @@ namespace football {
         static const Mask powerUpMask = MaskBuilder().set<PowerUp>().build();
         static const Mask carMask = MaskBuilder().set<Car>().build();
 
+        if (se.endCount>0)
+            cout<< se.endCount<<endl;
         for (int i = 0; i < se.endCount; ++i) {
             b2BodyId powerUpBodyId = b2Shape_GetBody(se.beginEvents[i].sensorShapeId);
             b2BodyId carBodyId = b2Shape_GetBody(se.beginEvents[i].visitorShapeId);
@@ -1068,7 +1070,7 @@ namespace football {
             input_system();
             move_system();
             physic_system();
-            score_system();
+            //score_system();
             timer_system(); // ADD THIS LINE - Call timer system every frame
             pick_power_up_system();
             remove_power_up_system();
