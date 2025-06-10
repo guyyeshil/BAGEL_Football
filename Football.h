@@ -40,20 +40,23 @@ namespace football {
         void createFieldBorders() const;
         void createLeftGoalBars() const;
         void createRightGoalBars() const;
+        void createGoalSensor(bool isLeftGoal) const;
         void createDataBar() const;
         void createScoreFrame() const;
 
         //debug:
-        inline static bool DEBUG_MODE = true;
+        inline static bool DEBUG_MODE = false;
         void applyDebugFunctions()const;
-        void printDebugData()const;
+        void consolePrintDebugData()const;
+        void renderDebugFunctions() const;
+        void drawSensorDebug(const float xPos, const float yPos, const float width, const float height) const;
         void createDebugBox()const;
 
         //systems:
         static void input_system() ;
         static void move_system() ;
         void physic_system() const;
-        //void score_system() const;
+        void score_system();
         void draw_system() const;
         void reset_location_system() const;
 
@@ -118,5 +121,9 @@ namespace football {
 
         //Tools:
         static constexpr float	RAD_TO_DEG = 57.2958f;
+        static constexpr const char* senGoalLeftText = "BallEnterToLeftGoal";
+        static constexpr const char* senGoalRightText = "BallEnterToLeftGoal";
+
+
     };
 }
