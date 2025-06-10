@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include <box2d/box2d.h>
+#include "bagel.h"
 #define LEFT true
 #define RIGHT false
 
@@ -82,7 +83,7 @@ namespace football {
         static void input_system() ;
         static void move_system() ;
         void physic_system() const;
-        //void score_system() const;
+        void score_system();
         void draw_system() const;
         void reset_location_system() const;
         //timer
@@ -168,6 +169,8 @@ namespace football {
         SDL_Texture* scoreFrameTex;
         //with digit to draw
         SDL_Texture* digitTex;
+        SDL_Texture* powerUpsTex;
+
 
         SDL_Renderer* ren;
         SDL_Window* win;
