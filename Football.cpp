@@ -678,7 +678,7 @@ namespace football {
         float effective_turn_speed;
         bool is_accelerating;
         bool is_steering;
-        const float min_steering_speed = 0.5f; //minimum speed needed for steering
+        const float min_steering_speed = 0.1f; //minimum speed needed for steering
         float forward_x;
         float forward_y;
         bool moving_forward;
