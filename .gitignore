@@ -49,3 +49,4 @@ Desktop.ini
 venv/
 __pycache__/
 *.pyc
+.idea/workspace.xml
