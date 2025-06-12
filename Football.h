@@ -39,6 +39,8 @@ namespace football {
     using Keys = struct { SDL_Scancode up, down, left, right; };
     using Collider = struct { b2BodyId body; };
     using Ball = struct{};
+    using GoalLeft = struct{};
+    using GoalRight = struct{};
     using Car = struct{ bool side; };
     using StartingPosition = struct { SDL_FPoint position; float angle; };
     using Timer = struct {Uint64 start_time;  float time_remaining; bool paused;};
@@ -72,7 +74,7 @@ namespace football {
         void createScoreFrame() const;
 
         //debug:
-        inline static bool DEBUG_MODE = false;
+        inline static bool DEBUG_MODE = true;
         void applyDebugFunctions()const;
         void consolePrintDebugData()const;
         void renderDebugFunctions() const;
@@ -113,8 +115,8 @@ namespace football {
 
         static constexpr float	BOX_SCALE = 16;
         b2WorldId boxWorld = b2_nullWorldId;
-        int LeftTeamScore = 0;
-        int RightTeamScore = 0;
+        int leftTeamScore = 0;
+        int rightTeamScore = 0;
 
 
             //Physical System Sizes:
@@ -178,9 +180,6 @@ namespace football {
 
         //Tools:
         static constexpr float	RAD_TO_DEG = 57.2958f;
-        static constexpr const char* senGoalLeftText = "BallEnterToLeftGoal";
-        static constexpr const char* senGoalRightText = "BallEnterToLeftGoal";
-
 
         static constexpr float	POWER_UP_TIME_OUT_TIMER = 10000.0f;
         static constexpr float	POWER_UP_TIMER = 5000.0f;
