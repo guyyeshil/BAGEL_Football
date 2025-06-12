@@ -17,6 +17,7 @@ install_manifest.txt
 
 # JetBrains CLion
 .idea/
+.idea/workspace.xml
 *.iml
 
 # Compiled object files and binaries

@@ -2,8 +2,6 @@
 #include <iostream>
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
-#include <box2d/box2d.h>
-#include "lib/box2d/src/body.h"
 #include "bagel.h"
 using namespace bagel;
 using namespace std;
@@ -194,12 +192,12 @@ namespace football {
         carBodyDef.position = {position.x, position.y};
 
         b2BodyId carBody = b2CreateBody(boxWorld, &carBodyDef);
-        b2Body_SetLinearDamping(carBody, 2.0f);//todo
+        b2Body_SetLinearDamping(carBody, 2.8);
 
         b2ShapeDef carShapeDef = b2DefaultShapeDef();
         carShapeDef.density = 1;
-        carShapeDef.material.friction = 1.5;//todo
-        carShapeDef.material.restitution = 0.9f;
+        carShapeDef.material.friction = 1.5;
+        carShapeDef.material.restitution = 0.8f;
         carShapeDef.enableSensorEvents = true;
 
         if (side == LEFT) {
@@ -708,8 +706,8 @@ namespace football {
             .set<Transform>()
             .build();
 
-        const float forward_force = 300.0f;
-        const float backward_force = 150.0f;
+        const float forward_force = 350.0f;
+        const float backward_force = 200.0f;
         const float turn_speed = 15.0f;
         const float max_speed = 15.0f;
         const float turn_damping = 0.95f;
