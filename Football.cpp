@@ -194,11 +194,11 @@ namespace football {
         carBodyDef.position = {position.x, position.y};
 
         b2BodyId carBody = b2CreateBody(boxWorld, &carBodyDef);
-        b2Body_SetLinearDamping(carBody, 1.5f);//todo
+        b2Body_SetLinearDamping(carBody, 2.0f);//todo
 
         b2ShapeDef carShapeDef = b2DefaultShapeDef();
         carShapeDef.density = 1;
-        carShapeDef.material.friction = 0.5;//todo
+        carShapeDef.material.friction = 1.5;//todo
         carShapeDef.material.restitution = 0.9f;
         carShapeDef.enableSensorEvents = true;
 
