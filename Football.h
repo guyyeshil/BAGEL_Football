@@ -11,28 +11,17 @@
 #endif //FOOTBALL_H
 
 namespace football {
+
+
+    static constexpr uint64_t GAME_DURATION_MS = 2 * 60 * 1000 + 30 * 1000; //2:30 minutes
+
+
     using GameTimer = struct {
         uint64_t start_time;
         uint64_t game_duration_ms;
         bool is_running;
     };
-    //tag to identify if digit
-    using TimerDigit = struct {};
-
-    static constexpr uint64_t GAME_DURATION_MS = 2 * 60 * 1000 + 30 * 1000; //2:30 minutes
-    //textures of digits
-    static constexpr SDL_FRect DIGIT_TEX_0 = {0, 0, 229, 417};
-    static constexpr SDL_FRect DIGIT_TEX_1 = {229, 0, 229, 417};
-    static constexpr SDL_FRect DIGIT_TEX_2 = {458, 0, 229, 417};
-    static constexpr SDL_FRect DIGIT_TEX_3 = {687, 0, 229, 417};
-    static constexpr SDL_FRect DIGIT_TEX_4 = {916, 0, 229, 417};
-    static constexpr SDL_FRect DIGIT_TEX_5 = {0, 417, 229, 417};
-    static constexpr SDL_FRect DIGIT_TEX_6 = {229, 417, 229, 417};
-    static constexpr SDL_FRect DIGIT_TEX_7 = {458, 417, 229, 417};
-    static constexpr SDL_FRect DIGIT_TEX_8 = {686, 417, 229, 417};
-    static constexpr SDL_FRect DIGIT_TEX_9 = {916, 417, 229, 417};
-    // static constexpr SDL_FRect COLON_TEX = {320, 0, 16, 417};
-
+    using TimerDigit = struct {};                                                       //tag to identify if digit
     using Transform = struct { SDL_FPoint position; float angle; };
     using Drawable = struct { SDL_FRect part; SDL_FPoint size; SDL_Texture* tex; };
     using Intent = struct { bool up, down, left, right; };
@@ -74,7 +63,7 @@ namespace football {
         void createScoreFrame() const;
 
         //debug:
-        inline static bool DEBUG_MODE = true;
+        inline static bool DEBUG_MODE = false;
         void applyDebugFunctions()const;
         void consolePrintDebugData()const;
         void renderDebugFunctions() const;
@@ -163,7 +152,18 @@ namespace football {
         static constexpr SDL_FRect SCOUR_FRAME_TEX = {0, 0, 660, 403};
         static constexpr SDL_FRect SPEED_UP_TEX = {0, 0, 1020, 1020};
         static constexpr SDL_FRect SIZE_UP_TEX = {1040, 0, 1020, 1020};
-
+            //textures of digits
+        static constexpr SDL_FRect DIGIT_TEX_0 = {0, 0, 229, 417};
+        static constexpr SDL_FRect DIGIT_TEX_1 = {229, 0, 229, 417};
+        static constexpr SDL_FRect DIGIT_TEX_2 = {458, 0, 229, 417};
+        static constexpr SDL_FRect DIGIT_TEX_3 = {687, 0, 229, 417};
+        static constexpr SDL_FRect DIGIT_TEX_4 = {916, 0, 229, 417};
+        static constexpr SDL_FRect DIGIT_TEX_5 = {0, 417, 229, 417};
+        static constexpr SDL_FRect DIGIT_TEX_6 = {229, 417, 229, 417};
+        static constexpr SDL_FRect DIGIT_TEX_7 = {458, 417, 229, 417};
+        static constexpr SDL_FRect DIGIT_TEX_8 = {686, 417, 229, 417};
+        static constexpr SDL_FRect DIGIT_TEX_9 = {916, 417, 229, 417};
+        // static constexpr SDL_FRect COLON_TEX = {320, 0, 16, 417};
 
         SDL_Texture* ballTex;
         SDL_Texture* fieldTex;
