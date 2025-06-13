@@ -631,7 +631,7 @@ namespace football {
             }
         }
 
-        SDL_RenderPresent(ren);
+       // SDL_RenderPresent(ren);
     }
 
     class InputSystem
@@ -900,9 +900,6 @@ namespace football {
         static const Mask powerUpMask = MaskBuilder().set<PowerUp>().build();
         static const Mask carMask = MaskBuilder().set<Car>().build();
 
-        if (se.beginCount>0)//todo delete
-            cout<< se.beginCount<<endl;
-
         for (int i = 0; i < se.beginCount; ++i)
         {
             b2BodyId powerUpBodyId = b2Shape_GetBody(se.beginEvents[i].sensorShapeId);
@@ -924,15 +921,17 @@ namespace football {
 
     void Football:: give_power_up(b2BodyId carBodyId, ent_type carEntity, PowerUp powerUp) const
     {
+        ent_type updatedCarEntity = carEntity;
+
         if (powerUp.bigger)
-            change_car_size(carBodyId,carEntity,BIGGER_SIZE);
+            updatedCarEntity = change_car_size(carBodyId,carEntity,BIGGER_SIZE);
         if (powerUp.faster)
             give_faster_power_up(carBodyId,carEntity);
 
-        World::addComponent(carEntity,CarryPowerUp{powerUp.bigger, powerUp.faster,{SDL_GetTicks(),POWER_UP_TIMER,false}});
+        World::addComponent(updatedCarEntity,CarryPowerUp{powerUp.bigger, powerUp.faster,{SDL_GetTicks(),POWER_UP_TIMER,false}});
     }
 
-    void Football:: change_car_size(b2BodyId oldBody, bagel::ent_type oldEntityId, float size_scale) const
+    ent_type Football:: change_car_size(b2BodyId oldBody, bagel::ent_type oldEntityId, float size_scale) const
     {
         b2Vec2 pos = b2Body_GetPosition(oldBody);
         b2Vec2 vel = b2Body_GetLinearVelocity(oldBody);
@@ -949,11 +948,7 @@ namespace football {
         auto& oldBodySide = World::getComponent<Car>(oldEntityId).side;
         auto& oldBodyStartPos = World::getComponent<StartingPosition>(oldEntityId);
 
-
-        World::destroyEntity(oldEntityId);
-        delete static_cast<ent_type*>(b2Body_GetUserData(oldBody));
-        b2DestroyBody(oldBody);
-
+        World::addComponent(oldEntityId,Destroy{oldBody});
         ent_type newEntityId = createCar({pos.x, pos.y}, oldBodyDrawable.part, oldBodyKeys, oldBodySide, size_scale);
 
         auto& newBodyTransform = World::getComponent<Transform>(newEntityId);
@@ -971,6 +966,8 @@ namespace football {
 
         b2Body_SetLinearVelocity(newBody, vel);
         b2Body_SetTransform(newBody, pos, angle);
+
+        return newEntityId;
     }
 
     void Football:: give_faster_power_up(b2BodyId carBodyId, bagel::ent_type carEntity) const
@@ -995,10 +992,12 @@ namespace football {
                 auto& timer = carryPowerUp.time_remaining_timer;
 
                 if (SDL_GetTicks() - timer.start_time >= timer.time_remaining){
+
                     if (carryPowerUp.bigger)
                         change_car_size(bodyId,e,REGULAR_SIZE);
                     if (carryPowerUp.faster)
                         remove_faster_power_up(bodyId,e);
+
                     World::delComponent<CarryPowerUp>(e);
                 }
             }
@@ -1030,8 +1029,6 @@ namespace football {
             World::addComponent(powerUpEntity, Drawable{SIZE_UP_TEX,{POWER_UP_CIRCLE_RADIUS * 2, POWER_UP_CIRCLE_RADIUS * 2},powerUpsTex});
         if (powerUp.faster)
             World::addComponent(powerUpEntity, Drawable{SPEED_UP_TEX,{POWER_UP_CIRCLE_RADIUS * 2, POWER_UP_CIRCLE_RADIUS * 2},powerUpsTex});
-
-        cout << "powerUp enabled" << endl;
     }
 
     void Football::disablePowerUp(PowerUp& powerUp, ent_type powerUpEntity) const
@@ -1041,11 +1038,23 @@ namespace football {
         powerUp.time_out_timer.time_remaining = POWER_UP_TIME_OUT_TIMER;
 
         World::delComponent<Drawable>(powerUpEntity);
-
-        cout << "powerUp disabled" << endl;
     }
 
+    void Football::destroy_entities_system() const
+    {
+        static const Mask mask = MaskBuilder().set<Destroy>().build();
 
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(mask)) {
+
+                auto& destroy = World::getComponent<Destroy>(e);
+
+                World::destroyEntity(e);
+                delete static_cast<ent_type*>(b2Body_GetUserData(destroy.body));
+                b2DestroyBody(destroy.body);
+            }
+        }
+    }
 
 
 
@@ -1076,6 +1085,7 @@ namespace football {
             pick_power_up_system();
             remove_power_up_system();
             update_power_up_timer_system();
+            destroy_entities_system();
             draw_system();
 
             auto end = SDL_GetTicks();

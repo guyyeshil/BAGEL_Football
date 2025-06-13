@@ -35,6 +35,7 @@ namespace football {
     using Timer = struct {Uint64 start_time;  float time_remaining; bool paused;};
     using PowerUp = struct { bool bigger, faster, available; Timer time_out_timer; };
     using CarryPowerUp = struct { bool bigger, faster; Timer time_remaining_timer; };
+    using Destroy = struct { b2BodyId body; };
 
     class Football
     {
@@ -85,11 +86,12 @@ namespace football {
         void remove_power_up_system() const;
         void update_power_up_timer_system() const;
         void give_power_up(b2BodyId carBodyId, bagel::ent_type e, PowerUp powerUp) const;
-        void change_car_size(b2BodyId carBodyId, bagel::ent_type e, float size_scale) const;
+        bagel::ent_type change_car_size(b2BodyId carBodyId, bagel::ent_type e, float size_scale) const;
         void give_faster_power_up(b2BodyId carBodyId, bagel::ent_type e) const;
         void remove_faster_power_up(b2BodyId carBodyId, bagel::ent_type e) const;
         void enablePowerUp(PowerUp& powerUp, bagel::ent_type powerUpEntity)const;
         void disablePowerUp(PowerUp& powerUp, bagel::ent_type powerUpEntity)const;
+        void destroy_entities_system() const;
 
 
 
