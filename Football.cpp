@@ -2,8 +2,6 @@
 #include <iostream>
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
-#include <box2d/box2d.h>
-#include "lib/box2d/src/body.h"
 #include "bagel.h"
 using namespace bagel;
 using namespace std;
@@ -122,8 +120,8 @@ namespace football {
     }
 
     void Football::gameSetupPrams() {
-        LeftTeamScore = 0;
-        RightTeamScore = 0;
+        leftTeamScore = 0;
+        rightTeamScore = 0;
     }
 
     Football::Football() {
@@ -198,8 +196,8 @@ namespace football {
 
         b2ShapeDef carShapeDef = b2DefaultShapeDef();
         carShapeDef.density = 1;
-        carShapeDef.material.friction = 0.5;//todo
-        carShapeDef.material.restitution = 0.9f;
+        carShapeDef.material.friction = 1.5;
+        carShapeDef.material.restitution = 0.8f;
         carShapeDef.enableSensorEvents = true;
 
         if (side == LEFT) {
@@ -244,7 +242,6 @@ namespace football {
 
     void Football::createPowerUp(const SDL_FPoint &position, const SDL_FRect &tex, const PowerUp powerUp) const
     {
-
         b2BodyDef powerUpBodyDef = b2DefaultBodyDef();
         powerUpBodyDef.type = b2_staticBody;
         powerUpBodyDef.position = {position.x, position.y};
@@ -269,7 +266,6 @@ namespace football {
         b2Body_SetUserData(powerUpBody, new ent_type{powerUpEntity.entity()});
 
     }
-
 
     void Football::createField() const {
         SDL_FRect FieldPosition = {FIELD_WIDTH / 2, FIELD_HEIGHT / 2, 0, 0};
@@ -406,24 +402,19 @@ namespace football {
         sensorShapeDef.isSensor = true;
         sensorShapeDef.enableSensorEvents = true;
 
-        b2Filter filter;
-        filter.categoryBits = 0x0002;
-        filter.maskBits = 0x0001;
-        sensorShapeDef.filter = filter;
+        b2CreatePolygonShape(sensorBody,&sensorShapeDef,&sensorShape);
 
-        b2ShapeId sensorShapeId = b2CreatePolygonShape(
-                sensorBody,
-                &sensorShapeDef,
-                &sensorShape
-        );
-
-        if (isLeftGoal)
-            b2Shape_SetUserData(sensorShapeId, (void *) senGoalLeftText);
+        Entity goalSensor = Entity::create();
+        if(isLeftGoal)
+            goalSensor.addAll(GoalLeft {});
         else
-            b2Shape_SetUserData(sensorShapeId, (void *) senGoalRightText);
+            goalSensor.addAll(GoalRight {});
+
+        b2Body_SetUserData(sensorBody,new ent_type{goalSensor.entity()});
     }
 
-    void Football::applyDebugFunctions() const {
+    void Football::applyDebugFunctions() const
+    {
         createDebugBox();
     }
 
@@ -494,9 +485,9 @@ namespace football {
         SDL_RenderFillRect(ren, &sensorRect);
     }
 
-
-    void Football::consolePrintDebugData() const {
-        cout << "Score Game " << LeftTeamScore << ":" << RightTeamScore << endl;
+    void Football::consolePrintDebugData() const
+    {
+        cout << "Score Game " << leftTeamScore << ":" << rightTeamScore << endl;
     }
 
     void Football::createDataBar() const
@@ -530,8 +521,7 @@ namespace football {
             default: return DIGIT_TEX_0;
         }
     }
-    //todo
-    //---------------------------------------------
+
     void Football::createGameTimer() const
     {
         // Create timer entity
@@ -717,6 +707,7 @@ namespace football {
             .set<Car>()
             .build();
 
+
     const float forward_force = 200.0f;
     const float backward_force = 100.0f;
     const float turn_speed = 15.0f;
@@ -739,6 +730,7 @@ namespace football {
     float car_forward_x;
     float car_forward_y;
     float dot_product;
+
 
     b2Vec2 force;
     for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
@@ -826,7 +818,6 @@ namespace football {
     }
 }
 
-
     void Football::physic_system() const
     {
         static const Mask mask = MaskBuilder()
@@ -850,18 +841,28 @@ namespace football {
 
     void Football::score_system()
     {
-        const auto sensorE = b2World_GetSensorEvents(boxWorld);
-        for (int i = 0; i < sensorE.endCount; ++i) {
-            b2ShapeId sensorShape = sensorE.endEvents[i].visitorShapeId;
-            b2BodyId sensorBody = b2Shape_GetBody(sensorShape);
-            const char* goalType = static_cast<const char*>(b2Body_GetUserData(sensorBody));
-            if (goalType)
-            {
-                if (strcmp(goalType, senGoalLeftText) == 0)
-                    RightTeamScore++;
+        const auto sensorEvents = b2World_GetSensorEvents(boxWorld);
+        static const Mask goalLeftMask = MaskBuilder().set<GoalLeft>().build();
+        static const Mask goalRightMask = MaskBuilder().set<GoalRight>().build();
+        static const Mask ballMask = MaskBuilder().set<Ball>().build();
 
-                else if (strcmp(goalType, senGoalRightText) == 0)
-                    LeftTeamScore++;
+        for (int i = 0; i < sensorEvents.beginCount; ++i)
+        {
+            b2BodyId sensor = b2Shape_GetBody(sensorEvents.beginEvents[i].sensorShapeId);
+            b2BodyId visitorId = b2Shape_GetBody(sensorEvents.beginEvents[i].visitorShapeId);
+
+            auto *goalSensor = static_cast<ent_type*>(b2Body_GetUserData(sensor));
+            auto *visitorType = static_cast<ent_type*>(b2Body_GetUserData(visitorId));
+
+            if (World::mask(*goalSensor).test(goalLeftMask))
+            {
+                if(World::mask(*visitorType).test(ballMask))
+                    rightTeamScore++;
+            }
+            else if (World::mask(*goalSensor).test(goalRightMask))
+            {
+                if(World::mask(*visitorType).test(ballMask))
+                    leftTeamScore++;
             }
             //reset_location_system();
         }
@@ -928,9 +929,11 @@ namespace football {
         static const Mask powerUpMask = MaskBuilder().set<PowerUp>().build();
         static const Mask carMask = MaskBuilder().set<Car>().build();
 
-        if (se.endCount>0)
-            cout<< se.endCount<<endl;
-        for (int i = 0; i < se.endCount; ++i) {
+        if (se.beginCount>0)//todo delete
+            cout<< se.beginCount<<endl;
+
+        for (int i = 0; i < se.beginCount; ++i)
+        {
             b2BodyId powerUpBodyId = b2Shape_GetBody(se.beginEvents[i].sensorShapeId);
             b2BodyId carBodyId = b2Shape_GetBody(se.beginEvents[i].visitorShapeId);
             auto *powerUpEntity = static_cast<ent_type*>(b2Body_GetUserData(powerUpBodyId));
@@ -1097,7 +1100,7 @@ namespace football {
             input_system();
             move_system();
             physic_system();
-            //score_system();
+            score_system();
             timer_system(); // ADD THIS LINE - Call timer system every frame
             pick_power_up_system();
             remove_power_up_system();
@@ -1118,5 +1121,3 @@ namespace football {
         }
     }
 }
-
-
