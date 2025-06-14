@@ -747,24 +747,18 @@ namespace football {
 
             is_accelerating = (intent.up && !intent.down) || (intent.down && !intent.up);
             is_steering = intent.left ^ intent.right;
-
             velocity = b2Body_GetLinearVelocity(collider.body);
             current_speed = b2Length(velocity) / 10;
-
-            // Use dot product to determine direction
             car_angle = transform.angle;
             angle_rad = car_angle / RAD_TO_DEG;
-
-            // Car's forward direction vector
+            //car forward direction vector
             car_forward_x = std::cos(angle_rad);
             car_forward_y = std::sin(angle_rad);
-
-            // Dot product with velocity
+            //dot product
             dot_product = car_forward_x * velocity.x + car_forward_y * velocity.y;
             moving_forward = (dot_product > 0.0f);
 
              if (is_steering && (current_speed > min_steering_speed)) {
-                if (current_speed > 0.0f) { //cant steer too slow
                     if (car.side == LEFT) {
                         if ((moving_forward && intent.right) || (!moving_forward && intent.left)) {
                             steering_input = 1;
@@ -772,7 +766,7 @@ namespace football {
                         else {
                             steering_input = -1;
                         }
-                    } else { // RIGHT side
+                    } else { //right side
                         if ((moving_forward && intent.left) || (!moving_forward && intent.right)) {
                             steering_input = 1;
                         }
@@ -780,7 +774,6 @@ namespace football {
                             steering_input = -1;
                         }
                     }
-                }
 
             current_speed = current_speed / 10.0f;
             effective_turn_speed = turn_speed * current_speed;
@@ -792,7 +785,6 @@ namespace football {
             if (transform.angle < 0.0f) {
                 transform.angle += 360.0f;
                 }
-
             //update physics body rotation
             angle_rad = transform.angle / RAD_TO_DEG;
             b2Body_SetTransform(

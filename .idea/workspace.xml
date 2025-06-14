@@ -65,15 +65,9 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Football.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.h" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Football.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Pong.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Pong.h" root0="FORCE_HIGHLIGHTING" />
@@ -188,7 +182,7 @@
       <workItem from="1749672668277" duration="27000" />
       <workItem from="1749895011355" duration="4383000" />
       <workItem from="1749900257115" duration="5442000" />
-      <workItem from="1749910104037" duration="1666000" />
+      <workItem from="1749910104037" duration="6434000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
