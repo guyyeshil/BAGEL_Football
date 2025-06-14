@@ -531,7 +531,7 @@ namespace football {
         // Position timer to the right of the scoreboard
         float scoreboard_center_x = (WIN_WIDTH/BOX_SCALE)/2.0f;
         float scoreboard_width = ((WIN_HEIGHT/BOX_SCALE)-FIELD_HEIGHT-2)*(5/3.f);
-        float timer_start_x = scoreboard_center_x + (scoreboard_width/2.0f) + 3.0f; // 3 units to the right
+        float timer_start_x = scoreboard_center_x + (scoreboard_width/2.0f) + 16.0f; // 16 units to the right
         float timer_y = FIELD_HEIGHT + ((WIN_HEIGHT/BOX_SCALE)-FIELD_HEIGHT)/2.0f;
         float digit_width = 4.5f;  // Smaller digits
         float digit_height = 5.5f;
