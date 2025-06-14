@@ -152,17 +152,17 @@ namespace football {
         static constexpr SDL_FRect SCOUR_FRAME_TEX = {0, 0, 660, 403};
         static constexpr SDL_FRect SPEED_UP_TEX = {0, 0, 1020, 1020};
         static constexpr SDL_FRect SIZE_UP_TEX = {1040, 0, 1020, 1020};
-            //textures of digits
-        static constexpr SDL_FRect DIGIT_TEX_0 = {0, 0, 229, 417};
-        static constexpr SDL_FRect DIGIT_TEX_1 = {229, 0, 229, 417};
-        static constexpr SDL_FRect DIGIT_TEX_2 = {458, 0, 229, 417};
-        static constexpr SDL_FRect DIGIT_TEX_3 = {687, 0, 229, 417};
-        static constexpr SDL_FRect DIGIT_TEX_4 = {916, 0, 229, 417};
-        static constexpr SDL_FRect DIGIT_TEX_5 = {0, 417, 229, 417};
-        static constexpr SDL_FRect DIGIT_TEX_6 = {229, 417, 229, 417};
-        static constexpr SDL_FRect DIGIT_TEX_7 = {458, 417, 229, 417};
-        static constexpr SDL_FRect DIGIT_TEX_8 = {686, 417, 229, 417};
-        static constexpr SDL_FRect DIGIT_TEX_9 = {916, 417, 229, 417};
+        //textures of digits
+        static constexpr SDL_FRect DIGIT_TEX_0 = {0, 0, 232, 417};
+        static constexpr SDL_FRect DIGIT_TEX_1 = {232, 0, 232, 417};
+        static constexpr SDL_FRect DIGIT_TEX_2 = {464, 0, 231, 417};
+        static constexpr SDL_FRect DIGIT_TEX_3 = {695, 0, 232, 417};
+        static constexpr SDL_FRect DIGIT_TEX_4 = {927, 0, 232, 417};
+        static constexpr SDL_FRect DIGIT_TEX_5 = {0, 417, 231, 417};
+        static constexpr SDL_FRect DIGIT_TEX_6 = {232, 417, 232, 417};
+        static constexpr SDL_FRect DIGIT_TEX_7 = {464, 417, 232, 417};
+        static constexpr SDL_FRect DIGIT_TEX_8 = {695, 417, 231, 417};
+        static constexpr SDL_FRect DIGIT_TEX_9 = {927, 417, 232, 417};
         // static constexpr SDL_FRect COLON_TEX = {320, 0, 16, 417};
 
         SDL_Texture* ballTex;
