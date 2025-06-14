@@ -631,7 +631,6 @@ namespace football {
             }
         }
 
-        SDL_RenderPresent(ren);
     }
 
     class InputSystem
