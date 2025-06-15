@@ -113,7 +113,7 @@ namespace football {
         int rightTeamScore = 0;
 
 
-            //Physical System Sizes:
+        //Physical System Sizes:
         static constexpr float	BALL_RADIUS = 0.75;
         static constexpr float	FIELD_WIDTH = 75;
         static constexpr float	FIELD_HEIGHT = 50;

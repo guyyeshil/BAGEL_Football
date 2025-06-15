@@ -1079,25 +1079,25 @@ namespace football {
     //display score
     void Football::createScoreDisplay() const
     {
-        // Position relative to scoreboard
         float scoreboard_center_x = (WIN_WIDTH/BOX_SCALE)/2.0f;
         float scoreboard_y = FIELD_HEIGHT + ((WIN_HEIGHT/BOX_SCALE)-FIELD_HEIGHT)/2.0f;
-        float digit_width = 6.0f;   // Slightly larger than timer digits
-        float digit_height = 7.0f;
-        float score_offset = 12.0f; // Distance from center
+        float digit_width = 2.5f;
+        float digit_height = 3.5f;
+        float score_offset = 0.50f;
+        float left_offset=-1.25f;
 
         Entity leftScoreOnesEntity = Entity::create();
         leftScoreOnesEntity.addAll(
-            Transform{{scoreboard_center_x - score_offset, scoreboard_y}, 0},
+            Transform{{scoreboard_center_x - score_offset + left_offset, scoreboard_y}, 0},
             Drawable{DIGIT_TEX_0, {digit_width, digit_height}, digitTex},
-            LeftScoreDigit{}  // Tag this as left score digit
+            LeftScoreDigit{}
         );
 
         Entity rightScoreOnesEntity = Entity::create();
         rightScoreOnesEntity.addAll(
-            Transform{{scoreboard_center_x + score_offset + digit_width, scoreboard_y}, 0},
+            Transform{{scoreboard_center_x + score_offset + digit_width + left_offset, scoreboard_y}, 0},
             Drawable{DIGIT_TEX_0, {digit_width, digit_height}, digitTex},
-            RightScoreDigit{}  // Tag this as right score digit
+            RightScoreDigit{}
         );
     }
 
@@ -1131,10 +1131,6 @@ namespace football {
             }
         }
     }
-
-
-
-
 
 
 

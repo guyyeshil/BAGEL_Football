@@ -39,6 +39,7 @@
     <list default="true" id="2d1f489d-b4e0-479e-8e6b-42b9ed6fae6a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Football.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Football.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Football.h" beforeDir="false" afterPath="$PROJECT_DIR$/Football.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,7 +182,7 @@
       <workItem from="1749245790027" duration="3163000" />
       <workItem from="1749283102777" duration="5666000" />
       <workItem from="1749986860130" duration="2000" />
-      <workItem from="1749986979255" duration="1692000" />
+      <workItem from="1749986979255" duration="2938000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
