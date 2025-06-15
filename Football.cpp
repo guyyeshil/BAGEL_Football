@@ -23,7 +23,8 @@ namespace football {
         createPowerUp(size_up_boost_position,SIZE_UP_TEX,{true,false,true,{SDL_GetTicks(),0,false}});
         createPowerUp(speed_up_boost_position,SPEED_UP_TEX,{false,true,true,{SDL_GetTicks(),0,false}});
 
-        createGameTimer(); // ADD THIS LINE - Initialize timer
+        createGameTimer();
+        createScoreDisplay();
 
         if (DEBUG_MODE) {
             applyDebugFunctions();
@@ -1075,6 +1076,107 @@ namespace football {
 
 
 
+    //display score
+    void Football::createScoreDisplay() const
+    {
+        // Position relative to scoreboard
+        float scoreboard_center_x = (WIN_WIDTH/BOX_SCALE)/2.0f;
+        float scoreboard_y = FIELD_HEIGHT + ((WIN_HEIGHT/BOX_SCALE)-FIELD_HEIGHT)/2.0f;
+        float digit_width = 6.0f;   // Slightly larger than timer digits
+        float digit_height = 7.0f;
+        float score_offset = 12.0f; // Distance from center
+
+        // Left team score (tens and ones digits)
+        Entity leftScoreTensEntity = Entity::create();
+        leftScoreTensEntity.addAll(
+            Transform{{scoreboard_center_x - score_offset - digit_width, scoreboard_y}, 0},
+            Drawable{DIGIT_TEX_0, {digit_width, digit_height}, digitTex},
+            LeftScoreDigit{}  // Tag this as left score digit
+        );
+
+        Entity leftScoreOnesEntity = Entity::create();
+        leftScoreOnesEntity.addAll(
+            Transform{{scoreboard_center_x - score_offset, scoreboard_y}, 0},
+            Drawable{DIGIT_TEX_0, {digit_width, digit_height}, digitTex},
+            LeftScoreDigit{}  // Tag this as left score digit
+        );
+
+        // Right team score (tens and ones digits)
+        Entity rightScoreTensEntity = Entity::create();
+        rightScoreTensEntity.addAll(
+            Transform{{scoreboard_center_x + score_offset, scoreboard_y}, 0},
+            Drawable{DIGIT_TEX_0, {digit_width, digit_height}, digitTex},
+            RightScoreDigit{}  // Tag this as right score digit
+        );
+
+        Entity rightScoreOnesEntity = Entity::create();
+        rightScoreOnesEntity.addAll(
+            Transform{{scoreboard_center_x + score_offset + digit_width, scoreboard_y}, 0},
+            Drawable{DIGIT_TEX_0, {digit_width, digit_height}, digitTex},
+            RightScoreDigit{}  // Tag this as right score digit
+        );
+    }
+
+    void Football::score_display_system()
+    {
+        static const Mask left_score_mask = MaskBuilder()
+            .set<Transform>()
+            .set<Drawable>()
+            .set<LeftScoreDigit>()
+            .build();
+
+        static const Mask right_score_mask = MaskBuilder()
+            .set<Transform>()
+            .set<Drawable>()
+            .set<RightScoreDigit>()
+            .build();
+
+        // Update left team score digits
+        int left_tens = leftTeamScore / 10;
+        int left_ones = leftTeamScore % 10;
+
+        int left_digit_index = 0;
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(left_score_mask)) {
+                auto& drawable = World::getComponent<Drawable>(e);
+
+                switch(left_digit_index) {
+                    case 0: // Tens digit
+                        drawable.part = getDigitTexture(left_tens);
+                        break;
+                    case 1: // Ones digit
+                        drawable.part = getDigitTexture(left_ones);
+                        break;
+                }
+                left_digit_index++;
+            }
+        }
+
+        // Update right team score digits
+        int right_tens = rightTeamScore / 10;
+        int right_ones = rightTeamScore % 10;
+
+        int right_digit_index = 0;
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(right_score_mask)) {
+                auto& drawable = World::getComponent<Drawable>(e);
+
+                switch(right_digit_index) {
+                    case 0: // Tens digit
+                        drawable.part = getDigitTexture(right_tens);
+                        break;
+                    case 1: // Ones digit
+                        drawable.part = getDigitTexture(right_ones);
+                        break;
+                }
+                right_digit_index++;
+            }
+        }
+    }
+
+
+
+
 
 
 
@@ -1100,11 +1202,13 @@ namespace football {
             move_system();
             physic_system();
             score_system();
-            timer_system(); // ADD THIS LINE - Call timer system every frame
+            timer_system();
+            score_display_system();
             pick_power_up_system();
             remove_power_up_system();
             update_power_up_timer_system();
             draw_system();
+
 
             auto end = SDL_GetTicks();
             if (end-start < GAME_FRAME) {

@@ -35,6 +35,9 @@ namespace football {
     using Timer = struct {Uint64 start_time;  float time_remaining; bool paused;};
     using PowerUp = struct { bool bigger, faster, available; Timer time_out_timer; };
     using CarryPowerUp = struct { bool bigger, faster; Timer time_remaining_timer; };
+    //tags to distinguish score for left/right team
+    using LeftScoreDigit = struct {};
+    using RightScoreDigit = struct {};
 
     class Football
     {
@@ -61,6 +64,8 @@ namespace football {
         void createGoalSensor(bool isLeftGoal) const;
         void createDataBar() const;
         void createScoreFrame() const;
+        void createScoreDisplay() const;
+        void score_display_system();
 
         //debug:
         inline static bool DEBUG_MODE = false;
