@@ -1086,27 +1086,11 @@ namespace football {
         float digit_height = 7.0f;
         float score_offset = 12.0f; // Distance from center
 
-        // Left team score (tens and ones digits)
-        Entity leftScoreTensEntity = Entity::create();
-        leftScoreTensEntity.addAll(
-            Transform{{scoreboard_center_x - score_offset - digit_width, scoreboard_y}, 0},
-            Drawable{DIGIT_TEX_0, {digit_width, digit_height}, digitTex},
-            LeftScoreDigit{}  // Tag this as left score digit
-        );
-
         Entity leftScoreOnesEntity = Entity::create();
         leftScoreOnesEntity.addAll(
             Transform{{scoreboard_center_x - score_offset, scoreboard_y}, 0},
             Drawable{DIGIT_TEX_0, {digit_width, digit_height}, digitTex},
             LeftScoreDigit{}  // Tag this as left score digit
-        );
-
-        // Right team score (tens and ones digits)
-        Entity rightScoreTensEntity = Entity::create();
-        rightScoreTensEntity.addAll(
-            Transform{{scoreboard_center_x + score_offset, scoreboard_y}, 0},
-            Drawable{DIGIT_TEX_0, {digit_width, digit_height}, digitTex},
-            RightScoreDigit{}  // Tag this as right score digit
         );
 
         Entity rightScoreOnesEntity = Entity::create();
@@ -1131,45 +1115,19 @@ namespace football {
             .set<RightScoreDigit>()
             .build();
 
-        // Update left team score digits
-        int left_tens = leftTeamScore / 10;
-        int left_ones = leftTeamScore % 10;
-
-        int left_digit_index = 0;
         for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
             if (World::mask(e).test(left_score_mask)) {
                 auto& drawable = World::getComponent<Drawable>(e);
 
-                switch(left_digit_index) {
-                    case 0: // Tens digit
-                        drawable.part = getDigitTexture(left_tens);
-                        break;
-                    case 1: // Ones digit
-                        drawable.part = getDigitTexture(left_ones);
-                        break;
-                }
-                left_digit_index++;
+                drawable.part = getDigitTexture(leftTeamScore);
             }
         }
 
-        // Update right team score digits
-        int right_tens = rightTeamScore / 10;
-        int right_ones = rightTeamScore % 10;
-
-        int right_digit_index = 0;
         for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
             if (World::mask(e).test(right_score_mask)) {
                 auto& drawable = World::getComponent<Drawable>(e);
 
-                switch(right_digit_index) {
-                    case 0: // Tens digit
-                        drawable.part = getDigitTexture(right_tens);
-                        break;
-                    case 1: // Ones digit
-                        drawable.part = getDigitTexture(right_ones);
-                        break;
-                }
-                right_digit_index++;
+                drawable.part = getDigitTexture(rightTeamScore);
             }
         }
     }
