@@ -36,6 +36,7 @@ namespace football {
     using PowerUp = struct { bool bigger, faster, available; Timer time_out_timer; };
     using CarryPowerUp = struct { bool bigger, faster; Timer time_remaining_timer; };
     using Destroy = struct { b2BodyId body; };
+    using MovementPause = struct { Timer timer; };
 
     class Football
     {
@@ -62,6 +63,7 @@ namespace football {
         void createGoalSensor(bool isLeftGoal) const;
         void createDataBar() const;
         void createScoreFrame() const;
+        void createEndGameMessage() const;
 
         //debug:
         inline static bool DEBUG_MODE = false;
@@ -92,6 +94,9 @@ namespace football {
         void enablePowerUp(PowerUp& powerUp, bagel::ent_type powerUpEntity)const;
         void disablePowerUp(PowerUp& powerUp, bagel::ent_type powerUpEntity)const;
         void destroy_entities_system() const;
+        void after_goal_pause() const;
+        void after_goal_pause_system() const;
+        void win_system();
 
 
 
@@ -108,6 +113,9 @@ namespace football {
         b2WorldId boxWorld = b2_nullWorldId;
         int leftTeamScore = 0;
         int rightTeamScore = 0;
+        bool gameTimeFinished = false;
+        bool endGame = false;
+        static constexpr int GOALS_TO_WIN = 3;
 
 
             //Physical System Sizes:
@@ -185,6 +193,8 @@ namespace football {
 
         static constexpr float	POWER_UP_TIME_OUT_TIMER = 10000.0f;
         static constexpr float	POWER_UP_TIMER = 5000.0f;
+        static constexpr float	AFTER_GOAL_PAUSE_TIMER = 2000.0f;
+
 
     };
 }

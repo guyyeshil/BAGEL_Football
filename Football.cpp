@@ -413,6 +413,18 @@ namespace football {
         b2Body_SetUserData(sensorBody,new ent_type{goalSensor.entity()});
     }
 
+    void Football::createEndGameMessage() const {
+
+        SDL_FRect messagePosition = {FIELD_WIDTH / 2, FIELD_HEIGHT / 3, 0, 0};
+
+        Entity::create().addAll(
+                Transform{{messagePosition.x, messagePosition.y}, 0},
+                Drawable{FIELD_TEX, {FIELD_WIDTH, FIELD_HEIGHT}, fieldTex}
+        );
+
+    }
+
+
     void Football::applyDebugFunctions() const
     {
         createDebugBox();
@@ -596,6 +608,7 @@ namespace football {
                         // Game time is up
                         remaining_time = 0;
                         gameTimer.is_running = false;
+                        gameTimeFinished = true;
                         cout << "Game time finished!" << endl;
                     }
 
@@ -827,15 +840,20 @@ namespace football {
 
             if (World::mask(*goalSensor).test(goalLeftMask))
             {
-                if(World::mask(*visitorType).test(ballMask))
+                if(World::mask(*visitorType).test(ballMask)) {
                     rightTeamScore++;
+                    reset_location_system();
+                    after_goal_pause();
+                }
             }
             else if (World::mask(*goalSensor).test(goalRightMask))
             {
-                if(World::mask(*visitorType).test(ballMask))
+                if(World::mask(*visitorType).test(ballMask)) {
                     leftTeamScore++;
+                    reset_location_system();
+                    after_goal_pause();
+                }
             }
-            //reset_location_system();
         }
     }
 
@@ -880,6 +898,8 @@ namespace football {
             .set<Collider>()
             .build();
 
+        static const Mask powerUpMask = MaskBuilder().set<CarryPowerUp>().build();
+
         for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
             if (World::mask(e).test(mask)) {
 
@@ -889,10 +909,46 @@ namespace football {
 
                 transform.position = startPos.position;
                 transform.angle = startPos.angle;
-                b2Body_SetTransform(body,{startPos.position.x,startPos.position.y},b2Body_GetRotation(body));
+                b2Body_SetTransform(body,{startPos.position.x,startPos.position.y},b2MakeRot(0.0f));
+
+                b2Body_SetLinearVelocity(body, {0,0});
+            }
+
+            if (World::mask(e).test(powerUpMask))
+                World::delComponent<CarryPowerUp>(e);
+        }
+    }
+
+    void Football::after_goal_pause() const {
+
+        static const Mask mask = MaskBuilder().set<Intent>().build();
+
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(mask)) {
+
+                World::delComponent<Intent>(e);
+                World::addComponent(e,MovementPause{SDL_GetTicks(),AFTER_GOAL_PAUSE_TIMER,false});
             }
         }
     }
+
+    void Football::after_goal_pause_system() const {
+        static const Mask mask = MaskBuilder().set<MovementPause>().build();
+
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(mask)) {
+
+                auto& timer =  World::getComponent<MovementPause>(e).timer;
+
+                if (SDL_GetTicks() - timer.start_time >= timer.time_remaining){
+
+                    World::delComponent<MovementPause>(e);
+                    World::addComponent(e,Intent{});
+                }
+            }
+        }
+    }
+
 
     void Football::pick_power_up_system() const
     {
@@ -1056,6 +1112,30 @@ namespace football {
         }
     }
 
+    void Football::win_system() {
+
+        if (gameTimeFinished) {
+            if (rightTeamScore > leftTeamScore)
+                createEndGameMessage();
+            else if (rightTeamScore < leftTeamScore)
+                createEndGameMessage();
+            else
+                createEndGameMessage();
+            endGame = true;
+        }
+
+        if (rightTeamScore == GOALS_TO_WIN) {
+            createEndGameMessage();
+            endGame = true;
+        }
+        else if (leftTeamScore == GOALS_TO_WIN) {
+            createEndGameMessage();
+            endGame = true;
+        }
+
+    }
+
+
 
 
 
@@ -1067,7 +1147,7 @@ namespace football {
 
         InputSystem is;
 
-        while (!quit) {
+        while (!quit && !endGame) {
             is.updateEntities();
             //first updateEntities() for all systems
 
@@ -1081,10 +1161,12 @@ namespace football {
             move_system();
             physic_system();
             score_system();
+            after_goal_pause_system();
             timer_system(); // ADD THIS LINE - Call timer system every frame
             pick_power_up_system();
             remove_power_up_system();
             update_power_up_timer_system();
+            win_system();
             destroy_entities_system();
             draw_system();
 
@@ -1099,6 +1181,10 @@ namespace football {
                 quit = (e.type == SDL_EVENT_QUIT) ||
                        (e.type == SDL_EVENT_KEY_DOWN && e.key.scancode == SDL_SCANCODE_ESCAPE);
             }
+        }
+
+        if (endGame) {
+            SDL_Delay(3000);
         }
     }
 }
