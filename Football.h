@@ -105,9 +105,6 @@ namespace football {
 
 
 
-
-
-
         //Game Data:
         static constexpr int	FPS = 60;
         static constexpr float	GAME_FRAME = 1000.f/FPS;
@@ -122,7 +119,6 @@ namespace football {
         bool endGame = false;
         static constexpr int GOALS_TO_WIN = 3;
 
-
             //Physical System Sizes:
         static constexpr float	BALL_RADIUS = 0.75;
         static constexpr float	FIELD_WIDTH = 75;
@@ -133,15 +129,11 @@ namespace football {
         static constexpr float	REGULAR_SIZE = 1.0;
         static constexpr float	BIGGER_SIZE = 1.3;
         static constexpr float	POWER_UP_CIRCLE_RADIUS = 1.0;
-
-
-
                 //goals:
         static constexpr float SIDE_BAR_WIDTH = FIELD_WIDTH * (1 / 24.f);
         static constexpr float BACK_BAR_HEIGHT = FIELD_HEIGHT * (2.3 / 16.f);
         static constexpr float BACK_BAR_POS = FIELD_WIDTH * (1.85 / 24.f);
         static constexpr float BAR_HALF_THICKNESS = 0.1;
-
 
             //Positions:
         SDL_FPoint ball_start_position = {FIELD_WIDTH/2, FIELD_HEIGHT/2};
@@ -153,9 +145,6 @@ namespace football {
         SDL_FPoint right_team_car_lower_start_position = {FIELD_WIDTH * 3/4, FIELD_HEIGHT * 3/4};
         SDL_FPoint speed_up_boost_position = {FIELD_WIDTH/2, FIELD_HEIGHT * 3/4};
         SDL_FPoint size_up_boost_position = {FIELD_WIDTH/2, FIELD_HEIGHT/4};
-
-
-
 
 
         //Renders:
@@ -177,9 +166,9 @@ namespace football {
         static constexpr SDL_FRect DIGIT_TEX_7 = {464, 417, 232, 417};
         static constexpr SDL_FRect DIGIT_TEX_8 = {695, 417, 231, 417};
         static constexpr SDL_FRect DIGIT_TEX_9 = {927, 417, 232, 417};
-        static constexpr SDL_FRect RED_TEAM_WIN_TEX = {0, 0, 2045, 666};
-        static constexpr SDL_FRect BLUE_TEAM_WIN_TEX = {0, 710, 2045, 555};
-        static constexpr SDL_FRect DRAW_TEX = {0, 1350, 2045, 500};
+        static constexpr SDL_FRect BLUE_TEAM_WIN_TEX = {0, 0, 1622, 334};
+        static constexpr SDL_FRect RED_TEAM_WIN_TEX = {0, 334, 1622, 334};
+        static constexpr SDL_FRect DRAW_TEX = {0, 668, 1622, 334};
 
         SDL_Texture* ballTex;
         SDL_Texture* fieldTex;
@@ -189,8 +178,6 @@ namespace football {
         SDL_Texture* digitTex;
         SDL_Texture* powerUpsTex;
         SDL_Texture* endGameTex;
-
-
 
         SDL_Renderer* ren;
         SDL_Window* win;
@@ -202,7 +189,5 @@ namespace football {
         static constexpr float	POWER_UP_TIME_OUT_TIMER = 10000.0f;
         static constexpr float	POWER_UP_TIMER = 5000.0f;
         static constexpr float	AFTER_GOAL_PAUSE_TIMER = 2000.0f;
-
-
     };
 }
