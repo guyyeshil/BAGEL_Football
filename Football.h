@@ -63,7 +63,7 @@ namespace football {
         void createGoalSensor(bool isLeftGoal) const;
         void createDataBar() const;
         void createScoreFrame() const;
-        void createEndGameMessage() const;
+        void createEndGameMessage(const SDL_FRect& part) const;
 
         //debug:
         inline static bool DEBUG_MODE = false;
@@ -162,6 +162,12 @@ namespace football {
         static constexpr SDL_FRect SCOUR_FRAME_TEX = {0, 0, 660, 403};
         static constexpr SDL_FRect SPEED_UP_TEX = {0, 0, 1020, 1020};
         static constexpr SDL_FRect SIZE_UP_TEX = {1040, 0, 1020, 1020};
+        static constexpr SDL_FRect RED_TEAM_WIN_TEX = {0, 0, 2045, 666};
+        static constexpr SDL_FRect BLUE_TEAM_WIN_TEX = {0, 710, 2045, 555};
+        static constexpr SDL_FRect DRAW_TEX = {0, 1350, 2045, 500};
+
+
+
             //textures of digits
         static constexpr SDL_FRect DIGIT_TEX_0 = {0, 0, 229, 417};
         static constexpr SDL_FRect DIGIT_TEX_1 = {229, 0, 229, 417};
@@ -182,6 +188,8 @@ namespace football {
         //with digit to draw
         SDL_Texture* digitTex;
         SDL_Texture* powerUpsTex;
+        SDL_Texture* endGameTex;
+
 
 
         SDL_Renderer* ren;

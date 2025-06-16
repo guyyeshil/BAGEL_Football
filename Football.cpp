@@ -114,6 +114,17 @@ namespace football {
             return false;
         }
 
+        surf = IMG_Load("res/endGameMsg.png");
+        if (surf == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+
+        endGameTex = SDL_CreateTextureFromSurface(ren, surf);
+        if (endGameTex == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
 
         SDL_DestroySurface(surf);
         return true;
@@ -147,6 +158,8 @@ namespace football {
             SDL_DestroyTexture(powerUpsTex);
         if (digitTex != nullptr)
             SDL_DestroyTexture(digitTex);
+        if (endGameTex != nullptr)
+            SDL_DestroyTexture(endGameTex);
         if (ren != nullptr)
             SDL_DestroyRenderer(ren);
         if (win != nullptr)
@@ -413,13 +426,13 @@ namespace football {
         b2Body_SetUserData(sensorBody,new ent_type{goalSensor.entity()});
     }
 
-    void Football::createEndGameMessage() const {
+    void Football::createEndGameMessage(const SDL_FRect& part) const {
 
         SDL_FRect messagePosition = {FIELD_WIDTH / 2, FIELD_HEIGHT / 3, 0, 0};
 
         Entity::create().addAll(
                 Transform{{messagePosition.x, messagePosition.y}, 0},
-                Drawable{FIELD_TEX, {FIELD_WIDTH, FIELD_HEIGHT}, fieldTex}
+                Drawable{part, {FIELD_WIDTH/2, FIELD_HEIGHT/8}, endGameTex}
         );
 
     }
@@ -1116,20 +1129,20 @@ namespace football {
 
         if (gameTimeFinished) {
             if (rightTeamScore > leftTeamScore)
-                createEndGameMessage();
+                createEndGameMessage(RED_TEAM_WIN_TEX);
             else if (rightTeamScore < leftTeamScore)
-                createEndGameMessage();
+                createEndGameMessage(BLUE_TEAM_WIN_TEX);
             else
-                createEndGameMessage();
+                createEndGameMessage(DRAW_TEX);
             endGame = true;
         }
 
         if (rightTeamScore == GOALS_TO_WIN) {
-            createEndGameMessage();
+            createEndGameMessage(RED_TEAM_WIN_TEX);
             endGame = true;
         }
         else if (leftTeamScore == GOALS_TO_WIN) {
-            createEndGameMessage();
+            createEndGameMessage(BLUE_TEAM_WIN_TEX);
             endGame = true;
         }
 
