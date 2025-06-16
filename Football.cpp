@@ -657,8 +657,6 @@ namespace football {
                 break; // Only one timer entity expected
             }
         }
-
-        SDL_RenderPresent(ren);
     }
 
     class InputSystem

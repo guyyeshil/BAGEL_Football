@@ -39,8 +39,6 @@
     <list default="true" id="2d1f489d-b4e0-479e-8e6b-42b9ed6fae6a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Football.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Football.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Football.h" beforeDir="false" afterPath="$PROJECT_DIR$/Football.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/check.txt" beforeDir="false" afterPath="$PROJECT_DIR$/check.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,15 +65,11 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock://C:/football/Football.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/football/Football.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Football.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.h" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/guyye/OneDrive/שולחן העבודה/גיא/לימודים/נושאים מתקדמים בתכנות/football/Football.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/football/Football.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/football/Football.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Football.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Pong.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Pong.h" root0="FORCE_HIGHLIGHTING" />
@@ -115,7 +109,7 @@
     "cf.advertisement.text.has.clang-format": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "Merging master",
+    "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -127,6 +121,11 @@
   }
 }]]></component>
   <component name="RunManager" selected="CMake Application.BAGEL">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="BAGEL" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BAGEL" TARGET_NAME="BAGEL" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BAGEL" RUN_TARGET_NAME="BAGEL">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
