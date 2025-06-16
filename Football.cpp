@@ -103,6 +103,17 @@ namespace football {
             return false;
         }
 
+        surf = IMG_Load("res/colon.png");
+        if (surf == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+        digitColonTex = SDL_CreateTextureFromSurface(ren, surf);
+        if (digitColonTex == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+
         surf = IMG_Load("res/powerUps.png");
         if (surf == nullptr) {
             cout << SDL_GetError() << endl;
@@ -159,6 +170,8 @@ namespace football {
             SDL_DestroyTexture(powerUpsTex);
         if (digitTex != nullptr)
             SDL_DestroyTexture(digitTex);
+        if (digitColonTex != nullptr)
+            SDL_DestroyTexture(digitColonTex);
         if (endGameTex != nullptr)
             SDL_DestroyTexture(endGameTex);
         if (ren != nullptr)
@@ -570,13 +583,13 @@ namespace football {
                 TimerDigit{}  // Tag this as a timer digit
         );
 
-        // // Colon
-        // Entity colonEntity = Entity::create();
-        // colonEntity.addAll(
-        //     Transform{{timer_start_x + digit_width + 0.2f, timer_y}, 0},
-        //     Drawable{COLON_TEX, {digit_width * 0.5f, digit_height}, digitTex}
-        // );
-        //
+         // Colon
+         Entity colonEntity = Entity::create();
+         colonEntity.addAll(
+             Transform{{timer_start_x + digit_width*3/4 + 0.2f, timer_y}, 0},
+             Drawable{DIGIT_TEX_COLON, {digit_width/2 * 0.5f, digit_height}, digitColonTex}
+         );
+
         // Seconds tens digit
         Entity secondsTensEntity = Entity::create();
         secondsTensEntity.addAll(
@@ -588,7 +601,7 @@ namespace football {
         // Seconds ones digit
         Entity secondsOnesEntity = Entity::create();
         secondsOnesEntity.addAll(
-                Transform{{timer_start_x + digit_width * 2.7f, timer_y}, 0},
+                Transform{{timer_start_x + digit_width * 2.8f, timer_y}, 0},
                 Drawable{DIGIT_TEX_0, {digit_width, digit_height}, digitTex},
                 TimerDigit{}  // Tag this as a timer digit
         );

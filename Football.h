@@ -166,6 +166,7 @@ namespace football {
         static constexpr SDL_FRect DIGIT_TEX_7 = {464, 417, 232, 417};
         static constexpr SDL_FRect DIGIT_TEX_8 = {695, 417, 231, 417};
         static constexpr SDL_FRect DIGIT_TEX_9 = {927, 417, 232, 417};
+        static constexpr SDL_FRect DIGIT_TEX_COLON = {0, 0, 275, 1466};
         static constexpr SDL_FRect BLUE_TEAM_WIN_TEX = {0, 0, 1622, 334};
         static constexpr SDL_FRect RED_TEAM_WIN_TEX = {0, 334, 1622, 334};
         static constexpr SDL_FRect DRAW_TEX = {0, 668, 1622, 334};
@@ -176,6 +177,7 @@ namespace football {
         SDL_Texture* scoreFrameTex;
         //with digit to draw
         SDL_Texture* digitTex;
+        SDL_Texture* digitColonTex;
         SDL_Texture* powerUpsTex;
         SDL_Texture* endGameTex;
 
