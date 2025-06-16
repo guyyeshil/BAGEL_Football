@@ -945,31 +945,42 @@ namespace football
         SDL_RenderPresent(ren);
     }
 
-    void Football::reset_location_system() const {
+    void Football::reset_location_system() const
+    {
         static const Mask mask = MaskBuilder()
-                .set<StartingPosition>()
-                .set<Transform>()
-                .set<Collider>()
-                .build();
+            .set<StartingPosition>()
+            .set<Transform>()
+            .set<Collider>()
+            .build();
 
-        static const Mask powerUpMask = MaskBuilder().set<CarryPowerUp>().build();
+        static const Mask powerUpMask = MaskBuilder().set<CarryPowerUp>().set<Collider>().build();
 
         for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
             if (World::mask(e).test(mask)) {
 
-                auto &transform = World::getComponent<Transform>(e);
-                const auto &startPos = World::getComponent<StartingPosition>(e);
-                auto &body = World::getComponent<Collider>(e).body;
+                auto& transform = World::getComponent<Transform>(e);
+                const auto& startPos = World::getComponent<StartingPosition>(e);
+                auto& body = World::getComponent<Collider>(e).body;
 
                 transform.position = startPos.position;
                 transform.angle = startPos.angle;
-                b2Body_SetTransform(body, {startPos.position.x, startPos.position.y}, b2MakeRot(0.0f));
+                b2Body_SetTransform(body,{startPos.position.x,startPos.position.y},b2MakeRot(0.0f));
 
-                b2Body_SetLinearVelocity(body, {0, 0});
+                b2Body_SetLinearVelocity(body, {0,0});
             }
 
-            if (World::mask(e).test(powerUpMask))
+            if (World::mask(e).test(powerUpMask)) {
+
+                const auto& carryPowerUp = World::getComponent<CarryPowerUp>(e);
+                auto& body = World::getComponent<Collider>(e).body;
+
+                if (carryPowerUp.bigger)
+                    change_car_size(body,e,REGULAR_SIZE);
+                if (carryPowerUp.faster)
+                    remove_faster_power_up(body,e);
+
                 World::delComponent<CarryPowerUp>(e);
+            }
         }
     }
 
