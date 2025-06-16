@@ -456,7 +456,8 @@ namespace football
 
         Entity::create().addAll(
                 Transform{{messagePosition.x, messagePosition.y}, 0},
-                Drawable{part, {FIELD_WIDTH / 2, FIELD_HEIGHT / 8}, endGameTex}
+                Drawable{part, {FIELD_WIDTH / 2, FIELD_HEIGHT / 8}, endGameTex},
+                EndGameMsg{}
         );
     }
 
@@ -1166,7 +1167,10 @@ namespace football
                 auto &destroy = World::getComponent<Destroy>(e);
 
                 World::destroyEntity(e);
+
+                if (static_cast<ent_type *>(b2Body_GetUserData(destroy.body))!= nullptr)
                 delete static_cast<ent_type *>(b2Body_GetUserData(destroy.body));
+
                 b2DestroyBody(destroy.body);
             }
         }
@@ -1248,6 +1252,17 @@ namespace football
             }
         }
     }
+
+    void Football::remove_end_game_message_system() const {
+
+        static const Mask mask = MaskBuilder().set<EndGameMsg>().build();
+
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(mask))
+                World::destroyEntity(e);
+        }
+    }
+
 
     void Football::run()
     {
@@ -1400,7 +1415,7 @@ namespace football
         leftTeamScore = 0;
         rightTeamScore = 0;
         gameTimeFinished = false;
-        //todo delete winner massage
+        remove_end_game_message_system();
         //todo reset time game
     }
 }

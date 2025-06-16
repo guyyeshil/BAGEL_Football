@@ -40,6 +40,7 @@ namespace football {
     using RightScoreDigit = struct {};
     using Destroy = struct { b2BodyId body; };
     using MovementPause = struct { Timer timer; };
+    using EndGameMsg = struct {};
 
     class Football
     {
@@ -103,6 +104,7 @@ namespace football {
         void after_goal_pause() const;
         void after_goal_pause_system() const;
         void win_system();
+        void remove_end_game_message_system() const;
 
 
 
