@@ -35,6 +35,9 @@ namespace football {
     using Timer = struct {Uint64 start_time;  float time_remaining; bool paused;};
     using PowerUp = struct { bool bigger, faster, available; Timer time_out_timer; };
     using CarryPowerUp = struct { bool bigger, faster; Timer time_remaining_timer; };
+    //tags to distinguish score for left/right team
+    using LeftScoreDigit = struct {};
+    using RightScoreDigit = struct {};
 
     class Football
     {
@@ -61,6 +64,8 @@ namespace football {
         void createGoalSensor(bool isLeftGoal) const;
         void createDataBar() const;
         void createScoreFrame() const;
+        void createScoreDisplay() const;
+        void score_display_system();
 
         //debug:
         inline static bool DEBUG_MODE = false;
@@ -108,7 +113,7 @@ namespace football {
         int rightTeamScore = 0;
 
 
-            //Physical System Sizes:
+        //Physical System Sizes:
         static constexpr float	BALL_RADIUS = 0.75;
         static constexpr float	FIELD_WIDTH = 75;
         static constexpr float	FIELD_HEIGHT = 50;
@@ -152,7 +157,6 @@ namespace football {
         static constexpr SDL_FRect SCOUR_FRAME_TEX = {0, 0, 660, 403};
         static constexpr SDL_FRect SPEED_UP_TEX = {0, 0, 1020, 1020};
         static constexpr SDL_FRect SIZE_UP_TEX = {1040, 0, 1020, 1020};
-        //textures of digits
         static constexpr SDL_FRect DIGIT_TEX_0 = {0, 0, 232, 417};
         static constexpr SDL_FRect DIGIT_TEX_1 = {232, 0, 232, 417};
         static constexpr SDL_FRect DIGIT_TEX_2 = {464, 0, 231, 417};

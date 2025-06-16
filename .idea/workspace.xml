@@ -36,7 +36,12 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d1f489d-b4e0-479e-8e6b-42b9ed6fae6a" name="Changes" comment="" />
+    <list default="true" id="2d1f489d-b4e0-479e-8e6b-42b9ed6fae6a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Football.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Football.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Football.h" beforeDir="false" afterPath="$PROJECT_DIR$/Football.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/check.txt" beforeDir="false" afterPath="$PROJECT_DIR$/check.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,7 +52,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/lib/SDL" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -110,7 +115,7 @@
     "cf.advertisement.text.has.clang-format": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "0add0378",
+    "git-widget-placeholder": "Merging master",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -122,11 +127,6 @@
   }
 }]]></component>
   <component name="RunManager" selected="CMake Application.BAGEL">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="BAGEL" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BAGEL" TARGET_NAME="BAGEL" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BAGEL" RUN_TARGET_NAME="BAGEL">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -159,11 +159,11 @@
     </configuration>
     <list>
       <item itemvalue="CMake Application.BAGEL" />
-      <item itemvalue="CMake Application.box2d" />
       <item itemvalue="CMake Application.SDL3-static" />
+      <item itemvalue="CMake Application.SDL3_image-static" />
       <item itemvalue="CMake Application.SDL3_test" />
       <item itemvalue="CMake Application.SDL_uclibc" />
-      <item itemvalue="CMake Application.SDL3_image-static" />
+      <item itemvalue="CMake Application.box2d" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -182,6 +182,8 @@
       <workItem from="1749243450922" duration="2269000" />
       <workItem from="1749245790027" duration="3163000" />
       <workItem from="1749283102777" duration="5666000" />
+      <workItem from="1749986860130" duration="2000" />
+      <workItem from="1749986979255" duration="2938000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
