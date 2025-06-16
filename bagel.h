@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <cstring>
 #include <algorithm>
+#include <iostream>
 #include <type_traits>
 
 namespace bagel
@@ -13,10 +14,10 @@ namespace bagel
 		bool	AggregateUpdates = true;
 		bool	CallbackOnDestroy = true;
 		bool	DynamicResize = false;
-		int		IdBagSize = 50;
-		int		InitialEntities = 100;
+		int		IdBagSize = 300;
+		int		InitialEntities = 300;
 		int		InitialPackedSize = 5;
-		int		MaxComponents = 10;
+		int		MaxComponents = 20;
 	};
 
 	template <class T> struct Storage;
@@ -261,6 +262,7 @@ namespace bagel
 				Mask m = _masks[ent.id];
 				int ctz = m.ctz(); // count-trailing-zeros
 				while (ctz >= 0) {
+
 					if (_callbacks[ctz].destroy != nullptr)
 						_callbacks->destroy(ent);
 					m.clear(Mask::bit(ctz));

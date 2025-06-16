@@ -38,6 +38,8 @@ namespace football {
     //tags to distinguish score for left/right team
     using LeftScoreDigit = struct {};
     using RightScoreDigit = struct {};
+    using Destroy = struct { b2BodyId body; };
+    using MovementPause = struct { Timer timer; };
 
     class Football
     {
@@ -66,6 +68,7 @@ namespace football {
         void createScoreFrame() const;
         void createScoreDisplay() const;
         void score_display_system();
+        void createEndGameMessage(const SDL_FRect& part) const;
 
         //debug:
         inline static bool DEBUG_MODE = false;
@@ -90,11 +93,15 @@ namespace football {
         void remove_power_up_system() const;
         void update_power_up_timer_system() const;
         void give_power_up(b2BodyId carBodyId, bagel::ent_type e, PowerUp powerUp) const;
-        void change_car_size(b2BodyId carBodyId, bagel::ent_type e, float size_scale) const;
+        bagel::ent_type change_car_size(b2BodyId carBodyId, bagel::ent_type e, float size_scale) const;
         void give_faster_power_up(b2BodyId carBodyId, bagel::ent_type e) const;
         void remove_faster_power_up(b2BodyId carBodyId, bagel::ent_type e) const;
         void enablePowerUp(PowerUp& powerUp, bagel::ent_type powerUpEntity)const;
         void disablePowerUp(PowerUp& powerUp, bagel::ent_type powerUpEntity)const;
+        void destroy_entities_system() const;
+        void after_goal_pause() const;
+        void after_goal_pause_system() const;
+        void win_system();
 
 
 
@@ -111,9 +118,12 @@ namespace football {
         b2WorldId boxWorld = b2_nullWorldId;
         int leftTeamScore = 0;
         int rightTeamScore = 0;
+        bool gameTimeFinished = false;
+        bool endGame = false;
+        static constexpr int GOALS_TO_WIN = 3;
 
 
-        //Physical System Sizes:
+            //Physical System Sizes:
         static constexpr float	BALL_RADIUS = 0.75;
         static constexpr float	FIELD_WIDTH = 75;
         static constexpr float	FIELD_HEIGHT = 50;
@@ -167,7 +177,9 @@ namespace football {
         static constexpr SDL_FRect DIGIT_TEX_7 = {464, 417, 232, 417};
         static constexpr SDL_FRect DIGIT_TEX_8 = {695, 417, 231, 417};
         static constexpr SDL_FRect DIGIT_TEX_9 = {927, 417, 232, 417};
-        // static constexpr SDL_FRect COLON_TEX = {320, 0, 16, 417};
+        static constexpr SDL_FRect RED_TEAM_WIN_TEX = {0, 0, 2045, 666};
+        static constexpr SDL_FRect BLUE_TEAM_WIN_TEX = {0, 710, 2045, 555};
+        static constexpr SDL_FRect DRAW_TEX = {0, 1350, 2045, 500};
 
         SDL_Texture* ballTex;
         SDL_Texture* fieldTex;
@@ -176,6 +188,8 @@ namespace football {
         //with digit to draw
         SDL_Texture* digitTex;
         SDL_Texture* powerUpsTex;
+        SDL_Texture* endGameTex;
+
 
 
         SDL_Renderer* ren;
@@ -187,6 +201,8 @@ namespace football {
 
         static constexpr float	POWER_UP_TIME_OUT_TIMER = 10000.0f;
         static constexpr float	POWER_UP_TIMER = 5000.0f;
+        static constexpr float	AFTER_GOAL_PAUSE_TIMER = 2000.0f;
+
 
     };
 }

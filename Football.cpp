@@ -115,6 +115,17 @@ namespace football {
             return false;
         }
 
+        surf = IMG_Load("res/endGameMsg.png");
+        if (surf == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
+
+        endGameTex = SDL_CreateTextureFromSurface(ren, surf);
+        if (endGameTex == nullptr) {
+            cout << SDL_GetError() << endl;
+            return false;
+        }
 
         SDL_DestroySurface(surf);
         return true;
@@ -148,6 +159,8 @@ namespace football {
             SDL_DestroyTexture(powerUpsTex);
         if (digitTex != nullptr)
             SDL_DestroyTexture(digitTex);
+        if (endGameTex != nullptr)
+            SDL_DestroyTexture(endGameTex);
         if (ren != nullptr)
             SDL_DestroyRenderer(ren);
         if (win != nullptr)
@@ -414,6 +427,18 @@ namespace football {
         b2Body_SetUserData(sensorBody,new ent_type{goalSensor.entity()});
     }
 
+    void Football::createEndGameMessage(const SDL_FRect& part) const {
+
+        SDL_FRect messagePosition = {FIELD_WIDTH / 2, FIELD_HEIGHT / 3, 0, 0};
+
+        Entity::create().addAll(
+                Transform{{messagePosition.x, messagePosition.y}, 0},
+                Drawable{part, {FIELD_WIDTH/2, FIELD_HEIGHT/8}, endGameTex}
+        );
+
+    }
+
+
     void Football::applyDebugFunctions() const
     {
         createDebugBox();
@@ -597,6 +622,7 @@ namespace football {
                         // Game time is up
                         remaining_time = 0;
                         gameTimer.is_running = false;
+                        gameTimeFinished = true;
                         cout << "Game time finished!" << endl;
                     }
 
@@ -632,6 +658,7 @@ namespace football {
             }
         }
 
+        SDL_RenderPresent(ren);
     }
 
     class InputSystem
@@ -856,15 +883,20 @@ namespace football {
 
             if (World::mask(*goalSensor).test(goalLeftMask))
             {
-                if(World::mask(*visitorType).test(ballMask))
+                if(World::mask(*visitorType).test(ballMask)) {
                     rightTeamScore++;
+                    reset_location_system();
+                    after_goal_pause();
+                }
             }
             else if (World::mask(*goalSensor).test(goalRightMask))
             {
-                if(World::mask(*visitorType).test(ballMask))
+                if(World::mask(*visitorType).test(ballMask)) {
                     leftTeamScore++;
+                    reset_location_system();
+                    after_goal_pause();
+                }
             }
-            //reset_location_system();
         }
     }
 
@@ -909,6 +941,8 @@ namespace football {
             .set<Collider>()
             .build();
 
+        static const Mask powerUpMask = MaskBuilder().set<CarryPowerUp>().build();
+
         for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
             if (World::mask(e).test(mask)) {
 
@@ -918,19 +952,52 @@ namespace football {
 
                 transform.position = startPos.position;
                 transform.angle = startPos.angle;
-                b2Body_SetTransform(body,{startPos.position.x,startPos.position.y},b2Body_GetRotation(body));
+                b2Body_SetTransform(body,{startPos.position.x,startPos.position.y},b2MakeRot(0.0f));
+
+                b2Body_SetLinearVelocity(body, {0,0});
+            }
+
+            if (World::mask(e).test(powerUpMask))
+                World::delComponent<CarryPowerUp>(e);
+        }
+    }
+
+    void Football::after_goal_pause() const {
+
+        static const Mask mask = MaskBuilder().set<Intent>().build();
+
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(mask)) {
+
+                World::delComponent<Intent>(e);
+                World::addComponent(e,MovementPause{SDL_GetTicks(),AFTER_GOAL_PAUSE_TIMER,false});
             }
         }
     }
+
+    void Football::after_goal_pause_system() const {
+        static const Mask mask = MaskBuilder().set<MovementPause>().build();
+
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(mask)) {
+
+                auto& timer =  World::getComponent<MovementPause>(e).timer;
+
+                if (SDL_GetTicks() - timer.start_time >= timer.time_remaining){
+
+                    World::delComponent<MovementPause>(e);
+                    World::addComponent(e,Intent{});
+                }
+            }
+        }
+    }
+
 
     void Football::pick_power_up_system() const
     {
         const auto se = b2World_GetSensorEvents(boxWorld);
         static const Mask powerUpMask = MaskBuilder().set<PowerUp>().build();
         static const Mask carMask = MaskBuilder().set<Car>().build();
-
-        if (se.beginCount>0)//todo delete
-            cout<< se.beginCount<<endl;
 
         for (int i = 0; i < se.beginCount; ++i)
         {
@@ -953,15 +1020,17 @@ namespace football {
 
     void Football:: give_power_up(b2BodyId carBodyId, ent_type carEntity, PowerUp powerUp) const
     {
+        ent_type updatedCarEntity = carEntity;
+
         if (powerUp.bigger)
-            change_car_size(carBodyId,carEntity,BIGGER_SIZE);
+            updatedCarEntity = change_car_size(carBodyId,carEntity,BIGGER_SIZE);
         if (powerUp.faster)
             give_faster_power_up(carBodyId,carEntity);
 
-        World::addComponent(carEntity,CarryPowerUp{powerUp.bigger, powerUp.faster,{SDL_GetTicks(),POWER_UP_TIMER,false}});
+        World::addComponent(updatedCarEntity,CarryPowerUp{powerUp.bigger, powerUp.faster,{SDL_GetTicks(),POWER_UP_TIMER,false}});
     }
 
-    void Football:: change_car_size(b2BodyId oldBody, bagel::ent_type oldEntityId, float size_scale) const
+    ent_type Football:: change_car_size(b2BodyId oldBody, bagel::ent_type oldEntityId, float size_scale) const
     {
         b2Vec2 pos = b2Body_GetPosition(oldBody);
         b2Vec2 vel = b2Body_GetLinearVelocity(oldBody);
@@ -978,11 +1047,7 @@ namespace football {
         auto& oldBodySide = World::getComponent<Car>(oldEntityId).side;
         auto& oldBodyStartPos = World::getComponent<StartingPosition>(oldEntityId);
 
-
-        World::destroyEntity(oldEntityId);
-        delete static_cast<ent_type*>(b2Body_GetUserData(oldBody));
-        b2DestroyBody(oldBody);
-
+        World::addComponent(oldEntityId,Destroy{oldBody});
         ent_type newEntityId = createCar({pos.x, pos.y}, oldBodyDrawable.part, oldBodyKeys, oldBodySide, size_scale);
 
         auto& newBodyTransform = World::getComponent<Transform>(newEntityId);
@@ -1000,6 +1065,8 @@ namespace football {
 
         b2Body_SetLinearVelocity(newBody, vel);
         b2Body_SetTransform(newBody, pos, angle);
+
+        return newEntityId;
     }
 
     void Football:: give_faster_power_up(b2BodyId carBodyId, bagel::ent_type carEntity) const
@@ -1024,10 +1091,12 @@ namespace football {
                 auto& timer = carryPowerUp.time_remaining_timer;
 
                 if (SDL_GetTicks() - timer.start_time >= timer.time_remaining){
+
                     if (carryPowerUp.bigger)
                         change_car_size(bodyId,e,REGULAR_SIZE);
                     if (carryPowerUp.faster)
                         remove_faster_power_up(bodyId,e);
+
                     World::delComponent<CarryPowerUp>(e);
                 }
             }
@@ -1059,8 +1128,6 @@ namespace football {
             World::addComponent(powerUpEntity, Drawable{SIZE_UP_TEX,{POWER_UP_CIRCLE_RADIUS * 2, POWER_UP_CIRCLE_RADIUS * 2},powerUpsTex});
         if (powerUp.faster)
             World::addComponent(powerUpEntity, Drawable{SPEED_UP_TEX,{POWER_UP_CIRCLE_RADIUS * 2, POWER_UP_CIRCLE_RADIUS * 2},powerUpsTex});
-
-        cout << "powerUp enabled" << endl;
     }
 
     void Football::disablePowerUp(PowerUp& powerUp, ent_type powerUpEntity) const
@@ -1070,10 +1137,46 @@ namespace football {
         powerUp.time_out_timer.time_remaining = POWER_UP_TIME_OUT_TIMER;
 
         World::delComponent<Drawable>(powerUpEntity);
-
-        cout << "powerUp disabled" << endl;
     }
 
+    void Football::destroy_entities_system() const
+    {
+        static const Mask mask = MaskBuilder().set<Destroy>().build();
+
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(mask)) {
+
+                auto& destroy = World::getComponent<Destroy>(e);
+
+                World::destroyEntity(e);
+                delete static_cast<ent_type*>(b2Body_GetUserData(destroy.body));
+                b2DestroyBody(destroy.body);
+            }
+        }
+    }
+
+    void Football::win_system() {
+
+        if (gameTimeFinished) {
+            if (rightTeamScore > leftTeamScore)
+                createEndGameMessage(RED_TEAM_WIN_TEX);
+            else if (rightTeamScore < leftTeamScore)
+                createEndGameMessage(BLUE_TEAM_WIN_TEX);
+            else
+                createEndGameMessage(DRAW_TEX);
+            endGame = true;
+        }
+
+        if (rightTeamScore == GOALS_TO_WIN) {
+            createEndGameMessage(RED_TEAM_WIN_TEX);
+            endGame = true;
+        }
+        else if (leftTeamScore == GOALS_TO_WIN) {
+            createEndGameMessage(BLUE_TEAM_WIN_TEX);
+            endGame = true;
+        }
+
+    }
 
 
     //display score
@@ -1142,7 +1245,7 @@ namespace football {
 
         InputSystem is;
 
-        while (!quit) {
+        while (!quit && !endGame) {
             is.updateEntities();
             //first updateEntities() for all systems
 
@@ -1158,11 +1261,13 @@ namespace football {
             score_system();
             timer_system();
             score_display_system();
+            after_goal_pause_system();
             pick_power_up_system();
             remove_power_up_system();
             update_power_up_timer_system();
+            win_system();
+            destroy_entities_system();
             draw_system();
-
 
             auto end = SDL_GetTicks();
             if (end-start < GAME_FRAME) {
@@ -1175,6 +1280,10 @@ namespace football {
                 quit = (e.type == SDL_EVENT_QUIT) ||
                        (e.type == SDL_EVENT_KEY_DOWN && e.key.scancode == SDL_SCANCODE_ESCAPE);
             }
+        }
+
+        if (endGame) {
+            SDL_Delay(3000);
         }
     }
 }

@@ -13,8 +13,7 @@ add_executable(BAGEL main.cpp
         Pong.cpp
         Pong.h
         Football.h
-        football.cpp
-        Football.cpp Football.cpp Football.cpp)
+        Football.cpp)
 
 set(SDL_STATIC ON)
 set(SDL_SHARED OFF)
