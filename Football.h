@@ -12,7 +12,7 @@
 
 namespace football {
 
-
+    class InputSystem;
     static constexpr uint64_t GAME_DURATION_MS = 2 * 60 * 1000 + 30 * 1000; //2:30 minutes
 
 
@@ -47,9 +47,10 @@ namespace football {
         Football();
         ~Football();
 
-        /// game loop
         void run();
-        /// ensures initialization succeeded (ctor)
+        void loopGame(bool &quit, InputSystem &is);
+        bool showMenu();
+        void resetPregame();
         //bool valid() const;
 
     private:
@@ -97,8 +98,8 @@ namespace football {
         void give_faster_power_up(b2BodyId carBodyId, bagel::ent_type e) const;
         void remove_faster_power_up(b2BodyId carBodyId, bagel::ent_type e) const;
         void enablePowerUp(PowerUp& powerUp, bagel::ent_type powerUpEntity)const;
-        void disablePowerUp(PowerUp& powerUp, bagel::ent_type powerUpEntity)const;
-        void destroy_entities_system() const;
+        static void disablePowerUp(PowerUp& powerUp, bagel::ent_type powerUpEntity);
+        static void destroy_entities_system() ;
         void after_goal_pause() const;
         void after_goal_pause_system() const;
         void win_system();
@@ -170,6 +171,8 @@ namespace football {
         static constexpr SDL_FRect BLUE_TEAM_WIN_TEX = {0, 0, 1622, 334};
         static constexpr SDL_FRect RED_TEAM_WIN_TEX = {0, 334, 1622, 334};
         static constexpr SDL_FRect DRAW_TEX = {0, 668, 1622, 334};
+        static constexpr SDL_FRect MENU_TEX = {0, 0, 1576, 1187};
+
 
         SDL_Texture* ballTex;
         SDL_Texture* fieldTex;
@@ -180,6 +183,7 @@ namespace football {
         SDL_Texture* digitColonTex;
         SDL_Texture* powerUpsTex;
         SDL_Texture* endGameTex;
+        SDL_Texture* menuTex;
 
         SDL_Renderer* ren;
         SDL_Window* win;
