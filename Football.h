@@ -105,6 +105,7 @@ namespace football {
         void after_goal_pause_system() const;
         void win_system();
         void remove_end_game_message_system() const;
+        void reset_timer() const;
 
 
 

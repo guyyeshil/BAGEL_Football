@@ -610,7 +610,7 @@ namespace football
         secondsTensEntity.addAll(
                 Transform{{timer_start_x + digit_width * 1.7f, timer_y}, 0},
                 Drawable{DIGIT_TEX_3, {digit_width, digit_height}, digitTex},
-                TimerDigit{}  // Tag this as a timer digit
+                TimerDigit{}
         );
 
         // Seconds ones digit
@@ -618,7 +618,7 @@ namespace football
         secondsOnesEntity.addAll(
                 Transform{{timer_start_x + digit_width * 2.8f, timer_y}, 0},
                 Drawable{DIGIT_TEX_0, {digit_width, digit_height}, digitTex},
-                TimerDigit{}  // Tag this as a timer digit
+                TimerDigit{}
         );
     }
 
@@ -1410,6 +1410,22 @@ namespace football
         }
     }
 
+    void Football::reset_timer() const {
+        static const Mask timer_mask = MaskBuilder()
+                .set<GameTimer>()
+                .build();
+
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(timer_mask)) {
+                auto &gameTimer = World::getComponent<GameTimer>(e);
+                gameTimer.start_time = SDL_GetTicks();
+                gameTimer.is_running = true;
+                break;
+            }
+        }
+    }
+
+
     void Football::resetPregame()
     {
         leftTeamScore = 0;
@@ -1417,5 +1433,6 @@ namespace football
         gameTimeFinished = false;
         remove_end_game_message_system();
         //todo reset time game
+        Football::reset_timer();
     }
 }
