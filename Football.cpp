@@ -1429,6 +1429,7 @@ namespace football
         leftTeamScore = 0;
         rightTeamScore = 0;
         gameTimeFinished = false;
+        reset_location_system();
         remove_end_game_message_system();
         Football::reset_timer();
     }
