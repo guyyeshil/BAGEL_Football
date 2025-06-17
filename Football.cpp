@@ -1410,12 +1410,26 @@ namespace football
         }
     }
 
+    void Football::reset_timer() const {
+        static const Mask timer_mask = MaskBuilder()
+                .set<GameTimer>()
+                .build();
+
+        for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
+            if (World::mask(e).test(timer_mask)) {
+                auto &gameTimer = World::getComponent<GameTimer>(e);
+                gameTimer.start_time = SDL_GetTicks();
+                gameTimer.is_running = true;
+                break;
+            }
+        }
+    }
     void Football::resetPregame()
     {
         leftTeamScore = 0;
         rightTeamScore = 0;
         gameTimeFinished = false;
         remove_end_game_message_system();
-        //todo reset time game
+        Football::reset_timer();
     }
 }
