@@ -750,6 +750,7 @@ namespace football
     }
 
     void Football::move_system() {
+
         static const Mask mask = MaskBuilder()
                 .set<Intent>()
                 .set<Collider>()
@@ -757,6 +758,7 @@ namespace football
                 .set<Car>()
                 .build();
 
+        static const Mask powerUpMask = MaskBuilder().set<CarryPowerUp>().build();
 
         const float forward_force = 200.0f;
         const float backward_force = 100.0f;
@@ -859,6 +861,20 @@ namespace football
                             force.y = forward_y * backward_force;
                         }
                     }
+
+                    if (World::mask(e).test(powerUpMask)) {
+
+                        const auto &powerUp = World::getComponent<CarryPowerUp>(e);
+                        if (powerUp.bigger) {
+                            force.x = force.x * BIGGER_CAR_SPEED_SCALE;
+                            force.y = force.y * BIGGER_CAR_SPEED_SCALE;
+                        }
+                        if (powerUp.faster) {
+                            force.x = force.x * FASTER_CAR_SPEED_SCALE;
+                            force.y = force.y * FASTER_CAR_SPEED_SCALE;
+                        }
+                    }
+
                     b2Body_ApplyForceToCenter(collider.body, force, true);
                 }
 
