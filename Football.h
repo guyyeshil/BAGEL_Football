@@ -199,8 +199,8 @@ namespace football {
         static constexpr float	POWER_UP_TIMER = 5000.0f;
         static constexpr float	AFTER_GOAL_PAUSE_TIMER = 2000.0f;
 
-        static constexpr float	BIGGER_CAR_SPEED_SCALE = 1.3f;
-        static constexpr float	FASTER_CAR_SPEED_SCALE = 4.0f;
+        static constexpr float	BIGGER_CAR_SPEED_SCALE = 1.5f;
+        static constexpr float	FASTER_CAR_SPEED_SCALE = 2.0f;
 
 
 

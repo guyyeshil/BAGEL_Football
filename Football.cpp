@@ -197,13 +197,13 @@ namespace football
 
         b2ShapeDef ballShapeDef = b2DefaultShapeDef();
         ballShapeDef.enableSensorEvents = true;
-        ballShapeDef.density = 0.5;
-        ballShapeDef.material.friction = 0.5;//todo
-        ballShapeDef.material.restitution = 0.8f;
+        ballShapeDef.density = 0.3;
+        ballShapeDef.material.friction = 0.3;//todo
+        ballShapeDef.material.restitution = 1.1f;
         b2Circle ballCircle = {{0, 0}, BALL_RADIUS};
 
         b2BodyId ballBody = b2CreateBody(boxWorld, &ballBodyDef);
-        b2Body_SetLinearDamping(ballBody, 1.5f);//todo
+        b2Body_SetLinearDamping(ballBody, 1.2f);//todo
         b2Body_SetAngularDamping(ballBody, 1.5f); // todo
         b2CreateCircleShape(ballBody, &ballShapeDef, &ballCircle);
 
@@ -218,20 +218,19 @@ namespace football
         b2Body_SetUserData(ballBody, new ent_type{ballEntity.entity()});
     }
 
-    ent_type Football::createCar(const SDL_FPoint &position, const SDL_FRect &tex, const Keys &keys, bool side,
-                                 float size_scale) const {
+    ent_type Football::createCar(const SDL_FPoint &position, const SDL_FRect &tex, const Keys &keys, bool side, float size_scale) const {
         b2BodyDef carBodyDef = b2DefaultBodyDef();
         carBodyDef.type = b2_dynamicBody;
         carBodyDef.fixedRotation = true;
         carBodyDef.position = {position.x, position.y};
 
         b2BodyId carBody = b2CreateBody(boxWorld, &carBodyDef);
-        b2Body_SetLinearDamping(carBody, 0.5f);//todo
+        b2Body_SetLinearDamping(carBody, 1.5f);//todo
 
         b2ShapeDef carShapeDef = b2DefaultShapeDef();
-        carShapeDef.density = 1;
+        carShapeDef.density = 2;
         carShapeDef.material.friction = 1.5;
-        carShapeDef.material.restitution = 0.8f;
+        carShapeDef.material.restitution = 0.2f;
         carShapeDef.enableSensorEvents = true;
 
         if (side == LEFT) {
@@ -760,9 +759,9 @@ namespace football
 
         static const Mask powerUpMask = MaskBuilder().set<CarryPowerUp>().build();
 
-        const float forward_force = 200.0f;
-        const float backward_force = 100.0f;
-        const float turn_speed = 15.0f;
+        const float forward_force = 400.0f;
+        const float backward_force = 300.0f;
+        const float turn_speed = 20.0f;
         const float max_speed = 15.0f;
         const float turn_damping = 0.95f;
         b2Vec2 velocity;
@@ -1056,6 +1055,15 @@ namespace football
     }
 
     void Football::give_power_up(b2BodyId carBodyId, ent_type carEntity, PowerUp powerUp) const {
+
+        static const Mask powerUpMask = MaskBuilder().set<CarryPowerUp>().build();
+
+        CarryPowerUp currentPowerUp = {false,false,{SDL_GetTicks(), POWER_UP_TIMER, false}};
+
+        if (World::mask(carEntity).test(powerUpMask)) {
+            currentPowerUp = World::getComponent<CarryPowerUp>(carEntity);
+        }
+
         ent_type updatedCarEntity = carEntity;
 
         if (powerUp.bigger)
@@ -1064,10 +1072,12 @@ namespace football
             give_faster_power_up(carBodyId, carEntity);
 
         World::addComponent(updatedCarEntity,
-                            CarryPowerUp{powerUp.bigger, powerUp.faster, {SDL_GetTicks(), POWER_UP_TIMER, false}});
+                            CarryPowerUp{powerUp.bigger || currentPowerUp.bigger, powerUp.faster || currentPowerUp.faster,
+                                {SDL_GetTicks(), POWER_UP_TIMER, false}});
     }
 
     ent_type Football::change_car_size(b2BodyId oldBody, bagel::ent_type oldEntityId, float size_scale) const {
+
         b2Vec2 pos = b2Body_GetPosition(oldBody);
         b2Vec2 vel = b2Body_GetLinearVelocity(oldBody);
         b2Rot angle = b2Body_GetTransform(oldBody).q;
@@ -1119,18 +1129,18 @@ namespace football
         for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
             if (World::mask(e).test(carryPowerUpMask)) {
 
-                auto &carryPowerUp = World::getComponent<CarryPowerUp>(e);
+                auto carryPowerUp = World::getComponent<CarryPowerUp>(e);
                 auto &bodyId = World::getComponent<Collider>(e).body;
                 auto &timer = carryPowerUp.time_remaining_timer;
 
                 if (SDL_GetTicks() - timer.start_time >= timer.time_remaining) {
 
+                    World::delComponent<CarryPowerUp>(e);
+
                     if (carryPowerUp.bigger)
                         change_car_size(bodyId, e, REGULAR_SIZE);
                     if (carryPowerUp.faster)
                         remove_faster_power_up(bodyId, e);
-
-                    World::delComponent<CarryPowerUp>(e);
                 }
             }
         }
