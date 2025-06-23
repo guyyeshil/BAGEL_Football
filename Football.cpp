@@ -421,8 +421,8 @@ namespace football
         sensorDef.type = b2_staticBody;
 
         const float xPos = isLeftGoal ?
-                           (BACK_BAR_POS + BAR_HALF_THICKNESS * 2) :
-                           (FIELD_WIDTH - BACK_BAR_POS - BAR_HALF_THICKNESS * 2);
+                           (BACK_BAR_POS + SIDE_BAR_WIDTH - BALL_RADIUS - BAR_HALF_THICKNESS*2) :
+                           (FIELD_WIDTH - (BACK_BAR_POS + SIDE_BAR_WIDTH - BALL_RADIUS - BAR_HALF_THICKNESS*2));
 
         const float yPos = FIELD_HEIGHT / 2;
         sensorDef.position = {xPos, yPos};
