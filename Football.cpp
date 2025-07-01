@@ -577,11 +577,9 @@ namespace football
     }
 
     void Football::createGameTimer() const {
-        // Create timer entity
         Entity timerEntity = Entity::create();
         timerEntity.add(GameTimer{SDL_GetTicks(), GAME_DURATION_MS, true});
 
-        // Position timer to the right of the scoreboard
         float scoreboard_center_x = (WIN_WIDTH / BOX_SCALE) / 2.0f;
         float scoreboard_width = ((WIN_HEIGHT / BOX_SCALE) - FIELD_HEIGHT - 2) * (5 / 3.f);
         float timer_start_x = scoreboard_center_x + (scoreboard_width / 2.0f) + 16.0f; // 16 units to the right
@@ -589,7 +587,7 @@ namespace football
         float digit_width = 4.5f;  // Smaller digits
         float digit_height = 5.5f;
 
-        // Minutes digit
+        //minutes digit
         Entity minutesEntity = Entity::create();
         minutesEntity.addAll(
                 Transform{{timer_start_x, timer_y}, 0},
@@ -597,14 +595,14 @@ namespace football
                 TimerDigit{}  // Tag this as a timer digit
         );
 
-        // Colon
+        //colon
         Entity colonEntity = Entity::create();
         colonEntity.addAll(
                 Transform{{timer_start_x + digit_width * 3 / 4 + 0.2f, timer_y}, 0},
                 Drawable{DIGIT_TEX_COLON, {digit_width / 2 * 0.5f, digit_height}, digitColonTex}
         );
 
-        // Seconds tens digit
+        //seconds tens digit
         Entity secondsTensEntity = Entity::create();
         secondsTensEntity.addAll(
                 Transform{{timer_start_x + digit_width * 1.7f, timer_y}, 0},
@@ -612,7 +610,7 @@ namespace football
                 TimerDigit{}  // Tag this as a timer digit
         );
 
-        // Seconds ones digit
+        //seconds ones digit
         Entity secondsOnesEntity = Entity::create();
         secondsOnesEntity.addAll(
                 Transform{{timer_start_x + digit_width * 2.8f, timer_y}, 0},
@@ -629,10 +627,10 @@ namespace football
         static const Mask digit_mask = MaskBuilder()
                 .set<Transform>()
                 .set<Drawable>()
-                .set<TimerDigit>()  // Only entities with TimerDigit tag
+                .set<TimerDigit>()
                 .build();
 
-        // Find timer entity
+
         for (ent_type e{0}; e.id <= World::maxId().id; ++e.id) {
             if (World::mask(e).test(timer_mask)) {
                 auto &gameTimer = World::getComponent<GameTimer>(e);
@@ -645,21 +643,21 @@ namespace football
                     if (elapsed_time < gameTimer.game_duration_ms) {
                         remaining_time = gameTimer.game_duration_ms - elapsed_time;
                     } else {
-                        // Game time is up
+                        //game time is up
                         remaining_time = 0;
                         gameTimer.is_running = false;
                         gameTimeFinished = true;
                         cout << "Game time finished!" << endl;
                     }
 
-                    // Convert remaining time to minutes and seconds
+                    //convert remaining time to minutes and seconds
                     Uint64 total_seconds = remaining_time / 1000;
                     int minutes = total_seconds / 60;
                     int seconds = total_seconds % 60;
                     int seconds_tens = seconds / 10;
                     int seconds_ones = seconds % 10;
 
-                    // Update timer digit entities
+                    //update timer digit entities
                     int digit_index = 0;
                     for (ent_type digit_e{0}; digit_e.id <= World::maxId().id; ++digit_e.id) {
                         if (World::mask(digit_e).test(digit_mask)) {
@@ -680,7 +678,7 @@ namespace football
                         }
                     }
                 }
-                break; // Only one timer entity expected
+                break; //only one timer entity expected
             }
         }
     }
