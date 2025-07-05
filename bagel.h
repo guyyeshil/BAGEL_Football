@@ -16,7 +16,7 @@ namespace bagel
 		bool	DynamicResize = false;
 		int		IdBagSize = 300;
 		int		InitialEntities = 300;
-		int		InitialPackedSize = 5;
+		int		InitialPackedSize = 100;
 		int		MaxComponents = 30;
 	};
 

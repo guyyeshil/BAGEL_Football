@@ -1,7 +1,6 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include <box2d/box2d.h>
-#include "bagel.h"
 #define LEFT true
 #define RIGHT false
 
@@ -10,37 +9,35 @@
 
 #endif //FOOTBALL_H
 
+//STRUCTS
+
+using GameTimer = struct { uint64_t start_time; uint64_t game_duration_ms; bool is_running;};
+using TimerDigit = struct {};
+using Transform = struct { SDL_FPoint position; float angle; };
+using Drawable = struct { SDL_FRect part; SDL_FPoint size; SDL_Texture* tex; };
+using Intent = struct { bool up, down, left, right; };
+using Keys = struct { SDL_Scancode up, down, left, right; };
+using Collider = struct { b2BodyId body; };
+using Ball = struct{};
+using GoalLeft = struct{};
+using GoalRight = struct{};
+using Car = struct{ bool side; };
+using StartingPosition = struct { SDL_FPoint position; float angle; };
+using Timer = struct {Uint64 start_time;  float time_remaining; bool paused;};
+using PowerUp = struct { bool bigger, faster, available; Timer time_out_timer; };
+using CarryPowerUp = struct { bool bigger, faster; Timer time_remaining_timer; };
+using LeftScoreDigit = struct {};
+using RightScoreDigit = struct {};
+using Destroy = struct { b2BodyId body; };
+using MovementPause = struct { Timer timer; };
+using EndGameMsg = struct {};
+
+#include "bagel.h"
+
+
 namespace football {
 
     class InputSystem;
-    static constexpr uint64_t GAME_DURATION_MS = 2 * 60 * 1000 + 30 * 1000; //2:30 minutes
-
-
-    using GameTimer = struct {
-        uint64_t start_time;
-        uint64_t game_duration_ms;
-        bool is_running;
-    };
-    using TimerDigit = struct {};                                                       //tag to identify if digit
-    using Transform = struct { SDL_FPoint position; float angle; };
-    using Drawable = struct { SDL_FRect part; SDL_FPoint size; SDL_Texture* tex; };
-    using Intent = struct { bool up, down, left, right; };
-    using Keys = struct { SDL_Scancode up, down, left, right; };
-    using Collider = struct { b2BodyId body; };
-    using Ball = struct{};
-    using GoalLeft = struct{};
-    using GoalRight = struct{};
-    using Car = struct{ bool side; };
-    using StartingPosition = struct { SDL_FPoint position; float angle; };
-    using Timer = struct {Uint64 start_time;  float time_remaining; bool paused;};
-    using PowerUp = struct { bool bigger, faster, available; Timer time_out_timer; };
-    using CarryPowerUp = struct { bool bigger, faster; Timer time_remaining_timer; };
-    //tags to distinguish score for left/right team
-    using LeftScoreDigit = struct {};
-    using RightScoreDigit = struct {};
-    using Destroy = struct { b2BodyId body; };
-    using MovementPause = struct { Timer timer; };
-    using EndGameMsg = struct {};
 
     class Football
     {
@@ -52,7 +49,6 @@ namespace football {
         void loopGame(bool &quit, InputSystem &is);
         bool showMenu();
         void resetPregame();
-        //bool valid() const;
 
     private:
         void prepareBoxWorld();
@@ -198,11 +194,11 @@ namespace football {
         static constexpr float	POWER_UP_TIME_OUT_TIMER = 10000.0f;
         static constexpr float	POWER_UP_TIMER = 5000.0f;
         static constexpr float	AFTER_GOAL_PAUSE_TIMER = 2000.0f;
+        static constexpr uint64_t GAME_DURATION_MS = 2 * 60 * 1000 + 30 * 1000; //2:30 minutes
+
 
         static constexpr float	BIGGER_CAR_SPEED_SCALE = 1.5f;
         static constexpr float	FASTER_CAR_SPEED_SCALE = 2.0f;
-
-
 
     };
 }

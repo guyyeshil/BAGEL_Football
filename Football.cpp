@@ -139,8 +139,9 @@ namespace football
             cout << SDL_GetError() << endl;
             return false;
         }
+
         menuTex = SDL_CreateTextureFromSurface(ren, surf);
-        if (endGameTex == nullptr) {
+        if (menuTex == nullptr) {
             cout << SDL_GetError() << endl;
             return false;
         }
@@ -198,13 +199,13 @@ namespace football
         b2ShapeDef ballShapeDef = b2DefaultShapeDef();
         ballShapeDef.enableSensorEvents = true;
         ballShapeDef.density = 0.3;
-        ballShapeDef.material.friction = 0.3;//todo
+        ballShapeDef.material.friction = 0.3;
         ballShapeDef.material.restitution = 1.1f;
         b2Circle ballCircle = {{0, 0}, BALL_RADIUS};
 
         b2BodyId ballBody = b2CreateBody(boxWorld, &ballBodyDef);
-        b2Body_SetLinearDamping(ballBody, 1.2f);//todo
-        b2Body_SetAngularDamping(ballBody, 1.5f); // todo
+        b2Body_SetLinearDamping(ballBody, 1.2f);
+        b2Body_SetAngularDamping(ballBody, 1.5f);
         b2CreateCircleShape(ballBody, &ballShapeDef, &ballCircle);
 
         Entity ballEntity = Entity::create();
@@ -225,7 +226,7 @@ namespace football
         carBodyDef.position = {position.x, position.y};
 
         b2BodyId carBody = b2CreateBody(boxWorld, &carBodyDef);
-        b2Body_SetLinearDamping(carBody, 1.5f);//todo
+        b2Body_SetLinearDamping(carBody, 1.5f);
 
         b2ShapeDef carShapeDef = b2DefaultShapeDef();
         carShapeDef.density = 2;
@@ -1455,6 +1456,6 @@ namespace football
         gameTimeFinished = false;
         reset_location_system();
         remove_end_game_message_system();
-        Football::reset_timer();
+        reset_timer();
     }
 }
