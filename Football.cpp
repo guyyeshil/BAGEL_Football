@@ -583,9 +583,9 @@ namespace football
 
         float scoreboard_center_x = (WIN_WIDTH / BOX_SCALE) / 2.0f;
         float scoreboard_width = ((WIN_HEIGHT / BOX_SCALE) - FIELD_HEIGHT - 2) * (5 / 3.f);
-        float timer_start_x = scoreboard_center_x + (scoreboard_width / 2.0f) + 16.0f; // 16 units to the right
+        float timer_start_x = scoreboard_center_x + (scoreboard_width / 2.0f) + 16.0f;
         float timer_y = FIELD_HEIGHT + ((WIN_HEIGHT / BOX_SCALE) - FIELD_HEIGHT) / 2.0f;
-        float digit_width = 4.5f;  // Smaller digits
+        float digit_width = 4.5f;
         float digit_height = 5.5f;
 
         //minutes digit
@@ -616,7 +616,7 @@ namespace football
         secondsOnesEntity.addAll(
                 Transform{{timer_start_x + digit_width * 2.8f, timer_y}, 0},
                 Drawable{DIGIT_TEX_0, {digit_width, digit_height}, digitTex},
-                TimerDigit{}  // Tag this as a timer digit
+                TimerDigit{}
         );
     }
 
@@ -665,13 +665,13 @@ namespace football
                             auto &drawable = World::getComponent<Drawable>(digit_e);
 
                             switch (digit_index) {
-                                case 0: // Minutes
+                                case 0: //minutes
                                     drawable.part = getDigitTexture(minutes);
                                     break;
-                                case 1: // Seconds tens
+                                case 1: //seconds tens
                                     drawable.part = getDigitTexture(seconds_tens);
                                     break;
-                                case 2: // Seconds ones
+                                case 2: //seconds ones
                                     drawable.part = getDigitTexture(seconds_ones);
                                     break;
                             }
@@ -761,8 +761,6 @@ namespace football
         const float forward_force = 400.0f;
         const float backward_force = 300.0f;
         const float turn_speed = 20.0f;
-        const float max_speed = 15.0f;
-        const float turn_damping = 0.95f;
         b2Vec2 velocity;
         float current_speed;
         float steering_input;
@@ -776,7 +774,6 @@ namespace football
         float forward_y;
         bool moving_forward;
         float car_angle;
-        float velocity_angle;
         float car_forward_x;
         float car_forward_y;
         float dot_product;
